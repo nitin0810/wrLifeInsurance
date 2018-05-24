@@ -56,6 +56,7 @@ export class MyApp extends UserSessionManage {
     if (!page.component) {
       this.menu.close();
       this.appCtrl.getRootNavs()[0].setRoot(LoginPage);
+      this.activePage="";
       return;
     }
 
