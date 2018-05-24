@@ -1,1 +1,13 @@
-<ion-nav [root]="rootPage"></ion-nav>
+
+<ion-menu [content]="mycontent">
+    
+    <ion-content>
+        <ion-list>
+            <button ion-item *ngFor="let option of sideMenuOptions" (click)="openPage(option)" [ngClass]="{'activePage': activePage == option.component}">
+                <ion-icon [name]="option.icon" color="primary" item-left></ion-icon>{{option.title}}
+            </button>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<ion-nav #mycontent [root]="rootPage"></ion-nav>
