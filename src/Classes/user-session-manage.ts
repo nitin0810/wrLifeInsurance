@@ -127,6 +127,7 @@ export class UserSessionManage {
             { title: 'Visiblity', component: "VisiblityPage",  icon: 'thumbs-up' },
             { title: 'Ethics', component: "EthicsPage",  icon: 'paper' },
             { title: 'Good Price', component: "GoodPricePage",  icon: 'paper' },
+            { title: 'Contact Us', component: "ContactUsPage",  icon: 'call' },
             { title: 'Sign Out', component: null,  icon: 'log-out' },
 
         ];

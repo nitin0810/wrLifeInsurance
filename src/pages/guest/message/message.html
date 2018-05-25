@@ -1,0 +1,57 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span>Cancel</span>
+      </button>
+    </ion-buttons>
+    <ion-title>Drop a Message</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <form #dropMessageForm="ngForm" no-validate (ngSubmit)="onSubmit()">
+
+    <ion-list>
+
+      <div padding>
+        <p>*All fields are requireds</p>
+      </div>
+
+      <ion-card>
+        <ion-item>
+          <ion-label stacked>Name</ion-label>
+          <ion-input type="text" required [(ngModel)]="form.name" name="name"></ion-input>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+        <ion-item>
+          <ion-label stacked>Email Id</ion-label>
+          <ion-input type="text"  required [(ngModel)]="form.email" name="email"></ion-input>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+        <ion-item>
+          <ion-label stacked>Subject</ion-label>
+          <ion-input type="text" required  [(ngModel)]="form.subject" name="subject"></ion-input>
+        </ion-item>
+      </ion-card>
+
+      <ion-card>
+        <ion-item>
+          <ion-label stacked>Message</ion-label>
+          <ion-textarea type="text" required  rows="3" [(ngModel)]="form.message" name="message"></ion-textarea>
+        </ion-item>
+      </ion-card>
+
+      <button ion-button full [disabled]='dropMessageForm.invalid'>Submit</button>
+    </ion-list>
+  </form>
+
+</ion-content>

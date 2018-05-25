@@ -16,4 +16,8 @@ export class BuySharesPage {
     console.log('ionViewDidLoad BuySharesPage');
   }
 
+  openContactPage(){
+    this.navCtrl.push('ContactUsPage');
+  }
+
 }
