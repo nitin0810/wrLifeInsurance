@@ -11,4 +11,8 @@ export class GuestHomePage {
 
   }
 
-}
+  openPolicyForm(){
+    this.navCtrl.push('MedicalInsuranceFormPage');
+  }
+
+}     

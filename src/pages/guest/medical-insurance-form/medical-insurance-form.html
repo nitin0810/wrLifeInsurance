@@ -1,0 +1,101 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Medical Insurance</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div>
+    <span *ngFor="let f of formNames;let i =index" [class.selectedFormName]="i==currentSlideIndex">{{f}} </span>
+  </div>
+  <ion-slides (ionSlideDidChange)="slideChanged()">
+
+    <!-- FORM-1: INSURANCE DETAILS AND CALCUALTIONS -->
+    <ion-slide>
+
+      <form #form1="ngForm" no-validate (ngSubmit)="onGoAhead()" *ngIf="state">
+
+        <ion-list>
+
+          <div margin-top>
+            <small>All fields marked with * are required</small>
+          </div>
+
+
+          <ion-item text-wrap>
+            <ion-label>Area Of Expatriation <ion-icon name="help" ></ion-icon></ion-label>
+            
+            <ion-select  (ionChange)="onAreaChange($event)">
+              <ion-option *ngFor="let c of countries" [value]="c">{{c.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Date of Birth</ion-label>
+            <ion-datetime displayFormat="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [max]="today" (ionChange)="calculateAge($event)"></ion-datetime>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <span>
+                <b>Age</b>
+              </span>
+              <small *ngIf="state.txtApAge"> {{state.txtApAge}} Years (Max Age 70)</small>
+            </ion-label>
+          </ion-item>
+
+          <ion-item text-wrap>
+              <ion-label>Members<ion-icon name="help" ></ion-icon></ion-label>
+              <ion-select  (ionChange)="onMemberChange($event)">
+                <ion-option *ngFor="let m of members" [value]="m">{{m}}</ion-option>
+              </ion-select>
+            </ion-item>
+
+
+              <ion-item *ngIf="state.members==='2-Persons' || state.members==='Family'" text-wrap>
+                  <ion-label>Member 2:(wife, husband, partner or child < 22)</ion-label>
+                  <ion-datetime displayFormat="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [max]="today" (ionChange)="calculateAge($event,1)"></ion-datetime>
+                </ion-item>
+                <ion-item *ngIf="state.members==='2-Persons' || state.members==='Family'">
+                  <ion-label>
+                    <span>
+                      <b>Age</b>
+                    </span>
+                    <small *ngIf="state.txtApAge1"> {{state.txtApAge1}} Years </small>
+                  </ion-label>
+                </ion-item>
+
+                <ion-item *ngIf="state.members==='Family' ">
+                    <ion-label>Member 3:(child < 22)</ion-label>
+                    <ion-datetime displayFormat="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [max]="today" (ionChange)="calculateAge($event,2)"></ion-datetime>
+                  </ion-item>
+                  <ion-item *ngIf="state.members==='Family'">
+                    <ion-label>
+                      <span>
+                        <b>Age</b>
+                      </span>
+                      <small *ngIf="state.txtApAge2"> {{state.txtApAge2}} Years </small>
+                    </ion-label>
+                  </ion-item>
+
+       
+
+          <!-- <button ion-button full [disabled]='dropMessageForm.invalid'>Submit</button> -->
+        </ion-list>
+      </form>
+    </ion-slide>
+
+
+    <!-- FORM -2: PERSONAL DETAILS FILLING -->
+    <ion-slide>
+      <h1>Slide 2</h1>
+    </ion-slide>
+
+    <!-- FORM-3: PAYMENT SELECTION -->
+    <ion-slide>
+      <h1>Slide 3</h1>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

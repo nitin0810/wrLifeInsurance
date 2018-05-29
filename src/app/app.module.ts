@@ -13,6 +13,7 @@ import { CustomService } from '../providers/custom.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Network } from '@ionic-native/network';
 import { LoginPage } from '../pages/login/login';
+import { MedicalInsuranceService } from '../providers/medicalInsurance.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { LoginPage } from '../pages/login/login';
     NetworkService,
     AuthService,
     CustomHttpService,
-    CustomService
+    CustomService,
+    MedicalInsuranceService
   ]
 })
 export class AppModule {}
