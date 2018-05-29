@@ -1,3 +1,38 @@
 page-login {
+    .logo{
+        width: 100px;
+        margin-top: 30px;
+        animation:logo-scale 0.5s ease;
+    }
+    .open-background{
+        position:relative;
+        &:before{
+            position: absolute;
+            content: '';
+            width: 500px;
+            height: 500px;
+            border: 0px solid color($colors,primary);
+            transform: rotate(45deg) translate(-250px,350px);
+            animation:increase-border 0.5s ease-out;
+            animation-fill-mode: forwards;
+        }
+    }
+}
 
+@keyframes increase-border{
+    0%{
+        border-width:0px;
+    }
+    100%{
+        border-width:60px;
+    }
+}
+
+@keyframes logo-scale{
+    0%{
+        transform:scale(0);
+    }
+    100%{
+        transform:scale(1)
+    }
 }

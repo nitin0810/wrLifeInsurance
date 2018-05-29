@@ -34,8 +34,8 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
-  secondary:  #32db64,
+  primary:    #dd3e7b,
+  secondary:  #fff,
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222
@@ -86,3 +86,65 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+
+// --------------------------------------------------
+.center-block{
+  display:block;
+  margin:auto;
+}
+.btn{
+  font-size: 14px;
+  font-weight: bold;
+  color: color($colors,primary);
+  padding:15px;
+  margin:10px auto;
+  animation:shadow-increase 0.5s ease;
+  animation-fill-mode: forwards;
+}
+.btn-light{
+  background:white;
+}
+.btn-round{
+  border-radius:25px;
+}
+.btn-small{
+  padding-top:5px;
+  padding-bottom:5px;
+}
+.v-center{
+  position:absolute;
+  top:50%;
+  transform:translatey(-50%);
+}
+.h-center{
+  position:absolute;
+  left:50%;
+  transform:translatex(-50%);
+}
+.w-100{
+  width:100%;
+}
+
+
+.animate{
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+@keyframes shadow-increase{
+  0%{
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.23);
+  }
+  100%{
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.23);
+  }
+}
+
+@keyframes slideUp{
+  0%{
+    transform:translatey(100px);
+  }
+  100%{
+    transform:translatey(0px);
+  }
+}
