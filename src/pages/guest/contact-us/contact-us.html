@@ -1,92 +1,77 @@
-<ion-header>
-
-  <ion-navbar>
-    <button ion-button icon-only menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>ContactUs</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content>
-  <div padding>
-    <h4>
-      <b>CONTACT US</b>
-    </h4>
+<ion-content class="gray-back">
+    <ion-item main-header>
+        <ion-fab bottom left menuToggle>
+            <button  ion-fab icon-only mini clear menuToggle no-margin><ion-icon name="menu" color="secondary"></ion-icon></button>
+        </ion-fab>
+    <img class='title-image' src="assets/imgs/contact.png" />
+      <ion-title>Contact Us</ion-title>
+    </ion-item>
+  <ion-card padding>
     <p>If you have any enquiries or feedback regarding your experience with WrLife, then, please feel free to give us a call
       or send us an e-mail. We always aim to get back to you as soon as possible
     </p>
-  </div>
+  </ion-card>
 
-  <ion-list text-wrap>
+  <ion-card>
     <ion-list-header style="font-weight: bold">Emergency Call Center [24 hours]</ion-list-header>
 
-    <ion-item>
-      <ion-icon name="call" item-start></ion-icon>
+    <ion-item text-wrap>
+      <ion-icon name="call" item-start color='primary'></ion-icon>
       <ion-label>
-        <b>Tel:</b> +66 (0) 2 719 78 31</ion-label>
+        <b>Tel:</b> 
+      </ion-label>
+      <span item-right>+66 (0) 2 719 78 31</span>
     </ion-item>
-    <ion-item>
-      <ion-icon name="call" item-start></ion-icon>
+    <ion-item text-wrap>
+      <ion-icon name="call" item-start color='primary'></ion-icon>
       <ion-label>
-        <b>Fax:</b>+66 (0) 2 719 78 30</ion-label>
+        <b>Fax:</b>
+      </ion-label>
+      <span item-right>+66 (0) 2 719 78 30</span>
     </ion-item>
-    <ion-item>
-      <ion-icon name="mail" item-start></ion-icon>
-      <ion-label>operations@assistinter.com
+    <ion-item text-wrap>
+      <ion-icon name="mail" item-start color='primary'></ion-icon>
+      <ion-label item-right>operations@assistinter.com
         <br> contact@wrlife.nets</ion-label>
     </ion-item>
-  </ion-list>
+  </ion-card>
 
-  <div padding>
-    <h4>
-      <b>OFFICE ADDRESSES</b>
-    </h4>
-  </div>
 
-  <ion-list text-wrap>
-
-    <ion-item>
-      <p>
-        <strong>UK: WRLIFE LLP</strong>
-      </p>
+  <ion-card>
+    <ion-list-header>
+        OFFICE ADDRESSES
+    </ion-list-header>
+    <ion-item text-wrap>
+        <strong><h5>UK: WRLIFE LLP</h5></strong>
       <p>Suite LP29895, Suite LP29895, 20-22 Wenlock Road, London
         <br> N1 7GU, UK
         <br> Insurance broker FCA under Orias free establishment
       </p>
     </ion-item>
-    <ion-item>
-      <p>
-        <strong>INDIA: WRLIFE</strong>
-      </p>
+    <ion-item text-wrap>
+        <strong><h5>INDIA: WRLIFE</h5></strong>
       <p>703, Arunachal Building,
         <br> 19 Barakhamba, Connaught Place
         <br> New Delhi 110001 INDIA
       </p>
     </ion-item>
-    <ion-item>
-      <p>
-        <strong>FRANCE: WRLIFE</strong>
-      </p>
+    <ion-item text-wrap>
+        <strong><h5>FRANCE: WRLIFE</h5></strong>
       <p>143 avenue de Kéradennec
         <br>29334 Quimper Cedex, France
       </p>
     </ion-item>
-    <ion-item>
-      <p>
-        <strong>THAILAND: WRLIFE</strong>
-      </p>
+    <ion-item text-wrap>
+        <strong><h5>THAILAND: WRLIFE</h5></strong>
       <p>284 (A4c) 1st Floor Soi Soonvijai 4, Rama 9 Road
         <br> Bangkapi, Huaykwang, Bangkok 10310 THAILAND
         <br>Tel: +66 2 719 78 31/4
       </p>
     </ion-item>
-  </ion-list>
+  </ion-card>
 
-  <ion-fab right bottom>
-      <button ion-fab mini icon-only (click)='openDropMessagepage()'>
+  <ion-fab right bottom margin>
+      <button ion-fab icon-only (click)='openDropMessagepage()'>
         <ion-icon name="chatbubbles"></ion-icon>
       </button>
     </ion-fab>

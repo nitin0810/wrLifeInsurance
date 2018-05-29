@@ -46,7 +46,7 @@ ion-item[main-header]{
     top: -210px;
     background:linear-gradient(lighten(color($colors,primary),20),color($colors,primary));
     .title-image{
-        width:50%;
+        height: 200px;
         display:block;
         margin:auto;
     }
