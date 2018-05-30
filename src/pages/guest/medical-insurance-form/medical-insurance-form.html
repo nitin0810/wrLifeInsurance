@@ -18,72 +18,170 @@
 
       <form #form1="ngForm" no-validate (ngSubmit)="onGoAhead()" *ngIf="state">
 
-        <ion-list>
 
-          <div margin-top>
-            <small>All fields marked with * are required</small>
-          </div>
+        <div margin-top>
+          <small>All fields marked with * are required</small>
+        </div>
 
-
+        <ion-item-group>
           <ion-item text-wrap>
-            <ion-label>Area Of Expatriation <ion-icon name="help" ></ion-icon></ion-label>
-            
-            <ion-select  (ionChange)="onAreaChange($event)">
+            <ion-label>Area of Expatriation *
+              <ion-icon name="help"></ion-icon>
+            </ion-label>
+            <ion-select (ionChange)="onAreaChange($event)" [(ngModel)]="initialCountry" name="country">
               <ion-option *ngFor="let c of countries" [value]="c">{{c.name}}</ion-option>
             </ion-select>
           </ion-item>
+        </ion-item-group>
 
+        <!-- MAIN PERSON's DOB AND AGE -->
+        <ion-item-group>
+          <ion-item-divider color="light"></ion-item-divider>
           <ion-item>
-            <ion-label>Date of Birth</ion-label>
-            <ion-datetime displayFormat="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [max]="today" (ionChange)="calculateAge($event)"></ion-datetime>
+            <ion-label>Date of Birth *</ion-label>
+            <ion-datetime required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [max]="today" (ionChange)="calculateAge($event)"></ion-datetime>
           </ion-item>
           <ion-item>
             <ion-label>
-              <span>
-                <b>Age</b>
-              </span>
+              Age
               <small *ngIf="state.txtApAge"> {{state.txtApAge}} Years (Max Age 70)</small>
             </ion-label>
           </ion-item>
+        </ion-item-group>
 
+
+        <ion-item-group>
+          <ion-item-divider color="light"></ion-item-divider>
           <ion-item text-wrap>
-              <ion-label>Members<ion-icon name="help" ></ion-icon></ion-label>
-              <ion-select  (ionChange)="onMemberChange($event)">
-                <ion-option *ngFor="let m of members" [value]="m">{{m}}</ion-option>
-              </ion-select>
-            </ion-item>
+            <ion-label>Members
+              <ion-icon name="help"></ion-icon>
+            </ion-label>
+            <ion-select (ionChange)="onMemberChange($event)" [(ngModel)]="initialMember" name="member">
+              <ion-option *ngFor="let m of members" [value]="m">{{m}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-item-group>
+
+        <!-- 2nd PERSON's DOB AND AGE -->
+        <ion-item-group *ngIf="state.members==='2-Persons' || state.members==='Family'">
+          <ion-item-divider color="light">Member 2: wife, husband, partner or child
+            < 22</ion-item-divider>
+              <ion-item text-wrap>
+                <ion-label>Date of Birth *</ion-label>
+                <ion-datetime required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [max]="today" (ionChange)="calculateAge($event,1)"></ion-datetime>
+              </ion-item>
+              <ion-item *ngIf="state.members==='2-Persons' || state.members==='Family'">
+                <ion-label>
+                  Age
+                  <small *ngIf="state.txtApAge1"> {{state.txtApAge1}} Years </small>
+                </ion-label>
+              </ion-item>
+        </ion-item-group>
+
+        <!-- 3rd PERSON's DOB AND AGE -->
+        <ion-item-group *ngIf="state.members==='Family'">
+          <ion-item-divider color="light">Member 3: Child
+            < 22 </ion-item-divider>
+              <ion-item>
+                <ion-label>Date of Birth *</ion-label>
+                <ion-datetime required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [max]="today" (ionChange)="calculateAge($event,2)"></ion-datetime>
+              </ion-item>
+              <ion-item>
+                <ion-label>
+                  Age
+                  <small *ngIf="state.txtApAge2"> {{state.txtApAge2}} Years </small>
+                </ion-label>
+              </ion-item>
+        </ion-item-group>
+
+        <!-- 4th PERSON -->
+        <ion-item-group *ngIf="state.members==='Family'">
+          <ion-item-divider color="light">Member 4: Child
+            < 22 </ion-item-divider>
+              <ion-item>
+                <ion-label>Yes Or No ?</ion-label>
+                <ion-toggle (ionChange)="toggleChange($event,5)"></ion-toggle>
+              </ion-item>
+              <ion-item *ngIf="state.member4status==1">
+                <ion-label>Date of Birth *</ion-label>
+                <ion-datetime required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [max]="today" (ionChange)="calculateAge($event,3)"></ion-datetime>
+              </ion-item>
+              <ion-item *ngIf="state.member4status==1">
+                <ion-label>
+                  Age
+                  <small *ngIf="state.txtApAge3"> {{state.txtApAge3}} Years </small>
+                </ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-label>
+                  Member 5 and more: Child
+                  <span right>FREE</span>
+                </ion-label>
+              </ion-item>
+        </ion-item-group>
+
+        <!-- conmplment toggle btn -->
+        <ion-item-group>
+          <ion-item-divider color="light"></ion-item-divider>
+          <ion-item text-wrap>
+            <ion-label>Only complement to social security (CFE, OSSOM, ETC) </ion-label>
+            <ion-toggle (ionChange)="toggleChange($event,1)"></ion-toggle>
+          </ion-item>
+        </ion-item-group>
+
+        <!-- other toggle btn -->
+        <ion-item-group>
+          <ion-item-divider color="light"></ion-item-divider>
+          <ion-item text-wrap>
+            <ion-label>Inpatient</ion-label>
+            <ion-toggle disabled checked (ionChange)="toggleChange($event,2)"></ion-toggle>
+          </ion-item>
+          <ion-item text-wrap>
+            <ion-label>Outpatient</ion-label>
+            <ion-toggle (ionChange)="toggleChange($event,3)"></ion-toggle>
+          </ion-item>
+          <ion-item text-wrap>
+            <ion-label>Dental Optical</ion-label>
+            <ion-toggle (ionChange)="toggleChange($event,4)"></ion-toggle>
+          </ion-item>
+        </ion-item-group>
+
+        <!-- evacuation select options -->
+        <ion-item-group>
+          <ion-item-divider color="light">Assistance Evacuation Repatriation</ion-item-divider>
+          <ion-item text-wrap>
+            <ion-label>Select Member</ion-label>
+            <ion-select (ionChange)="onEvacuationChange($event)" [(ngModel)]="initialEvacuation" name="evacuation">
+              <ion-option *ngFor="let m of assistantEvacuations" [value]="m">{{m}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-item-group>
+
+        <!-- global limit select options -->
+        <ion-item-group>
+          <ion-item-divider color="light">Adjust Global Limit</ion-item-divider>
+          <ion-item text-wrap>
+            <ion-label>Select Limit</ion-label>
+            <ion-select (ionChange)="onGlobalLimitChange($event)" [(ngModel)]="initialGlobalLimit" name="globalLimit">
+              <ion-option *ngFor="let g of globalLimits" [value]="g">{{g.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-item-group>
+
+        <!-- evacuation select options -->
+        <ion-item-group>
+          <ion-item-divider color="light">Adjust deductible per Hospitalization claim</ion-item-divider>
+          <ion-item text-wrap>
+            <ion-label>Select Adjustment</ion-label>
+            <ion-select (ionChange)="onAdjustmentChange($event)" [(ngModel)]="initialAdjustment" name="adjustment">
+              <ion-option *ngFor="let a of adjustments" [value]="a">{{a.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-item-group>
 
 
-              <ion-item *ngIf="state.members==='2-Persons' || state.members==='Family'" text-wrap>
-                  <ion-label>Member 2:(wife, husband, partner or child < 22)</ion-label>
-                  <ion-datetime displayFormat="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [max]="today" (ionChange)="calculateAge($event,1)"></ion-datetime>
-                </ion-item>
-                <ion-item *ngIf="state.members==='2-Persons' || state.members==='Family'">
-                  <ion-label>
-                    <span>
-                      <b>Age</b>
-                    </span>
-                    <small *ngIf="state.txtApAge1"> {{state.txtApAge1}} Years </small>
-                  </ion-label>
-                </ion-item>
+        <button ion-button full [disabled]='form1.invalid'>Go Ahead</button>
 
-                <ion-item *ngIf="state.members==='Family' ">
-                    <ion-label>Member 3:(child < 22)</ion-label>
-                    <ion-datetime displayFormat="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [max]="today" (ionChange)="calculateAge($event,2)"></ion-datetime>
-                  </ion-item>
-                  <ion-item *ngIf="state.members==='Family'">
-                    <ion-label>
-                      <span>
-                        <b>Age</b>
-                      </span>
-                      <small *ngIf="state.txtApAge2"> {{state.txtApAge2}} Years </small>
-                    </ion-label>
-                  </ion-item>
-
-       
-
-          <!-- <button ion-button full [disabled]='dropMessageForm.invalid'>Submit</button> -->
-        </ion-list>
       </form>
     </ion-slide>
 
@@ -98,4 +196,38 @@
       <h1>Slide 3</h1>
     </ion-slide>
   </ion-slides>
+
 </ion-content>
+
+
+<!-- SHOW CALCULATED PREMIUM PRICES -->
+<ion-footer>
+  <h6>
+    <b>{{premiumInfo?.plan}}</b>
+  </h6>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-3>
+        <p>Yearly</p>
+        <p>$ {{premiumInfo?.yearly_1}}</p>
+        <p>€ {{premiumInfo?.yearly_2}}</p>
+      </ion-col>
+      <ion-col col-3>
+        <p>Bi-Annually</p>
+        <p>$ {{premiumInfo?.biannually_1}}</p>
+        <p>€ {{premiumInfo?.biannually_2}}</p>
+      </ion-col>
+      <ion-col col-3>
+        <p>Qusrterly</p>
+        <p>$ {{premiumInfo?.quarterly_1}}</p>
+        <p>€ {{premiumInfo?.quarterly_2}}</p>
+      </ion-col>
+      <ion-col col-3>
+        <p>Monthly</p>
+        <p>$ {{premiumInfo?.monthly_1}}</p>
+        <p>€ {{premiumInfo?.monthly_2}}</p>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-footer>
