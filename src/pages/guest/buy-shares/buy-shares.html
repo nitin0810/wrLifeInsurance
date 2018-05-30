@@ -1,45 +1,53 @@
-<ion-header>
+<ion-content class="gray-back">
 
-  <ion-navbar>
-    <button ion-button icon-only menuToggle>
-      <ion-icon name="menu"></ion-icon>
+    <ion-item main-header>
+        <ion-fab bottom left menuToggle>
+            <button  ion-fab icon-only mini clear menuToggle no-margin><ion-icon name="menu" color="secondary"></ion-icon></button>
+        </ion-fab>
+    <img class='title-image' src="assets/imgs/invest.png" />
+      <ion-title>Buy Shares</ion-title>
+    </ion-item>
+
+    <ion-card class="delay-animation">
+      <img src="assets/imgs/plant.jpg" />
+      <ion-card-content>
+        <h4>WELCOME TO PARTNERS: WHERE TO INVEST?</h4>
+        <p>
+            In the Holding located in London which receives the money from the investors and which owns and controls the whole architecture.
+        </p>
+        Note: The investors will not be liable,with insurance capacity and claims.
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="delay-animation">
+      <ion-card-header>
+      <h2 text-center><b>Want to invest More?</b></h2>
+      </ion-card-header>
+      <ul>
+        <li>
+            70% of this money is not spent but put in a savings account for the solvency.
+        </li>
+        <li>
+            Up to 300% increase in 5 years for the initial investment. The investor pool has a percentage guaranteed shares (20%).
+        </li>
+      </ul>
+      <ion-card-content>
+      <p>
+          At the beginning, the investors’ community can own the biggest percentage of the whole architecture which shall decrease years after years as more and more insured enter in the community. After several years, the insured have the biggest percentage.
+      </p>
+      <p>
+          The minimum percentage guaranteed shares will finally generate for the investors much more money than having more percentage in a conventional insurance company as this participative model aims to have numerous customer.
+      </p>
+    </ion-card-content>
+    <button ion-button full>
+        PARTICIPATE & INVEST
     </button>
-    <ion-title>Buy Shares</ion-title>
-  </ion-navbar>
+    </ion-card>
 
-</ion-header>
+    <ion-card class="delay-animation">
+      <img src="https://www.wrlife.net/images/grap1.jpg" alt="">
+    </ion-card>
 
 
-<ion-content padding>
-
-  <div padding>
-    <h4>
-      <b>WELCOME TO PARTNERS: WHERE TO INVEST?</b>
-    </h4>
-    <p>In the Holding located in London which receives the money from the investors and which owns and controls the whole architecture.</p>
-    <p>
-      <span>
-        <b>The investors will not be liable, </b>with insurance capacity and claims.</span>
-    </p>
-  </div>
-
-  <ion-list text-wrap>
-    <ion-item>
-      <a>PARTICIPATE AND INVEST</a> If you want to invest more, please
-      <a (click)="openContactPage()">CONTACT US</a>
-    </ion-item>
-    <ion-item>
-      70% of this money is not spent but put in a savings account for the solvency.
-    </ion-item>
-    <ion-item>
-      Up to 300% increase in 5 years for the initial investment. The investor pool has a percentage guaranteed shares (20%).
-    </ion-item>
-    <ion-item>
-        <p>At the beginning, the investors’ community can own the biggest percentage of the whole architecture which shall decrease years after years as more and more insured enter in the community. After several years, the insured have the biggest percentage. </p>
-        </ion-item>
-        <ion-item>
-            <p>The minimum percentage guaranteed shares will finally generate for the investors much more money than having more percentage in a conventional insurance company as this participative model aims to have numerous customer.</p>
-            </ion-item>
-  </ion-list>
 
 </ion-content>

@@ -1,0 +1,22 @@
+.close-background{
+    position:relative;
+    &:before{
+        position: absolute;
+        content: '';
+        width: 500px;
+        height: 500px;
+        border: 60px solid color($colors,primary);
+        transform: rotate(45deg) translate(-250px,350px);
+        animation:decrease-border 0.5s ease-out;
+        animation-fill-mode: forwards;
+    }
+}
+
+@keyframes decrease-border{
+    0%{
+        border-width:60px;
+    }
+    100%{
+        border-width:0px;
+    }
+}

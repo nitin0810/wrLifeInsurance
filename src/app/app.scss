@@ -16,6 +16,66 @@
 // automatically applied to the <body> element in the app.
 
 .activePage{
-    background-color :  grey;
+    background-color :  color($colors,primary);
+    h4{
+        color:color($colors,secondary) !important;
+    }
     font-weight:bolder;
+    ion-icon{
+        color:color($colors,secondary) !important;
+    }
+}
+.sidebar-button{
+    ion-icon{
+        font-size: 40px;
+        color:color($colors,primary);
+    }
+    h4{
+        color:gray;
+    }
+}
+.sidebar-logo{
+    width: 50px;
+    margin-top: 0px;
+    animation:logo-scale 0.5s ease;
+}
+
+ion-item[main-header]{
+    padding:0;
+    position: sticky;
+    top: -210px;
+    background:linear-gradient(lighten(color($colors,primary),20),color($colors,primary));
+    .title-image{
+        height: 200px;
+        display:block;
+        margin:auto;
+    }
+    ion-title, .toolbar-title{
+        color:color($colors,secondary) !important;
+        text-align:center;
+        padding: 10px 0 0 0;
+    }
+    .fab[mini]{
+        margin:0px!important;
+    }
+}
+
+.gray-back{
+    background-color: #e9e9e9 !important;
+}
+
+.slideUp{
+    animation:slideUp 0.75s ease;
+}
+
+.primary-text{
+    color:color($colors,primary);
+}
+@keyframes slideUp{
+    0%{
+        transform:translatey(100px)
+    }
+    100%{
+        transform:translatey(0px)
+    }
 }

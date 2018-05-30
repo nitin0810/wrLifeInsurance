@@ -1,6 +1,6 @@
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
         <span>Cancel</span>
@@ -12,46 +12,39 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="gray-back">
+  <img src="assets/imgs/message.png" class="center-block" style="width:50%" />
 
   <form #dropMessageForm="ngForm" no-validate (ngSubmit)="onSubmit()">
 
+    <ion-card>
     <ion-list>
-
-      <div padding>
-        <p>*All fields are requireds</p>
-      </div>
-
-      <ion-card>
-        <ion-item>
-          <ion-label stacked>Name</ion-label>
-          <ion-input type="text" required [(ngModel)]="form.name" name="name"></ion-input>
-        </ion-item>
-      </ion-card>
-
-      <ion-card>
-        <ion-item>
-          <ion-label stacked>Email Id</ion-label>
-          <ion-input type="text"  required [(ngModel)]="form.email" name="email"></ion-input>
-        </ion-item>
-      </ion-card>
-
-      <ion-card>
-        <ion-item>
-          <ion-label stacked>Subject</ion-label>
-          <ion-input type="text" required  [(ngModel)]="form.subject" name="subject"></ion-input>
-        </ion-item>
-      </ion-card>
-
-      <ion-card>
-        <ion-item>
-          <ion-label stacked>Message</ion-label>
-          <ion-textarea type="text" required  rows="3" [(ngModel)]="form.message" name="message"></ion-textarea>
-        </ion-item>
-      </ion-card>
-
-      <button ion-button full [disabled]='dropMessageForm.invalid'>Submit</button>
-    </ion-list>
+          <ion-item>
+            <ion-icon item-left name='person' color="primary"></ion-icon>
+            <ion-label stacked>Name</ion-label>
+            <ion-input placeholder="add name" type="text" required [(ngModel)]="form.name" name="name"></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-icon item-left name='mail' color="primary"></ion-icon>
+            <ion-label stacked>Email Id</ion-label>
+            <ion-input placeholder="add email ID" type="text"  required [(ngModel)]="form.email" name="email"></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-icon item-left name='barcode' color="primary"></ion-icon>
+            <ion-label stacked>Subject</ion-label>
+            <ion-input placeholder='add subject' type="text" required  [(ngModel)]="form.subject" name="subject"></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-icon item-left name='chatboxes' color="primary"></ion-icon>
+            <ion-label stacked>Message</ion-label>
+            <ion-textarea placeholder="add message" type="text" required  rows="3" [(ngModel)]="form.message" name="message"></ion-textarea>
+          </ion-item>
+          <div padding-right text-right>
+            <p>*All fields are requireds</p>
+          </div>
+        </ion-list>
+    </ion-card>
+    <button ion-button full [disabled]='dropMessageForm.invalid'>Submit</button>
   </form>
 
 </ion-content>

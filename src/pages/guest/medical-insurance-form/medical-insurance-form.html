@@ -7,7 +7,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding >
   <div>
     <span *ngFor="let f of formNames;let i =index" [class.selectedFormName]="i==currentSlideIndex">{{f}} </span>
   </div>
@@ -192,7 +192,8 @@
 
     <!-- FORM -2: PERSONAL DETAILS FILLING -->
     <ion-slide>
-      <h1>Slide 2</h1>
+      <button ion-button clear (click)="onBack()">
+        <ion-icon name="arrow-back"></ion-icon>Back</button>
     </ion-slide>
 
     <!-- FORM-3: PAYMENT SELECTION -->
@@ -205,7 +206,7 @@
 
 
 <!-- SHOW CALCULATED PREMIUM PRICES -->
-<ion-footer style="background-color: grey" *ngIf="currentSlideIndex==0">
+<ion-footer style="background-color: grey" *ngIf="showFooter">
   <h6>
     <b>{{premiumInfo?.plan}}</b>
   </h6>

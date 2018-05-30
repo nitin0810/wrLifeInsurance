@@ -121,14 +121,14 @@ export class UserSessionManage {
         
         this.sideMenuOptions = [
 
-            { title: 'Home', component: GuestHomePage, icon: 'home' },
-            { title: 'Buy Shares', component: "BuySharesPage", icon: 'sad' },
-            { title: 'Why Choose Us', component: "WhyChooseUsPage", icon: 'bulb' },
-            { title: 'Visiblity', component: "VisiblityPage",  icon: 'thumbs-up' },
-            { title: 'Ethics', component: "EthicsPage",  icon: 'paper' },
-            { title: 'Good Price', component: "GoodPricePage",  icon: 'paper' },
-            { title: 'Contact Us', component: "ContactUsPage",  icon: 'call' },
-            { title: 'Sign Out', component: null,  icon: 'log-out' },
+            { title: 'Home', component: GuestHomePage, icon: 'home', color:"green" },
+            { title: 'Buy Shares', component: "BuySharesPage", icon: 'ios-cash', color:"green" },
+            { title: 'Why Choose Us', component: "WhyChooseUsPage", icon: 'bulb', color:"green" },
+            { title: 'Visiblity', component: "VisiblityPage",  icon: 'thumbs-up', color:"green" },
+            { title: 'Ethics', component: "EthicsPage",  icon: 'paper', color:"green" },
+            { title: 'Good Price', component: "GoodPricePage",  icon: 'paper', color:"green" },
+            { title: 'Contact Us', component: "ContactUsPage",  icon: 'call', color:"green" },
+            { title: 'Sign Out', component: null,  icon: 'log-out', color:"green" },
 
         ];
         return;

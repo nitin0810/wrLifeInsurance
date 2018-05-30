@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 import { MedicalInsuranceService, FormPayload } from '../../../providers/medicalInsurance.service';
 import { CustomService } from '../../../providers/custom.service';
+import { Content } from 'ionic-angular';
 
 
 
@@ -13,11 +14,13 @@ import { CustomService } from '../../../providers/custom.service';
 export class MedicalInsuranceFormPage {
 
   @ViewChild(Slides) slides: Slides;
+  @ViewChild(Content) content: Content;
 
   // for showing the current form
   formNames = ['Select Policy', 'Enter Details', 'Make Payment'];
 
   currentSlideIndex = 0;
+  showFooter = true;
 
   // state contains all the current inputs and selections
   state: FormPayload;
@@ -85,28 +88,37 @@ export class MedicalInsuranceFormPage {
 
 
   ionViewDidLoad() {
-    // this.slides.lockSwipeToNext(true);
-    // this.slides.lockSwipeToPrev(true);
+    this.lockSliding(true);
     this.state = this.medicalInsuranceService.getInitialState();
     this.calculatePremiumPrice();
   }
 
+  lockSliding(bool: boolean) {
+    this.slides.lockSwipeToNext(bool);
+    this.slides.lockSwipeToPrev(bool);
+  }
+
   slideChanged() {
     this.currentSlideIndex = this.slides.getActiveIndex();
+    if (this.currentSlideIndex == 0) {
+      this.showFooter = true;
+      this.content.resize();
+      this.lockSliding(true);
+    } else {
+      this.showFooter = false;
+    }
+
   }
 
   calculatePremiumPrice() {
-    console.log('state before request:', this.state);
 
     this.customService.showLoader();
 
     this.medicalInsuranceService.calculatePremiumPrice(this.state)
       .subscribe((res) => {
-        console.log(res);
         this.premiumInfo = res;
         this.customService.hideLoader();
       }, (err) => {
-        console.log(err);
         this.customService.hideLoader();
         this.customService.showToast(err.msg);
       });;
@@ -205,10 +217,23 @@ export class MedicalInsuranceFormPage {
   }
 
   onGoAhead() {
+    this.customService.showLoader();
     this.slides.lockSwipeToNext(false);
     this.slides.lockSwipeToPrev(false);
-    this.slides.slideNext();
+    this.showFooter = false;
+    this.content.resize();
+    setTimeout(() => {
+      this.customService.hideLoader();
+      this.slides.slideNext(); 
+      this.lockSliding(true);
+    }, 800);
   }
 
+
+  // Slide 2 methods
+  onBack(){
+    this.lockSliding(false);
+    this.slides.slidePrev();
+  }
 
 }

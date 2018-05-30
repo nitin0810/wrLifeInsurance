@@ -1,21 +1,18 @@
-<ion-content padding>
+<ion-content class="open-background">
+    <img class="center-block logo" src="assets/imgs/logo.png" />
 
 
-  <div text-center margin padding>
-
-    <div>
-      <button ion-button rounded>Broker Login</button>
+    <div margin-top>
+      <div>
+          <button class="btn btn-light btn-round center-block">Broker Login</button>
+      </div>
+      <div>
+      <button class="btn btn-light btn-round center-block">Customer Login</button>
     </div>
-
-    <div>
-      <button ion-button rounded>Customer Login</button>
     </div>
-
-    <div>
-      <button ion-button clear (click)="onSkip()">Skip</button>
-    </div>
-
-    <button ion-button full>Register</button>
-  </div>
 
 </ion-content>
+<ion-footer>
+    <button class="btn btn-light btn-round btn-small" margin float-right (click)="onSkip()">Skip</button>
+    <button ion-button full class="animate slideUp">Register</button>
+</ion-footer>
