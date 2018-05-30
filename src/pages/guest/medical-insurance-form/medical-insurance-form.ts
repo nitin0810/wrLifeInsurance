@@ -66,6 +66,9 @@ export class MedicalInsuranceFormPage {
   initialEvacuation = 'None';
   initialGlobalLimit = this.globalLimits[1];
   initialAdjustment = this.adjustments[0];
+  //ngModel variables for Date of Births ,used only for 'required' validation in ion-datetime, which 
+  // does not work without ngModel variable
+  dobs: Array<any> = [];
 
   today: string = new Date().toISOString().slice(0, 10);
 
@@ -117,6 +120,17 @@ export class MedicalInsuranceFormPage {
   }
 
   onMemberChange(members: string) {
+
+    // Reset the dobs array items in order to avoid trigger of their (ionchange) event
+    // if this is not done, it causes the multiple requests when members is changed
+    // may lead to bugs
+    if (this.state.members == '2-Persons') {
+      members == 'Individual' && (this.dobs[1] = undefined);
+    }
+    if (this.state.members == 'Family') {
+      members == 'Individual' ? this.dobs.fill(undefined, 1, 4) : this.dobs.fill(undefined, 2, 4);
+    }
+    // end of resetting the array items
 
     // in case 2 Persons is selected, state.members shud be 2-Persons
     if (members == '2 Persons') {

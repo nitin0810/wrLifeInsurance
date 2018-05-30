@@ -28,7 +28,7 @@
             <ion-label>Area of Expatriation *
               <ion-icon name="help"></ion-icon>
             </ion-label>
-            <ion-select (ionChange)="onAreaChange($event)" [(ngModel)]="initialCountry" name="country">
+            <ion-select (ionChange)="onAreaChange($event)" required [(ngModel)]="initialCountry" name="country">
               <ion-option *ngFor="let c of countries" [value]="c">{{c.name}}</ion-option>
             </ion-select>
           </ion-item>
@@ -39,7 +39,8 @@
           <ion-item-divider color="light"></ion-item-divider>
           <ion-item>
             <ion-label>Date of Birth *</ion-label>
-            <ion-datetime required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [max]="today" (ionChange)="calculateAge($event)"></ion-datetime>
+            <ion-datetime [(ngModel)]="dobs[0]" name="dob0" required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
+              [max]="today" (ionChange)="calculateAge($event)"></ion-datetime>
           </ion-item>
           <ion-item>
             <ion-label>
@@ -68,7 +69,8 @@
             < 22</ion-item-divider>
               <ion-item text-wrap>
                 <ion-label>Date of Birth *</ion-label>
-                <ion-datetime required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [max]="today" (ionChange)="calculateAge($event,1)"></ion-datetime>
+                <ion-datetime [(ngModel)]="dobs[1]" name="dob1" required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
+                  [max]="today" (ionChange)="calculateAge($event,1)"></ion-datetime>
               </ion-item>
               <ion-item *ngIf="state.members==='2-Persons' || state.members==='Family'">
                 <ion-label>
@@ -84,7 +86,8 @@
             < 22 </ion-item-divider>
               <ion-item>
                 <ion-label>Date of Birth *</ion-label>
-                <ion-datetime required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [max]="today" (ionChange)="calculateAge($event,2)"></ion-datetime>
+                <ion-datetime [(ngModel)]="dobs[2]" name="dob2" required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
+                  [max]="today" (ionChange)="calculateAge($event,2)"></ion-datetime>
               </ion-item>
               <ion-item>
                 <ion-label>
@@ -104,7 +107,8 @@
               </ion-item>
               <ion-item *ngIf="state.member4status==1">
                 <ion-label>Date of Birth *</ion-label>
-                <ion-datetime required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [max]="today" (ionChange)="calculateAge($event,3)"></ion-datetime>
+                <ion-datetime [(ngModel)]="dobs[3]" name="dob3" required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
+                  [max]="today" (ionChange)="calculateAge($event,3)"></ion-datetime>
               </ion-item>
               <ion-item *ngIf="state.member4status==1">
                 <ion-label>
@@ -179,9 +183,9 @@
           </ion-item>
         </ion-item-group>
 
-
-        <button ion-button full [disabled]='form1.invalid'>Go Ahead</button>
-
+        <div padding>
+          <button ion-button full [disabled]='!form1.valid'>Go Ahead</button>
+        </div>
       </form>
     </ion-slide>
 
@@ -201,7 +205,7 @@
 
 
 <!-- SHOW CALCULATED PREMIUM PRICES -->
-<ion-footer>
+<ion-footer style="background-color: grey" *ngIf="currentSlideIndex==0">
   <h6>
     <b>{{premiumInfo?.plan}}</b>
   </h6>
