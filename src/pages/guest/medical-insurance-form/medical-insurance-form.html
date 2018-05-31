@@ -7,7 +7,7 @@
 </ion-header>
 
 
-<ion-content padding >
+<ion-content padding>
   <div>
     <span *ngFor="let f of formNames;let i =index" [class.selectedFormName]="i==currentSlideIndex">{{f}} </span>
   </div>
@@ -138,7 +138,7 @@
           <ion-item-divider color="light"></ion-item-divider>
           <ion-item text-wrap>
             <ion-label>Inpatient</ion-label>
-            <ion-toggle disabled checked (ionChange)="toggleChange($event,2)"></ion-toggle>
+            <ion-toggle disabled [(ngModel)]="inpatientToggle" name="inpatientToggle"></ion-toggle>
           </ion-item>
           <ion-item text-wrap>
             <ion-label>Outpatient</ion-label>
@@ -194,6 +194,243 @@
     <ion-slide>
       <button ion-button clear (click)="onBack()">
         <ion-icon name="arrow-back"></ion-icon>Back</button>
+
+      <div margin-top>
+        <small>All fields marked with * are required</small>
+      </div>
+
+      <!-- PERSONAL DETAILS -->
+
+      <form #form2="ngForm">
+          <div *ngIf="form2Details">
+        <ion-item-group>
+          <ion-item-divider color="light">Personal Details</ion-item-divider>
+          <ion-item>
+            <ion-label color="primary">Last Name *</ion-label>
+            <ion-input type="text" required [(ngModel)]="form2Details.policy_owner_first" name="last" placeholder="Last Name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary">First Name *</ion-label>
+            <ion-input type="text" required [(ngModel)]="form2Details.policy_owner_last" name="first" placeholder="First Name"></ion-input>
+          </ion-item>
+
+          <div radio-group [(ngModel)]="form2Details.sex" name="sex">
+            <ion-row style="align-items: center">
+              <ion-col col-4>Sex</ion-col>
+              <ion-col col-8>
+                <ion-row>
+                  <ion-col col-6>Male
+                    <ion-radio value="0"></ion-radio>
+                  </ion-col>
+                  <ion-col col-6>Female
+                    <ion-radio value="1"></ion-radio>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </div>
+
+          <ion-item>
+            <span item-start>Date of Birth</span>
+            <span item-end>{{form2Details.dateofbirth_main}}</span>
+          </ion-item>
+
+          <ion-item>
+            <span item-start>Family Description</span>
+            <span item-end>{{form2Details.family_description}}</span>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Nationality </ion-label>
+            <ion-select name="nationality" [(ngModel)]="form2Details.nationality" name="nationality" placeholder="Select Country">
+              <ion-option *ngFor="let c of countries" [value]="c">{{c.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label stacked>Address of Expatriation </ion-label>
+            <ion-textarea [(ngModel)]="form2Details.expatriation_address" name="eAddress" (ionChange)="onExpatriationAddressChange()"></ion-textarea>
+          </ion-item>
+
+          <div style="border: 1px solid black">
+            <h6>
+              <b>Billing Address</b>
+            </h6>
+            <ion-item>
+              <ion-label>Same as Exptriation Address</ion-label>
+              <ion-toggle [(ngModel)]="addressToggleValue" name="addressToggle" (ionChange)="onSameAddressToggle()"></ion-toggle>
+            </ion-item>
+            <ion-textarea [(ngModel)]="form2Details.billing_address" name="bAddress" placeholder="Billing Address"></ion-textarea>
+          </div>
+        </ion-item-group>
+
+        <!-- OTHER DETAILS -->
+        <ion-item-group>
+          <ion-item-divider color="light">Other Details</ion-item-divider>
+          <ion-item>
+            <ion-label color="primary">Phone</ion-label>
+            <ion-input type="tel" [(ngModel)]="form2Details.Phone" name="phone" placeholder="Enter Phone" maxlength="20"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary">Mobile</ion-label>
+            <ion-input type="tel" [(ngModel)]="form2Details.mobile_phone" name="mobile" placeholder="Enter Mobile" maxlength="20"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary">Email *</ion-label>
+            <ion-input type="email" required [(ngModel)]="form2Details.mail_id" name="mail" placeholder="Enter Email"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary">Skype Id</ion-label>
+            <ion-input type="text" [(ngModel)]="form2Details.skype_id" name="skype" placeholder="Enter Skype Id"></ion-input>
+          </ion-item>
+        </ion-item-group>
+
+       
+
+
+          <!-- PARTNER DETAILS -->
+          <ion-item-group *ngIf="form2Details.family_description=='2-Persons' || form2Details.family_description=='Family'">
+            <ion-item-divider color="light">Partner (2nd Person) Details</ion-item-divider>
+            <ion-item>
+              <ion-label color="primary">Last Name *</ion-label>
+              <ion-input type="text" required [(ngModel)]="form2Details.partner_last" name="partner_last" placeholder="Last Name"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label color="primary">First Name *</ion-label>
+              <ion-input type="text" required [(ngModel)]="form2Details.partner_first" name="partner_last" placeholder="First Name"></ion-input>
+            </ion-item>
+
+            <div radio-group [(ngModel)]="form2Details.partner_sex" name="partner_sex">
+              <ion-row style="align-items: center">
+                <ion-col col-4>Sex</ion-col>
+                <ion-col col-8>
+                  <ion-row>
+                    <ion-col col-6>Male
+                      <ion-radio value="0"></ion-radio>
+                    </ion-col>
+                    <ion-col col-6>Female
+                      <ion-radio value="1"></ion-radio>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </div>
+
+            <ion-item>
+              <span item-start>Date of Birth</span>
+              <span item-end>{{dobs[1]}}</span>
+            </ion-item>
+          </ion-item-group>
+
+          <!-- CHILD 1 DETAILS -->
+          <ion-item-group *ngIf="form2Details.family_description=='Family'">
+
+            <div *ngFor="let child of childrenDetail;let i=index">
+
+              <ion-item-divider color="light">Chlld {{i+1}} Details
+                <button *ngIf="i>=2" ion-button (click)="onRemoveChildBtn()">Remove</button>
+
+              </ion-item-divider>
+              <ion-item>
+                <ion-label color="primary">Last Name *</ion-label>
+                <ion-input type="text" required [(ngModel)]="child.last" name="child.last{{i+1}}" placeholder="Last Name"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label color="primary">First Name *</ion-label>
+                <ion-input type="text" required [(ngModel)]="child.first" name="child.first{{i+1}}" placeholder="First Name"></ion-input>
+              </ion-item>
+
+              <div radio-group [(ngModel)]="child.sex" name="child.sex{{i+1}}">
+                <ion-row style="align-items: center">
+                  <ion-col col-4>Sex</ion-col>
+                  <ion-col col-8>
+                    <ion-row>
+                      <ion-col col-6>Male
+                        <ion-radio value="0"></ion-radio>
+                      </ion-col>
+                      <ion-col col-6>Female
+                        <ion-radio value="1"></ion-radio>
+                      </ion-col>
+                    </ion-row>
+                  </ion-col>
+                </ion-row>
+              </div>
+
+              <!-- FOR FIRST 2 CHILD, SHOW THE DOB ENTERED IN FORM1, FOR OTHER CHILDREN, GIVE OPTION TO SELECT DOB -->
+              <ion-item *ngIf="i<2">
+                <span item-start>Date of Birth</span>
+                <span item-end>{{dobs[i+2]}}</span>
+              </ion-item>
+              <ion-item *ngIf="i>=2">
+                <ion-label>Date of Birth *</ion-label>
+                <ion-datetime required [(ngModel)]="dobsForm2[i]" displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
+                  [max]="today" (ionChange)="calculateAgeForForm2($event,child)"></ion-datetime>
+              </ion-item>
+
+            </div>
+
+            <button *ngIf="childrenDetail.length>=2" ion-button (click)="onAddChildBtn()">Add One Child</button>
+          </ion-item-group>
+
+          <!-- OTHER SELECTED DETAILS -->
+          <ion-item-group>
+              <ion-item-divider>aaaaaaaaaa</ion-item-divider>
+
+            <ion-item>
+              <span item-start>Area of Cover</span>
+              <span item-end>{{state?.area | uppercase}}</span>
+            </ion-item>
+            <ion-item>
+              <ion-label>First USD Cover</ion-label>
+              <ion-toggle disabled [checked]="form2Details.first_usd_cover"></ion-toggle>
+            </ion-item>
+            <ion-item>
+              <ion-label>CFE</ion-label>
+              <ion-toggle disabled [checked]="state?.complement"></ion-toggle>
+            </ion-item>
+            <ion-item>
+              <ion-label color="primary" stacked>Social security No. (in case of CFE):*</ion-label>
+              <ion-input type="text" [(ngModel)]="form2Details.security_CFE" name="SSN"></ion-input>
+            </ion-item>
+          </ion-item-group>
+
+          <!-- SELECTED PLAN-->
+          <ion-item-group>
+            <ion-item-divider>Choice of Modules</ion-item-divider>
+            <ion-item>
+              <ion-label>Inpatient</ion-label>
+              <ion-toggle disabled [checked]="form2Details.inpatient_modules"></ion-toggle>
+            </ion-item>
+            <ion-item>
+              <ion-label>Outpatient</ion-label>
+              <ion-toggle disabled [checked]="form2Details.outpatient_modules"></ion-toggle>
+            </ion-item>
+            <ion-item>
+              <ion-label>Dental Optical</ion-label>
+              <ion-toggle disabled [checked]="form2Details.dental_optical_modules"></ion-toggle>
+            </ion-item>
+          </ion-item-group>
+
+          <!-- CHOICE OF MODULES-->
+          <ion-item-group>
+              <ion-item-divider>Choice of the class of cover</ion-item-divider>
+
+            <ion-list radio-group>
+              <ion-item>
+                <ion-label>SERENITY PLAN</ion-label>
+                <ion-radio disabled [checked]="form2Details.serenity_cover"></ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-label>ELITE PLAN</ion-label>
+                <ion-radio disabled [checked]="!form2Details.serenity_cover"></ion-radio>
+              </ion-item>
+
+            </ion-list>
+          </ion-item-group>
+        </div>
+      </form>
+
+
     </ion-slide>
 
     <!-- FORM-3: PAYMENT SELECTION -->

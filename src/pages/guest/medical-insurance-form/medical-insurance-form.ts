@@ -63,16 +63,18 @@ export class MedicalInsuranceFormPage {
     { name: '$ 5000', value: 5000 },
   ];
 
-  //ngModal variables for showing  inital values of some fields
+  //ngModel variables for showing  inital values of some fields
   initialCountry = this.countries[0]; //THAILAND IS INITIAL CONTRY TO BE DISPLAYED
   initialMember = 'Individual';
   initialEvacuation = 'None';
   initialGlobalLimit = this.globalLimits[1];
   initialAdjustment = this.adjustments[0];
-  //ngModel variables for Date of Births ,used only for 'required' validation in ion-datetime, which 
-  // does not work without ngModel variable
+  inpatientToggle=false;
+
+  //ngModel variables for Date of Births
   dobs: Array<any> = [];
 
+  // today is just for setting the max date selectable from calender
   today: string = new Date().toISOString().slice(0, 10);
 
 
@@ -85,12 +87,10 @@ export class MedicalInsuranceFormPage {
   ) { }
 
 
-
-
   ionViewDidLoad() {
-    this.lockSliding(true);
+    // this.lockSliding(true);
     this.state = this.medicalInsuranceService.getInitialState();
-    this.calculatePremiumPrice();
+    // this.calculatePremiumPrice();
   }
 
   lockSliding(bool: boolean) {
@@ -218,22 +218,111 @@ export class MedicalInsuranceFormPage {
 
   onGoAhead() {
     this.customService.showLoader();
-    this.slides.lockSwipeToNext(false);
-    this.slides.lockSwipeToPrev(false);
+    this.lockSliding(false);
     this.showFooter = false;
     this.content.resize();
     setTimeout(() => {
       this.customService.hideLoader();
-      this.slides.slideNext(); 
+      this.slides.slideNext();
       this.lockSliding(true);
+      this.setPayloadData(); //call this everytime when we go from form1 to form2
     }, 800);
   }
 
 
-  // Slide 2 methods
-  onBack(){
+  // Slide 2 (Form 2)  related data and methods
+
+  //ngModel variables
+  form2Details: any = {};
+  addressToggleValue = false;
+  childrenDetail: Array<{ first: string, last: string, sex: number, age: number }> = [];
+  dobsForm2:Array<any>=[];
+
+  setPayloadData() {
+    const form2DetailsCopy = JSON.parse(JSON.stringify(this.form2Details));
+
+    this.form2Details = {
+      policy_owner_first: form2DetailsCopy.policy_owner_firs || '',
+      policy_owner_last: form2DetailsCopy.policy_owner_last || '',
+      sex: form2DetailsCopy.sex || 0, //Male: 0, Female: 1
+      dateofbirth_main: this.changeDateFormat(this.dobs[0]), // main person's DOB
+      family_description: this.state.members,
+      nationality: form2DetailsCopy.nationality || this.countries[0],
+      expatriation_address: form2DetailsCopy.expatriation_address || '',
+      billing_address: form2DetailsCopy.billing_address || '',
+
+      Phone: form2DetailsCopy.Phone || '',
+      mobile_phone: form2DetailsCopy.mobile_phone || '',
+      mail_id: form2DetailsCopy.mail_id || '',
+      skype_id: form2DetailsCopy.skype_id || '',
+
+      first_usd_cover: this.state.complement == 1 ? 0 : 1,
+      // CFE checkbox info is included in form1(state)
+      security_CFE:form2DetailsCopy.security_CFE || '',
+
+      serenity_cover:this.premiumInfo.plan=='SERENITY PLAN'?1:0,
+      inpatient_modules:this.inpatientToggle?1:0,
+      outpatient_modules:this.state.outpatientstatus?1:0,
+      dental_optical_modules:this.state.dentalstatus?1:0,
+      // assistance_evacuation_modules:this.state.
+
+    };
+
+    if (this.state.members == '2-Persons' || this.state.members == 'Family') {
+      this.form2Details['partner_first'] = this.form2Details['partner_first'] || '';
+      this.form2Details['partner_last'] = this.form2Details['partner_last'] || '';
+      this.form2Details['partner_sex'] = this.form2Details['partner_sex'] || '';
+      this.form2Details['partner_age'] = this.state.txtApAge1 || '';
+    }
+
+    if (this.state.members == 'Family') {
+
+      //clear the children detail array
+      this.childrenDetail = [];
+
+      this.childrenDetail.push({ first: '', last: '', sex: 0, age: this.state.txtApAge2 });
+
+      if (this.state.member4status == 1) {
+        this.childrenDetail.push({ first: '', last: '', sex: 0, age: this.state.txtApAge3 });
+      }
+    }
+  }
+
+  onSameAddressToggle() {
+    this.addressToggleValue ? this.form2Details.billing_address = this.form2Details.expatriation_address : this.form2Details.billing_address = '';
+  }
+
+  onExpatriationAddressChange() {
+    if (this.addressToggleValue) { this.form2Details.billing_address = this.form2Details.expatriation_address; }
+  }
+
+  changeDateFormat(date: string) {
+    // date is in yyyy-mm-dd format
+    // output data willbbe in dd/mm/yyyy format
+    const d: any = date.split('-');
+    return `${d[2]}/${d[1]}/${d[0]}`;
+  }
+
+  calculateAgeForForm2(date: any, child: any) {
+    child.age = this.giveAge(date);
+  }
+
+  onAddChildBtn() {
+    this.childrenDetail.push({ first: '', last: '', sex: 0, age: -1 });
+  }
+
+  onRemoveChildBtn(index: number) {
+    this.childrenDetail.splice(index, 1);
+  }
+
+
+  onBack() {
     this.lockSliding(false);
     this.slides.slidePrev();
   }
+
+
+
+
 
 }
