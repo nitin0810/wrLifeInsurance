@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 import { MedicalInsuranceService, FormPayload } from '../../../providers/medicalInsurance.service';
 import { CustomService } from '../../../providers/custom.service';
 import { Content } from 'ionic-angular';
+import { Child } from '../../../Classes/child';
 
 
 
@@ -27,6 +28,7 @@ export class MedicalInsuranceFormPage {
 
   //response from the server containing all the prices
   premiumInfo: any;
+  brokerId = 'patlor1234';
 
 
   // FORM-1 related data
@@ -69,7 +71,7 @@ export class MedicalInsuranceFormPage {
   initialEvacuation = 'None';
   initialGlobalLimit = this.globalLimits[1];
   initialAdjustment = this.adjustments[0];
-  inpatientToggle=false;
+  inpatientToggle = false;
 
   //ngModel variables for Date of Births
   dobs: Array<any> = [];
@@ -113,7 +115,6 @@ export class MedicalInsuranceFormPage {
   calculatePremiumPrice() {
 
     this.customService.showLoader();
-
     this.medicalInsuranceService.calculatePremiumPrice(this.state)
       .subscribe((res) => {
         this.premiumInfo = res;
@@ -235,14 +236,16 @@ export class MedicalInsuranceFormPage {
   //ngModel variables
   form2Details: any = {};
   addressToggleValue = false;
-  childrenDetail: Array<{ first: string, last: string, sex: number, age: number }> = [];
-  dobsForm2:Array<any>=[];
+  childrenDetail: Array<Child> = []; //  contains all the details of children
+  dobsForm2: Array<any> = []; // contains DOBs of all children, used only for displaying and calculating age, not to be sent to server
+  MAXCHILD = 16;
+
 
   setPayloadData() {
     const form2DetailsCopy = JSON.parse(JSON.stringify(this.form2Details));
 
     this.form2Details = {
-      policy_owner_first: form2DetailsCopy.policy_owner_firs || '',
+      policy_owner_first: form2DetailsCopy.policy_owner_first || '',
       policy_owner_last: form2DetailsCopy.policy_owner_last || '',
       sex: form2DetailsCopy.sex || 0, //Male: 0, Female: 1
       dateofbirth_main: this.changeDateFormat(this.dobs[0]), // main person's DOB
@@ -258,13 +261,25 @@ export class MedicalInsuranceFormPage {
 
       first_usd_cover: this.state.complement == 1 ? 0 : 1,
       // CFE checkbox info is included in form1(state)
-      security_CFE:form2DetailsCopy.security_CFE || '',
+      security_CFE: form2DetailsCopy.security_CFE || '',
 
-      serenity_cover:this.premiumInfo.plan=='SERENITY PLAN'?1:0,
-      inpatient_modules:this.inpatientToggle?1:0,
-      outpatient_modules:this.state.outpatientstatus?1:0,
-      dental_optical_modules:this.state.dentalstatus?1:0,
+      serenity_cover: this.premiumInfo.plan == 'SERENITY PLAN' ? 1 : 0,
+      inpatient_modules: this.inpatientToggle ? 1 : 0,
+      outpatient_modules: this.state.outpatientstatus ? 1 : 0,
+      dental_optical_modules: this.state.dentalstatus ? 1 : 0,
       // assistance_evacuation_modules:this.state.
+
+      main_insured_height: form2DetailsCopy.main_insured_height || '',
+      main_insured_weight: form2DetailsCopy.main_insured_weight || '',
+
+      preexisting_main_insured: form2DetailsCopy.preexisting_main_insured || 0,
+      preexisting_main_insured_1: form2DetailsCopy.preexisting_main_insured_1 || '',
+
+      adjust_globallimit: this.state.globallimit,
+      hospital_adjusment: this.state.adjusment,
+      date_of_cover: form2DetailsCopy.date_of_cover || '',
+      currency: form2DetailsCopy.currency || 1,
+      frequency_payment: form2DetailsCopy.frequency_payment || 'Annual'
 
     };
 
@@ -273,6 +288,10 @@ export class MedicalInsuranceFormPage {
       this.form2Details['partner_last'] = this.form2Details['partner_last'] || '';
       this.form2Details['partner_sex'] = this.form2Details['partner_sex'] || '';
       this.form2Details['partner_age'] = this.state.txtApAge1 || '';
+      this.form2Details['partner_height'] = this.form2Details['partner_height'] || '';
+      this.form2Details['partner_weight'] = this.form2Details['partner_weight'] || '';
+      this.form2Details['preexisting_partner'] = this.form2Details['preexisting_partner'] || 0;
+      this.form2Details['preexisting_partner_1'] = this.form2Details['preexisting_partner_1'] || '';
     }
 
     if (this.state.members == 'Family') {
@@ -280,10 +299,10 @@ export class MedicalInsuranceFormPage {
       //clear the children detail array
       this.childrenDetail = [];
 
-      this.childrenDetail.push({ first: '', last: '', sex: 0, age: this.state.txtApAge2 });
+      this.childrenDetail.push(new Child(this.state.txtApAge2));
 
       if (this.state.member4status == 1) {
-        this.childrenDetail.push({ first: '', last: '', sex: 0, age: this.state.txtApAge3 });
+        this.childrenDetail.push(new Child(this.state.txtApAge3));
       }
     }
   }
@@ -298,7 +317,7 @@ export class MedicalInsuranceFormPage {
 
   changeDateFormat(date: string) {
     // date is in yyyy-mm-dd format
-    // output data willbbe in dd/mm/yyyy format
+    // output data will be in dd/mm/yyyy format for showing on screen
     const d: any = date.split('-');
     return `${d[2]}/${d[1]}/${d[0]}`;
   }
@@ -308,17 +327,23 @@ export class MedicalInsuranceFormPage {
   }
 
   onAddChildBtn() {
-    this.childrenDetail.push({ first: '', last: '', sex: 0, age: -1 });
+    this.childrenDetail.push(new Child());
   }
 
   onRemoveChildBtn(index: number) {
     this.childrenDetail.splice(index, 1);
+    this.dobsForm2[index] = null;
   }
 
 
   onBack() {
     this.lockSliding(false);
     this.slides.slidePrev();
+  }
+
+  onForm2Submit(){
+  console.log('ssssssss');
+  
   }
 
 
