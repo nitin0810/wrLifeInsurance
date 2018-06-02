@@ -484,7 +484,7 @@
               </div>
 
               <!-- PARTNER'S  preexisting condition-->
-              <div style="border-bottom: 1px solid black" radio-group [(ngModel)]="form2Details.preexisting_partner" name="preexisting_partner">
+              <div *ngIf="state?.members==='2-Persons' || state?.members==='Family'" style="border-bottom: 1px solid black" radio-group [(ngModel)]="form2Details.preexisting_partner" name="preexisting_partner">
                 <ion-row style="align-items: center">
                   <ion-col col-4>Partner </ion-col>
                   <ion-col col-8>
@@ -504,7 +504,9 @@
               </div>
 
               <!-- CHILDREN'S  preexisting condition-->
-              <div style="border-bottom: 1px solid black" *ngFor="let child of childrenDetail;let i= index">
+              <div *ngIf="state?.members==='Family'" style="border-bottom: 1px solid black" >
+
+                <div *ngFor="let child of childrenDetail;let i= index">
                 <div radio-group [(ngModel)]="child.preexisting" name="child.preexisting{{i+1}}">
                   <ion-row style="align-items: center">
                     <ion-col col-4>Child {{i+1}} </ion-col>
@@ -524,6 +526,7 @@
                   </ion-textarea>
                 </div>
               </div>
+            </div>
             </ion-list>
           </div>
 
@@ -550,7 +553,7 @@
             <ion-item text-wrap>
               <ion-label>Starting date of cover *</ion-label>
               <ion-datetime [(ngModel)]="form2Details.date_of_cover" name="date_of_cover" required displayFormat="DD/MM/YYYY" placeholder="DD MMM, YYYY"
-                pickerFormat="DD MMM, YYYY" [max]="today"></ion-datetime>
+                pickerFormat="DD MMM, YYYY" [min]="today"></ion-datetime>
             </ion-item>
 
             <ion-item>
@@ -632,7 +635,7 @@
 
           </ion-item-group>
 
-          <button ion-button full type="submit" [disabled]="form2.invalid"></button>
+          <button ion-button full type="submit" [disabled]="form2.invalid">Go Ahead to Payment</button>
         </div>
       </form>
 
@@ -649,7 +652,7 @@
 
 
 <!-- SHOW CALCULATED PREMIUM PRICES -->
-<ion-footer style="background-color: grey" *ngIf="showFooter">
+<ion-footer style="background-color: antiquewhite" *ngIf="showFooter">
   <h6>
     <b>{{premiumInfo?.plan}}</b>
   </h6>
