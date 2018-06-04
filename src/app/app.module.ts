@@ -24,7 +24,9 @@ import { MedicalInsuranceService } from '../providers/medicalInsurance.service';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp,{
-      preloadModules: true
+      preloadModules: true,
+      scrollPadding: false,
+      scrollAssist: false
     }),
     HttpClientModule
   ],

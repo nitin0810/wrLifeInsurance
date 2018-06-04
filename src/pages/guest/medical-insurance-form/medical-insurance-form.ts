@@ -6,7 +6,6 @@ import { Content } from 'ionic-angular';
 import { Child } from '../../../Classes/child';
 
 
-
 @IonicPage()
 @Component({
   selector: 'page-medical-insurance-form',
@@ -19,8 +18,7 @@ export class MedicalInsuranceFormPage {
 
   // for showing the current form
   formNames = ['Select Policy', 'Enter Details', 'Make Payment'];
-
-  currentSlideIndex = 0;
+  selectedFormIndex = 0;
   showFooter = true;
 
   // state contains all the current inputs and selections
@@ -78,7 +76,9 @@ export class MedicalInsuranceFormPage {
 
   // today is just for setting the max date selectable from calender
   today: string = new Date().toISOString().slice(0, 10);
-
+  //minimum selectable DOB for main person 
+  minDOBMain: string;
+  minDOBChild: string;
 
 
   constructor(
@@ -90,9 +90,16 @@ export class MedicalInsuranceFormPage {
 
 
   ionViewDidLoad() {
-    // this.lockSliding(true);
+    this.lockSliding(true);
     this.state = this.medicalInsuranceService.getInitialState();
-    // this.calculatePremiumPrice();
+    this.calculatePremiumPrice();
+    this.setMinDOBs();
+  }
+
+  setMinDOBs() {
+    const today = new Date();
+    this.minDOBMain = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate()).toISOString().slice(0, 10);
+    this.minDOBChild = new Date(today.getFullYear() - 22, today.getMonth(), today.getDate()).toISOString().slice(0, 10);
   }
 
   lockSliding(bool: boolean) {
@@ -100,16 +107,30 @@ export class MedicalInsuranceFormPage {
     this.slides.lockSwipeToPrev(bool);
   }
 
+  highlightSelectedForm() {
+
+    const totalSlides = this.state.members == 'Individual' ? 8 : 9;
+    if (this.slides.getActiveIndex() == 0) {
+      this.selectedFormIndex = 0;
+    } else if (this.slides.getActiveIndex() >= 1 && this.slides.getActiveIndex() < totalSlides - 1) {
+      this.selectedFormIndex = 1;
+    } else {
+      this.selectedFormIndex = 2;
+    }
+
+
+  }
+
   slideChanged() {
-    this.currentSlideIndex = this.slides.getActiveIndex();
-    if (this.currentSlideIndex == 0) {
+    const currentSlideIndex = this.slides.getActiveIndex();
+    if (currentSlideIndex == 0) {
       this.showFooter = true;
       this.content.resize();
       this.lockSliding(true);
     } else {
       this.showFooter = false;
     }
-
+    this.highlightSelectedForm();
   }
 
   calculatePremiumPrice() {
@@ -122,7 +143,7 @@ export class MedicalInsuranceFormPage {
       }, (err) => {
         this.customService.hideLoader();
         this.customService.showToast(err.msg);
-      });;
+      });
   }
 
   // CHANGE HANDLERS
@@ -137,6 +158,12 @@ export class MedicalInsuranceFormPage {
     // Reset the dobs array items in order to avoid trigger of their (ionchange) event
     // if this is not done, it causes the multiple requests when members is changed
     // may lead to bugs
+
+    //clear the childrenDetail array whenever  inidividual and 2-Person is selected
+    if (members == 'Individual' || members == '2 Persons') {
+      this.childrenDetail = [];
+    }
+
     if (this.state.members == '2-Persons') {
       members == 'Individual' && (this.dobs[1] = undefined);
     }
@@ -218,20 +245,28 @@ export class MedicalInsuranceFormPage {
   }
 
   onGoAhead() {
+    // chcek if response is present or not, only then move to next slide
+    //it is done to handle the case when form has become valid( as DOB is selected) 
+    //but some network error occurred while fetching the response
+
+    if (!this.premiumInfo) {
+      this.customService.showToast('Some Error occured, Try again filling the form from start');
+      return;
+    }
     this.customService.showLoader();
-    this.lockSliding(false);
     this.showFooter = false;
     this.content.resize();
     setTimeout(() => {
-      this.customService.hideLoader();
+      this.lockSliding(false);
       this.slides.slideNext();
       this.lockSliding(true);
+      this.customService.hideLoader();
       this.setPayloadData(); //call this everytime when we go from form1 to form2
     }, 800);
   }
 
 
-  // Slide 2 (Form 2)  related data and methods
+  // Slide 2 and onwards related related data and methods
 
   //ngModel variables
   form2Details: any = {};
@@ -286,7 +321,7 @@ export class MedicalInsuranceFormPage {
     if (this.state.members == '2-Persons' || this.state.members == 'Family') {
       this.form2Details['partner_first'] = this.form2Details['partner_first'] || '';
       this.form2Details['partner_last'] = this.form2Details['partner_last'] || '';
-      this.form2Details['partner_sex'] = this.form2Details['partner_sex'] || '';
+      this.form2Details['partner_sex'] = this.form2Details['partner_sex'] || 0;
       this.form2Details['partner_age'] = this.state.txtApAge1 || '';
       this.form2Details['partner_height'] = this.form2Details['partner_height'] || '';
       this.form2Details['partner_weight'] = this.form2Details['partner_weight'] || '';
@@ -336,14 +371,34 @@ export class MedicalInsuranceFormPage {
   }
 
 
-  onBack() {
+  onPrev() {
     this.lockSliding(false);
     this.slides.slidePrev();
+    this.lockSliding(true);
   }
 
-  onForm2Submit(){
-  console.log('ssssssss');
-  
+  onNext(formNo: number) {
+    // perform additional form validation here 
+    // form can be differentiated using formNo 
+    if (formNo == 3) {
+console.log(this.form2Details.mail_id);
+
+      var re =/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!re.test(this.form2Details.mail_id)) {
+        this.customService.showToast('Please enter a valid email address');
+        return;
+      }
+    }
+
+    this.lockSliding(false);
+    this.slides.slideNext();
+    this.lockSliding(true);
+  }
+
+  onGoToPaymentBtn() {
+    this.lockSliding(false);
+    this.slides.slideNext();
+    this.lockSliding(true);
   }
 
 
