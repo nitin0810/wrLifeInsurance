@@ -39,33 +39,33 @@ export class CustomHttpService {
 
     get(url: string, options?: HttpHeaders) {
 
-        const headers = this.addHeaders(options);
-        let _url: string;
-        if (ROLE) {
-            // in case of admin.mngmnt, each request contains ROLE if ROLE exists
-            _url = BASEURL + (URLPREFIX ? '/' + URLPREFIX : '') + '/' + ROLE + url;
-        } else {
-            _url = BASEURL + (URLPREFIX ? '/' + URLPREFIX : '') + url;
+        // const headers = this.addHeaders(options);
+        // let _url: string;
+        // if (ROLE) {
+        //     // in case of admin.mngmnt, each request contains ROLE if ROLE exists
+        //     _url = BASEURL + (URLPREFIX ? '/' + URLPREFIX : '') + '/' + ROLE + url;
+        // } else {
+        //     _url = BASEURL + (URLPREFIX ? '/' + URLPREFIX : '') + url;
 
-        }
+        // }
 
-        return this.httpClient.get(_url, { headers: headers, observe: 'response' })
+        return this.httpClient.get(BASEURL+url, { observe: 'response' })
             .map(this.extractData)
             .catch(this.handleError);
     }
 
     post(url: string, body: any, options?: HttpHeaders) {
 
-        let headers = this.addHeaders(options);
-        let _url: string;
-        if (ROLE) {
-            // in case of admin.mngmnt, each request contains ROLE if ROLE exists
-            _url = BASEURL + (URLPREFIX ? '/' + URLPREFIX : '') + '/' + ROLE + url;
-        } else {
-            _url = BASEURL + (URLPREFIX ? '/' + URLPREFIX : '') + url;
+        // let headers = this.addHeaders(options);
+        // let _url: string;
+        // if (ROLE) {
+        //     // in case of admin.mngmnt, each request contains ROLE if ROLE exists
+        //     _url = BASEURL + (URLPREFIX ? '/' + URLPREFIX : '') + '/' + ROLE + url;
+        // } else {
+        //     _url = BASEURL + (URLPREFIX ? '/' + URLPREFIX : '') + url;
 
-        }
-        return this.httpClient.post(_url, body, { headers: headers, observe: 'response' })
+        // }
+        return this.httpClient.post(BASEURL+url, body, { observe: 'response' })
             .map(this.extractData)
             .catch(this.handleError);
     }

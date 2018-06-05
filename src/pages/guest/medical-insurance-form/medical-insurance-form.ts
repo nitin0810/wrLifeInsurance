@@ -19,7 +19,7 @@ export class MedicalInsuranceFormPage {
   // for showing the current form
   formNames = ['Select Policy', 'Enter Details', 'Make Payment'];
   selectedFormIndex = 0;
-  showFooter = true;
+  showFooter = false;
 
   // state contains all the current inputs and selections
   state: FormPayload;
@@ -32,13 +32,7 @@ export class MedicalInsuranceFormPage {
   // FORM-1 related data
 
   // static data list 
-  countries: Array<any> = [
-    { name: 'THAILAND', area: 'area3' },
-    { name: 'SINGAPORE', area: 'area2' },
-    { name: 'ZIMBABWE', area: 'area3' },
-    { name: 'VIET NAM', area: 'area3' },
-    { name: 'TURKEY', area: 'area3' },
-  ];
+  countries: Array<{ area_name: string, country_name: string, status: number, uid: string }>;
   members: Array<string> = ['Individual', '2 Persons', 'Family'];
   assistantEvacuations = ['None', 'Individual', '2 Persons', 'Family'];
   globalLimits: Array<any> = [
@@ -64,7 +58,7 @@ export class MedicalInsuranceFormPage {
   ];
 
   //ngModel variables for showing  inital values of some fields
-  initialCountry = this.countries[0]; //THAILAND IS INITIAL CONTRY TO BE DISPLAYED
+  initialCountry;
   initialMember = 'Individual';
   initialEvacuation = 'None';
   initialGlobalLimit = this.globalLimits[1];
@@ -76,8 +70,12 @@ export class MedicalInsuranceFormPage {
 
   // today is just for setting the max date selectable from calender
   today: string = new Date().toISOString().slice(0, 10);
-  //minimum selectable DOB for main person 
+
+  maxAgeMain: number;
+  maxAgeChild: number;
+  //minimum selectable DOB for main person (depends on maxAgeMain)
   minDOBMain: string;
+  //minimum selectable DOB for children (depends on maxAgeChild)
   minDOBChild: string;
 
 
@@ -91,15 +89,45 @@ export class MedicalInsuranceFormPage {
 
   ionViewDidLoad() {
     this.lockSliding(true);
-    this.state = this.medicalInsuranceService.getInitialState();
-    this.calculatePremiumPrice();
-    this.setMinDOBs();
+    this.getCountriesAndAge();
   }
 
-  setMinDOBs() {
+  getCountriesAndAge() {
+    this.customService.showLoader();
+    this.medicalInsuranceService.getCountriesAndAge()
+      .subscribe((res: any) => {
+
+        //set max ages
+        this.maxAgeMain = res.age[0].max_age;
+        this.maxAgeChild = res.age[0].child_max_age;
+        this.setMinDOBs(this.maxAgeMain, this.maxAgeChild);
+        //set countries
+        this.countries = res.countryAreas;
+        this.initialCountry = this.countries[0];
+        // get the premium info for the first time
+        this.state = this.medicalInsuranceService.getInitialState(this.initialCountry.area_name);
+        this.customService.hideLoader();
+        this.calculatePremiumPrice();
+        this.getBrokerId();
+      }, (err: any) => {
+        this.customService.hideLoader();
+        this.customService.showToast(err.msg);
+      });
+  }
+
+  getBrokerId() {
+    this.medicalInsuranceService.getBrokerId()
+      .subscribe((res: any) => {
+        this.brokerId = res.brokerId;
+      }, (err: any) => {
+        this.customService.showToast(err.msg || "Couldn't fetch broker Id");
+      });
+  }
+
+  setMinDOBs(maxAge: number, maxAgeChild: number) {
     const today = new Date();
-    this.minDOBMain = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate()).toISOString().slice(0, 10);
-    this.minDOBChild = new Date(today.getFullYear() - 22, today.getMonth(), today.getDate()).toISOString().slice(0, 10);
+    this.minDOBMain = new Date(today.getFullYear() - maxAge, today.getMonth(), today.getDate()).toISOString().slice(0, 10);
+    this.minDOBChild = new Date(today.getFullYear() - maxAgeChild, today.getMonth(), today.getDate()).toISOString().slice(0, 10);
   }
 
   lockSliding(bool: boolean) {
@@ -134,11 +162,12 @@ export class MedicalInsuranceFormPage {
   }
 
   calculatePremiumPrice() {
-
-    this.customService.showLoader();
+    this.customService.showLoader('Calculating Price...');
     this.medicalInsuranceService.calculatePremiumPrice(this.state)
       .subscribe((res) => {
         this.premiumInfo = res;
+        this.showFooter = true;
+        this.content.resize();
         this.customService.hideLoader();
       }, (err) => {
         this.customService.hideLoader();
@@ -149,7 +178,7 @@ export class MedicalInsuranceFormPage {
   // CHANGE HANDLERS
   onAreaChange(country: any) {
     // console.log(country);
-    this.state.area = country.area;
+    this.state.area = country.area_name;
     this.calculatePremiumPrice();
   }
 
@@ -274,6 +303,7 @@ export class MedicalInsuranceFormPage {
   childrenDetail: Array<Child> = []; //  contains all the details of children
   dobsForm2: Array<any> = []; // contains DOBs of all children, used only for displaying and calculating age, not to be sent to server
   MAXCHILD = 16;
+  date_of_cover: string = ''; // just for form validation
 
 
   setPayloadData() {
@@ -285,7 +315,7 @@ export class MedicalInsuranceFormPage {
       sex: form2DetailsCopy.sex || 0, //Male: 0, Female: 1
       dateofbirth_main: this.changeDateFormat(this.dobs[0]), // main person's DOB
       family_description: this.state.members,
-      nationality: form2DetailsCopy.nationality || this.countries[0],
+      nationality: form2DetailsCopy.nationality || this.countries[0].country_name,
       expatriation_address: form2DetailsCopy.expatriation_address || '',
       billing_address: form2DetailsCopy.billing_address || '',
 
@@ -296,13 +326,14 @@ export class MedicalInsuranceFormPage {
 
       first_usd_cover: this.state.complement == 1 ? 0 : 1,
       // CFE checkbox info is included in form1(state)
-      security_CFE: form2DetailsCopy.security_CFE || '',
+      security_CFE: this.state.complement,
+      security_CFE_1: form2DetailsCopy.security_CFE_1 || '',
 
       serenity_cover: this.premiumInfo.plan == 'SERENITY PLAN' ? 1 : 0,
       inpatient_modules: this.inpatientToggle ? 1 : 0,
       outpatient_modules: this.state.outpatientstatus ? 1 : 0,
       dental_optical_modules: this.state.dentalstatus ? 1 : 0,
-      // assistance_evacuation_modules:this.state.
+      assistance_evacuation_modules: this.state.selectevacuation == 'None'.toLowerCase() ? 0 : 1,
 
       main_insured_height: form2DetailsCopy.main_insured_height || '',
       main_insured_weight: form2DetailsCopy.main_insured_weight || '',
@@ -322,7 +353,7 @@ export class MedicalInsuranceFormPage {
       this.form2Details['partner_first'] = this.form2Details['partner_first'] || '';
       this.form2Details['partner_last'] = this.form2Details['partner_last'] || '';
       this.form2Details['partner_sex'] = this.form2Details['partner_sex'] || 0;
-      this.form2Details['partner_age'] = this.state.txtApAge1 || '';
+      this.form2Details['partner_dob'] = this.changeDateFormat(this.dobs[1]) || '';
       this.form2Details['partner_height'] = this.form2Details['partner_height'] || '';
       this.form2Details['partner_weight'] = this.form2Details['partner_weight'] || '';
       this.form2Details['preexisting_partner'] = this.form2Details['preexisting_partner'] || 0;
@@ -334,10 +365,10 @@ export class MedicalInsuranceFormPage {
       //clear the children detail array
       this.childrenDetail = [];
 
-      this.childrenDetail.push(new Child(this.state.txtApAge2));
+      this.childrenDetail.push(new Child(2, this.changeDateFormat(this.dobs[2]))); // this is Child1 (3rd member)
 
       if (this.state.member4status == 1) {
-        this.childrenDetail.push(new Child(this.state.txtApAge3));
+        this.childrenDetail.push(new Child(3, this.changeDateFormat(this.dobs[3])));// this is Child2 (4th member)
       }
     }
   }
@@ -357,12 +388,24 @@ export class MedicalInsuranceFormPage {
     return `${d[2]}/${d[1]}/${d[0]}`;
   }
 
-  calculateAgeForForm2(date: any, child: any) {
+  setDateOfCover(date: any) {
+
+    this.form2Details.date_of_cover = this.changeDateFormat(`${date.year}-${date.month<10?'0'+date.month:date.month}-${date.day<10?'0'+date.day:date.day}`);
+  }
+
+  calculateAgeForForm2(date: any, child: any, index: number) {
     child.age = this.giveAge(date);
+
+    //set dob in dd/yy/mmm format
+    const yyyy = date.year,
+      mm = date.month < 10 ? '0' + date.month : date.month,
+      dd = date.day < 10 ? '0' + date.day : date.day;
+    child.dob = `${dd}/${mm}/${yyyy}`;
   }
 
   onAddChildBtn() {
-    this.childrenDetail.push(new Child());
+    // all added child will have memberType:3
+    this.childrenDetail.push(new Child(3));
   }
 
   onRemoveChildBtn(index: number) {
@@ -379,11 +422,10 @@ export class MedicalInsuranceFormPage {
 
   onNext(formNo: number) {
     // perform additional form validation here 
-    // form can be differentiated using formNo 
+    // forms can be differentiated using formNo 
     if (formNo == 3) {
-console.log(this.form2Details.mail_id);
 
-      var re =/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (!re.test(this.form2Details.mail_id)) {
         this.customService.showToast('Please enter a valid email address');
         return;
@@ -396,9 +438,84 @@ console.log(this.form2Details.mail_id);
   }
 
   onGoToPaymentBtn() {
-    this.lockSliding(false);
-    this.slides.slideNext();
-    this.lockSliding(true);
+
+    const payLoad: any = this.prepareData();
+    this.customService.showLoader();
+    this.medicalInsuranceService.submitForm2(payLoad)
+      .subscribe((res: any) => {
+        this.customService.hideLoader();
+        this.lockSliding(false);
+        this.slides.slideNext();
+        this.lockSliding(true);
+      }, (err: any) => {
+        this.customService.hideLoader();
+        this.customService.showToast(err.msg);
+      });
+  }
+
+
+  prepareData() {
+    let payLoad: any = {};
+    // cllect all the info except parner and children info (that is to be included in another key)
+    for (let key in this.form2Details) {
+      if (key.indexOf('partner') == -1) {
+        payLoad[key] = this.form2Details[key];
+      }
+    }
+
+    // form2 array contains the info of partner and children in a single array
+    // partner and children are considered as same type of entity and have same properties
+    // except 'memberType' key used to distinguish them
+    payLoad['form2'] = [];
+
+    if (this.state.members == '2-Persons' || this.state.members == 'Family') {
+
+      const partnerInfo: any = {
+        first: this.form2Details['partner_first'],
+        last: this.form2Details['partner_last'],
+        sex: this.form2Details['partner_sex'],
+        dob: this.form2Details['partner_dob'],
+        height: this.form2Details['partner_height'],
+        weight: this.form2Details['partner_weight'],
+        preexisting: this.form2Details['preexisting_partner'],
+        preexisting_1: this.form2Details['preexisting_partner_1'],
+        memberType: 1
+      };
+
+      payLoad['form2'].push(partnerInfo);
+    }
+
+
+    if (this.state.members == 'Family') {
+
+      payLoad['form2'] = payLoad['form2'].concat(this.childrenDetail)
+    }
+    
+    payLoad['yearly_1'] = this.premiumInfo.yearly_1;
+    payLoad['yearly_2'] = this.premiumInfo.yearly_2;
+    payLoad['monthly_1'] = this.premiumInfo.monthly_1;
+    payLoad['monthly_2'] = this.premiumInfo.monthly_2;
+    payLoad['biannually_1'] = this.premiumInfo.biannually_1;
+    payLoad['biannually_2'] = this.premiumInfo.biannually_2;
+    payLoad['quarterly_1'] = this.premiumInfo.quarterly_1;
+    payLoad['quarterly_2'] = this.premiumInfo.quarterly_2;
+    
+    payLoad['POLICY_AREA'] = this.state.area.toUpperCase();
+    payLoad['CHILD_MAX_AGE'] = this.maxAgeChild;
+    
+    
+    // BUG SOLVING: convert the values which are supposed to be integer type but
+    // getting converted into string by ngModel
+    // convert following values explicitly to integer
+    payLoad['sex'] = parseInt(payLoad['sex']);
+    payLoad['preexisting_main_insured'] = parseInt(payLoad['preexisting_main_insured']);
+    payLoad['form2'].forEach((child: any) => {
+      child['sex'] = parseInt(child['sex']);
+      child['preexisting'] = parseInt(child['preexisting']);
+    });
+    
+    console.log(payLoad);
+    return payLoad;
   }
 
 

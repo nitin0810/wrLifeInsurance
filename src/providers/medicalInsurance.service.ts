@@ -35,9 +35,17 @@ export class MedicalInsuranceService {
         private httpClient: HttpClient
     ) { }
 
-    getInitialState() {
+    getCountriesAndAge() {
+        return this.http.get('/mdi/save-info/step1');
+    }
+
+    getBrokerId() {
+        return this.http.get('/mdi/save-info/step2');
+    }
+
+    getInitialState(ar: string) {
         return {
-            area: 'area3',
+            area: ar,
             txtApAge: NaN,
             txtApAge1: NaN,
             txtApAge2: NaN,
@@ -54,29 +62,17 @@ export class MedicalInsuranceService {
         };
     }
 
+    submitForm2(data: any) {
+        return this.http.post('/mdi', data);
+    }
+
     calculatePremiumPrice(data: FormPayload) {
-
-        // const nData: any = {};
-
-        // nData.area = data.area || 'area3';
-        // nData.txtApAge = data.txtApAge || NaN;
-        // nData.txtApAge1 = data.txtApAge1 || NaN;
-        // nData.txtApAge2 = data.txtApAge2 || NaN;
-        // nData.txtApAge3 = data.txtApAge3 || NaN;
-        // nData.members = data.members || 'Individual';
-        // nData.member4status = data.member4status || 0;
-        // nData.adjusment_plan = data.adjusment_plan || 2;
-        // nData.adjusment = data.adjusment || 0;
-        // nData.globallimit = data.globallimit || 400000;
-        // nData.complement = data.complement || 0;
-        // nData.outpatientstatus = data.outpatientstatus || 0;
-        // nData.dentalstatus = data.dentalstatus || 0;
-        // nData.selectevacuation = data.selectevacuation || 'none';
 
         return this.post(this.phpUrl, data);
 
     }
 
+    // POST request to php server for calculating premium price
     post(url: string, body: any) {
 
         let params = new HttpParams({ fromObject: body });
