@@ -14,6 +14,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Network } from '@ionic-native/network';
 import { LoginPage } from '../pages/login/login';
 import { MedicalInsuranceService } from '../providers/medicalInsurance.service';
+import { Deeplinks } from '@ionic-native/deeplinks';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { MedicalInsuranceService } from '../providers/medicalInsurance.service';
     AuthService,
     CustomHttpService,
     CustomService,
-    MedicalInsuranceService
+    MedicalInsuranceService,
+    Deeplinks
   ]
 })
 export class AppModule {}

@@ -66,6 +66,10 @@ export class MedicalInsuranceService {
         return this.http.post('/mdi', data);
     }
 
+    makePayment(data){
+        return this.http.post('/mdi/pay', data);
+    }
+
     calculatePremiumPrice(data: FormPayload) {
 
         return this.post(this.phpUrl, data);

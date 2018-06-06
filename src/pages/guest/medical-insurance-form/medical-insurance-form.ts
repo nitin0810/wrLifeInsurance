@@ -1,9 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Slides, Navbar, AlertController, Alert, Platform } from 'ionic-angular';
 import { MedicalInsuranceService, FormPayload } from '../../../providers/medicalInsurance.service';
 import { CustomService } from '../../../providers/custom.service';
 import { Content } from 'ionic-angular';
 import { Child } from '../../../Classes/child';
+import { Deeplinks } from '@ionic-native/deeplinks';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @IonicPage()
@@ -15,6 +17,11 @@ export class MedicalInsuranceFormPage {
 
   @ViewChild(Slides) slides: Slides;
   @ViewChild(Content) content: Content;
+  @ViewChild(Navbar) navBar: Navbar; // for overriding backbtn default functionality
+  unregisterBackButtonActionForAndroid: any;
+
+  // for unsubscribing the deeplink subscription on leaving the page
+  deepLinkSubscription: Subscription;
 
   // for showing the current form
   formNames = ['Select Policy', 'Enter Details', 'Make Payment'];
@@ -26,7 +33,7 @@ export class MedicalInsuranceFormPage {
 
   //response from the server containing all the prices
   premiumInfo: any;
-  brokerId = 'patlor1234';
+  brokerId: string;
 
 
   // FORM-1 related data
@@ -71,11 +78,14 @@ export class MedicalInsuranceFormPage {
   // today is just for setting the max date selectable from calender
   today: string = new Date().toISOString().slice(0, 10);
 
+  // maximum possible age for main person and children are obtained from server
+  // based on which minimum selectable dob is decided
   maxAgeMain: number;
   maxAgeChild: number;
-  //minimum selectable DOB for main person (depends on maxAgeMain)
+
+  //minimum selectable DOB for main person (calculated using maxAgeMain)
   minDOBMain: string;
-  //minimum selectable DOB for children (depends on maxAgeChild)
+  //minimum selectable DOB for children (calculated using maxAgeChild)
   minDOBChild: string;
 
 
@@ -83,13 +93,59 @@ export class MedicalInsuranceFormPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private customService: CustomService,
-    private medicalInsuranceService: MedicalInsuranceService
+    private medicalInsuranceService: MedicalInsuranceService,
+    private alertCtrl: AlertController,
+    private platform: Platform,
+    private deeplinks: Deeplinks,
+
   ) { }
 
 
   ionViewDidLoad() {
     this.lockSliding(true);
     this.getCountriesAndAge();
+    this.overrideBackBtnFunctionality();
+  }
+
+  ionViewWillLeave() {
+    // Unregister the custom back button action for this page
+    this.unregisterBackButtonActionForAndroid && this.unregisterBackButtonActionForAndroid();
+  }
+
+  overrideBackBtnFunctionality() {
+
+    /**overides the defult behaviour of navbar back btn
+     * Show an alert stating: 'any filled data in form will be lost on going back'
+     */
+    this.navBar.backButtonClick = (ev: any) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      this.showpageLeaveAlert();
+    }
+
+    /**handle the android hardware back btn for the same purpose*/
+    if (this.platform.is('android')) {
+      this.unregisterBackButtonActionForAndroid = this.platform.registerBackButtonAction(() => {
+        this.showpageLeaveAlert();
+      });
+    }
+  }
+
+  showpageLeaveAlert() {
+
+    const alert: Alert = this.alertCtrl.create({
+      title: 'Alert',
+      message: 'Any information filled in this form will be deleted on leaving this page. Are you sure to leave this page ?',
+      buttons: [{
+        text: 'Cancel',
+        role: 'cancel'
+      }, {
+        text: 'Leave',
+        handler: () => { this.navCtrl.pop(); }
+      }]
+
+    });
+    alert.present();
   }
 
   getCountriesAndAge() {
@@ -304,6 +360,7 @@ export class MedicalInsuranceFormPage {
   dobsForm2: Array<any> = []; // contains DOBs of all children, used only for displaying and calculating age, not to be sent to server
   MAXCHILD = 16;
   date_of_cover: string = ''; // just for form validation
+  form2SubmitResponse: any; // contains info such as transactionId, policyId etc.
 
 
   setPayloadData() {
@@ -390,7 +447,7 @@ export class MedicalInsuranceFormPage {
 
   setDateOfCover(date: any) {
 
-    this.form2Details.date_of_cover = this.changeDateFormat(`${date.year}-${date.month<10?'0'+date.month:date.month}-${date.day<10?'0'+date.day:date.day}`);
+    this.form2Details.date_of_cover = this.changeDateFormat(`${date.year}-${date.month < 10 ? '0' + date.month : date.month}-${date.day < 10 ? '0' + date.day : date.day}`);
   }
 
   calculateAgeForForm2(date: any, child: any, index: number) {
@@ -443,10 +500,12 @@ export class MedicalInsuranceFormPage {
     this.customService.showLoader();
     this.medicalInsuranceService.submitForm2(payLoad)
       .subscribe((res: any) => {
+
         this.customService.hideLoader();
         this.lockSliding(false);
         this.slides.slideNext();
         this.lockSliding(true);
+        this.form2SubmitResponse = res;
       }, (err: any) => {
         this.customService.hideLoader();
         this.customService.showToast(err.msg);
@@ -490,7 +549,7 @@ export class MedicalInsuranceFormPage {
 
       payLoad['form2'] = payLoad['form2'].concat(this.childrenDetail)
     }
-    
+
     payLoad['yearly_1'] = this.premiumInfo.yearly_1;
     payLoad['yearly_2'] = this.premiumInfo.yearly_2;
     payLoad['monthly_1'] = this.premiumInfo.monthly_1;
@@ -499,27 +558,101 @@ export class MedicalInsuranceFormPage {
     payLoad['biannually_2'] = this.premiumInfo.biannually_2;
     payLoad['quarterly_1'] = this.premiumInfo.quarterly_1;
     payLoad['quarterly_2'] = this.premiumInfo.quarterly_2;
-    
+
     payLoad['POLICY_AREA'] = this.state.area.toUpperCase();
     payLoad['CHILD_MAX_AGE'] = this.maxAgeChild;
-    
-    
+
+
     // BUG SOLVING: convert the values which are supposed to be integer type but
-    // getting converted into string by ngModel
-    // convert following values explicitly to integer
+    // getting converted into string by ngModel.
+    // Convert following values explicitly to integer
     payLoad['sex'] = parseInt(payLoad['sex']);
     payLoad['preexisting_main_insured'] = parseInt(payLoad['preexisting_main_insured']);
     payLoad['form2'].forEach((child: any) => {
       child['sex'] = parseInt(child['sex']);
       child['preexisting'] = parseInt(child['preexisting']);
     });
-    
-    console.log(payLoad);
+
+    // console.log(payLoad);
     return payLoad;
   }
 
 
+  onMakePaymentBtn() {
 
+    const info = {
+      transactionId: this.form2SubmitResponse.transaction_id,
+      membershipNumber: this.form2SubmitResponse.membership_number,
+      subscriptionPackage: this.form2SubmitResponse.policy_id,
+      description: `transId: ${this.form2SubmitResponse.transaction_id}, membershipNo: ${this.form2SubmitResponse.membership_number}`
+    };
+    this.customService.showLoader();
+    this.medicalInsuranceService.makePayment(info)
+      .subscribe((res: any) => {
+        this.customService.hideLoader();
+        this.redirectToPaypal(res.message);
+        // this.lockSliding(false);
+        // this.slides.slideNext();
+        // this.lockSliding(true);
+      }, (err: any) => {
+        this.customService.hideLoader();
+        this.customService.showToast(err.msg);
+      });
+  }
+
+  redirectToPaypal(url: string) {
+    this.customService.showLoader('Redirecting to Paypal...');
+    setTimeout(() => {
+      // this.customService.hideLoader();
+      window.open(url, '_system', 'location=yes');
+    }, 800);
+  }
+
+
+  ngAfterViewInit() {
+    this.platform.ready().then(() => {
+
+      this.deepLinkSubscription =
+        this.deeplinks.route({
+          '/': {},
+          '/connect': { 'connect': true },
+          '/error': { 'error': true },
+          '/paypal-success': { 'paypalConnect': true },
+          '/paypal-error': { 'paypalError': true },
+        }).subscribe((match) => {
+          this.customService.hideLoader();
+          // alert(JSON.stringify(match.$args));
+          if (match.$route.connect) {
+            //this.nl.showToast("Route is connect (somehow).");
+          } else if (match.$route.paypalConnect) {
+
+          } else if (match.$route.paypalError) {
+
+            this.showFailureAlert("Payment Failed", "Please try again or contact PayPal Customer Support.");
+          } else if (match.$route.error) {
+
+            this.showFailureAlert("Error Occured", "Please try again.");
+          } else {
+            //this.nl.showToast("None of the route values are true.");
+          }
+        }, (nomatch) => {
+          //this.nl.showToast('Got a deeplink that didn\'t match');
+          this.customService.hideLoader();
+          this.customService.showToast('Some error occured');
+        });
+    });
+  }
+  showFailureAlert(title: string, subTitle: string) {
+    const alert: Alert = this.alertCtrl.create({
+      title: title,
+      subTitle: subTitle
+    });
+    alert.present();
+  }
+
+  ngOnDestroy() {
+    this.deepLinkSubscription.unsubscribe();
+  }
 
 
 }

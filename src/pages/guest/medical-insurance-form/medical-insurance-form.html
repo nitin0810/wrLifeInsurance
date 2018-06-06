@@ -38,7 +38,7 @@
           <ion-item>
             <ion-label>Date of Birth *</ion-label>
             <ion-datetime [(ngModel)]="dobs[0]" name="dob0" required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
-             [min]="minDOBMain" [max]="today" (ionChange)="calculateAge($event)"></ion-datetime>
+              [min]="minDOBMain" [max]="today" (ionChange)="calculateAge($event)"></ion-datetime>
           </ion-item>
           <ion-item>
             <ion-label>
@@ -68,7 +68,7 @@
               <ion-item text-wrap>
                 <ion-label>Date of Birth *</ion-label>
                 <ion-datetime [(ngModel)]="dobs[1]" name="dob1" required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
-                [min]="minDOBMain" [max]="today" (ionChange)="calculateAge($event,1)"></ion-datetime>
+                  [min]="minDOBMain" [max]="today" (ionChange)="calculateAge($event,1)"></ion-datetime>
               </ion-item>
               <ion-item *ngIf="state.members==='2-Persons' || state.members==='Family'">
                 <ion-label>
@@ -85,7 +85,7 @@
               <ion-item>
                 <ion-label>Date of Birth *</ion-label>
                 <ion-datetime [(ngModel)]="dobs[2]" name="dob2" required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
-               [min]="minDOBChild"   [max]="today" (ionChange)="calculateAge($event,2)"></ion-datetime>
+                  [min]="minDOBChild" [max]="today" (ionChange)="calculateAge($event,2)"></ion-datetime>
               </ion-item>
               <ion-item>
                 <ion-label>
@@ -106,7 +106,7 @@
               <ion-item *ngIf="state.member4status==1">
                 <ion-label>Date of Birth *</ion-label>
                 <ion-datetime [(ngModel)]="dobs[3]" name="dob3" required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
-                [min]="minDOBChild" [max]="today" (ionChange)="calculateAge($event,3)"></ion-datetime>
+                  [min]="minDOBChild" [max]="today" (ionChange)="calculateAge($event,3)"></ion-datetime>
               </ion-item>
               <ion-item *ngIf="state.member4status==1">
                 <ion-label>
@@ -276,8 +276,8 @@
             <ion-input type="tel" [(ngModel)]="form2Details.Phone" name="phone" placeholder="Enter Phone" maxlength="20"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label color="primary">Mobile</ion-label>
-            <ion-input type="tel" [(ngModel)]="form2Details.mobile_phone" name="mobile" placeholder="Enter Mobile" maxlength="20"></ion-input>
+            <ion-label color="primary">Mobile *</ion-label>
+            <ion-input type="tel" required [(ngModel)]="form2Details.mobile_phone" name="mobile" placeholder="Enter Mobile" maxlength="20"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label color="primary">Email *</ion-label>
@@ -358,7 +358,7 @@
                   <ion-row>
                     <ion-col col-6>Male
                       <ion-radio value="0"></ion-radio>
-                    </ion-col>  
+                    </ion-col>
                     <ion-col col-6>Female
                       <ion-radio value="1"></ion-radio>
                     </ion-col>
@@ -597,7 +597,7 @@
           <ion-item text-wrap>
             <ion-label>Starting date of cover *</ion-label>
             <ion-datetime [(ngModel)]="date_of_cover" name="date_of_cover" required displayFormat="DD/MM/YYYY" placeholder="DD MMM, YYYY"
-              pickerFormat="DD MMM, YYYY" [min]="today"(ionChange)="setDateOfCover($event)"></ion-datetime>
+              pickerFormat="DD MMM, YYYY" [min]="today" (ionChange)="setDateOfCover($event)"></ion-datetime>
           </ion-item>
 
           <ion-item>
@@ -695,9 +695,18 @@
 
     <ion-slide>
 
-        <page-prevnext-component [isDisabled]="true" (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
+      <page-prevnext-component [isDisabled]="true" (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
 
-      <h1>LAST SLIDE</h1>
+      <div >
+      <h3>
+        <b>Payable Amount:</b> {{form2SubmitResponse?.currency==1?'$':'€'}} {{form2SubmitResponse?.last_amount}}</h3>
+      <h3>
+        <b>Policy: </b>{{form2SubmitResponse?.transaction_id}}</h3>
+      <h3>
+        <b>Payment Mode: </b>Paypal</h3>
+        
+        <button ion-button full (click)="onMakePaymentBtn()">Make Payment</button>
+      </div>
     </ion-slide>
 
   </ion-slides>
@@ -705,33 +714,33 @@
 
 
 <!-- SHOW CALCULATED PREMIUM PRICES -->
-<ion-footer  style="background-color: antiquewhite" *ngIf="showFooter">
-    <h6>
-      <b>{{premiumInfo?.plan}}</b>
-    </h6>
-    <ion-grid>      
-      <ion-row>
-        <ion-col col-3>
-          <p>Yearly</p>
-          <p>$ {{premiumInfo?.yearly_1}}</p>
-          <p>€ {{premiumInfo?.yearly_2}}</p>
-        </ion-col>
-        <ion-col col-3>
-          <p>Bi-Annually</p>
-          <p>$ {{premiumInfo?.biannually_1}}</p>
-          <p>€ {{premiumInfo?.biannually_2}}</p>
-        </ion-col>
-        <ion-col col-3>
-          <p>Quarterly</p>
-          <p>$ {{premiumInfo?.quarterly_1}}</p>
-          <p>€ {{premiumInfo?.quarterly_2}}</p>
-        </ion-col>
-        <ion-col col-3>
-          <p>Monthly</p>
-          <p>$ {{premiumInfo?.monthly_1}}</p>
-          <p>€ {{premiumInfo?.monthly_2}}</p>
-        </ion-col>
-  
-      </ion-row>
-    </ion-grid>
-  </ion-footer>
+<ion-footer style="background-color: antiquewhite" *ngIf="showFooter">
+  <h6>
+    <b>{{premiumInfo?.plan}}</b>
+  </h6>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-3>
+        <p>Yearly</p>
+        <p>$ {{premiumInfo?.yearly_1}}</p>
+        <p>€ {{premiumInfo?.yearly_2}}</p>
+      </ion-col>
+      <ion-col col-3>
+        <p>Bi-Annually</p>
+        <p>$ {{premiumInfo?.biannually_1}}</p>
+        <p>€ {{premiumInfo?.biannually_2}}</p>
+      </ion-col>
+      <ion-col col-3>
+        <p>Quarterly</p>
+        <p>$ {{premiumInfo?.quarterly_1}}</p>
+        <p>€ {{premiumInfo?.quarterly_2}}</p>
+      </ion-col>
+      <ion-col col-3>
+        <p>Monthly</p>
+        <p>$ {{premiumInfo?.monthly_1}}</p>
+        <p>€ {{premiumInfo?.monthly_2}}</p>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-footer>
