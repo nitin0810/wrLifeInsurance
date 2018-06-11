@@ -87,4 +87,5 @@
         <variable name="DEEPLINK_HOST" value="nxtlife.com" />
         <variable name="ANDROID_PATH_PREFIX" value="/" />
     </plugin>
+    <engine name="android" spec="7.0.0" />
 </widget>

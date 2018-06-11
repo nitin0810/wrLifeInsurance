@@ -17,7 +17,7 @@ export class MedicalInsuranceFormPage {
 
   @ViewChild(Slides) slides: Slides;
   @ViewChild(Content) content: Content;
-  @ViewChild(Navbar) navBar: Navbar; // for overriding backbtn default functionality
+  @ViewChild(Navbar) navBar: Navbar; // for overriding backbtn's default functionality
   unregisterBackButtonActionForAndroid: any;
 
   // for unsubscribing the deeplink subscription on leaving the page
@@ -135,7 +135,7 @@ export class MedicalInsuranceFormPage {
 
     const alert: Alert = this.alertCtrl.create({
       title: 'Alert',
-      message: 'Any information filled in this form will be deleted on leaving this page. Are you sure to leave this page ?',
+      message: 'Any Information filled in this form will be lost on leaving this page. Are you sure to leave ?',
       buttons: [{
         text: 'Cancel',
         role: 'cancel'
@@ -166,6 +166,7 @@ export class MedicalInsuranceFormPage {
         this.calculatePremiumPrice();
         this.getBrokerId();
       }, (err: any) => {
+
         this.customService.hideLoader();
         this.customService.showToast(err.msg);
       });
@@ -227,7 +228,20 @@ export class MedicalInsuranceFormPage {
         this.customService.hideLoader();
       }, (err) => {
         this.customService.hideLoader();
-        this.customService.showToast(err.msg);
+        // info about the error response from php server is not available, 
+        // So check if error is obtained or not
+        if (err) {
+          const msg = err.toString() + "\n" + "Please Try Again";
+          const alert: Alert = this.alertCtrl.create({
+            title: 'Error',
+            message: msg,
+            buttons: ['Dismiss']
+          });
+          alert.present();
+        } else {
+          this.customService.showToast('Some error occured, Please try again');
+
+        }
       });
   }
 
@@ -482,8 +496,14 @@ export class MedicalInsuranceFormPage {
     // forms can be differentiated using formNo 
     if (formNo == 3) {
 
-      var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (!re.test(this.form2Details.mail_id)) {
+      //validate mobile number
+      const re1 = /^[0-9]+$/;
+      if (!re1.test(this.form2Details.mobile_phone)) {
+        this.customService.showToast('Please enter a valid mobile number');
+        return;
+      }
+      const re2 = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!re2.test(this.form2Details.mail_id)) {
         this.customService.showToast('Please enter a valid email address');
         return;
       }
@@ -523,8 +543,8 @@ export class MedicalInsuranceFormPage {
     }
 
     // form2 array contains the info of partner and children in a single array
-    // partner and children are considered as same type of entity and have same properties
-    // except 'memberType' key used to distinguish them
+    // partner and children are considered same type of entity and have same properties
+    // except 'memberType' property which is used to distinguish them
     payLoad['form2'] = [];
 
     if (this.state.members == '2-Persons' || this.state.members == 'Family') {
@@ -591,9 +611,7 @@ export class MedicalInsuranceFormPage {
       .subscribe((res: any) => {
         this.customService.hideLoader();
         this.redirectToPaypal(res.message);
-        // this.lockSliding(false);
-        // this.slides.slideNext();
-        // this.lockSliding(true);
+
       }, (err: any) => {
         this.customService.hideLoader();
         this.customService.showToast(err.msg);
@@ -605,12 +623,13 @@ export class MedicalInsuranceFormPage {
     setTimeout(() => {
       // this.customService.hideLoader();
       window.open(url, '_system', 'location=yes');
-    }, 800);
+    }, 1000);
   }
 
 
   ngAfterViewInit() {
     this.platform.ready().then(() => {
+
 
       this.deepLinkSubscription =
         this.deeplinks.route({
@@ -625,13 +644,17 @@ export class MedicalInsuranceFormPage {
           if (match.$route.connect) {
             //this.nl.showToast("Route is connect (somehow).");
           } else if (match.$route.paypalConnect) {
-
+            this.showSuccessPage();
           } else if (match.$route.paypalError) {
 
             this.showFailureAlert("Payment Failed", "Please try again or contact PayPal Customer Support.");
           } else if (match.$route.error) {
-
-            this.showFailureAlert("Error Occured", "Please try again.");
+            if (match.$args.error) {
+              const msg = match.$args.error.replace(/\%20/g, ' ');
+              this.showFailureAlert("Cancelled", msg);
+            } else {
+              this.showFailureAlert("Error Occured", "Please try again.");
+            }
           } else {
             //this.nl.showToast("None of the route values are true.");
           }
@@ -642,12 +665,21 @@ export class MedicalInsuranceFormPage {
         });
     });
   }
+
   showFailureAlert(title: string, subTitle: string) {
     const alert: Alert = this.alertCtrl.create({
       title: title,
-      subTitle: subTitle
+      subTitle: subTitle,
+      buttons:[{
+        text:'OK',
+        role:'cancel'
+      }]
     });
     alert.present();
+  }
+
+  showSuccessPage() {
+    this.navCtrl.push('PaymentSuccessPage');
   }
 
   ngOnDestroy() {
