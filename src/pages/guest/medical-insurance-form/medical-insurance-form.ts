@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides, Navbar, AlertController, Alert, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Slides, Navbar, AlertController, Alert, Platform, Modal,ModalController } from 'ionic-angular';
 import { MedicalInsuranceService, FormPayload } from '../../../providers/medicalInsurance.service';
 import { CustomService } from '../../../providers/custom.service';
 import { Content } from 'ionic-angular';
@@ -97,7 +97,7 @@ export class MedicalInsuranceFormPage {
     private alertCtrl: AlertController,
     private platform: Platform,
     private deeplinks: Deeplinks,
-
+private modalCtrl:ModalController
   ) { }
 
 
@@ -684,6 +684,12 @@ export class MedicalInsuranceFormPage {
 
   ngOnDestroy() {
     this.deepLinkSubscription.unsubscribe();
+  }
+
+
+  showDefiniton(title:string){
+    const modal:Modal = this.modalCtrl.create('AllDefinitionsPage',{'title':title});
+    modal.present();
   }
 
 

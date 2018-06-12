@@ -24,11 +24,14 @@
         <ion-item-group>
           <ion-item text-wrap>
             <ion-label>Area of Expatriation *
-              <ion-icon name="help"></ion-icon>
             </ion-label>
             <ion-select (ionChange)="onAreaChange($event)" required [(ngModel)]="initialCountry" name="country">
               <ion-option *ngFor="let c of countries" [disabled]="c.status==0" [value]="c">{{c.country_name}}</ion-option>
             </ion-select>
+            <button type="button" ion-button icon-only item-end (click)="showDefiniton('Area of Expatriation')">
+              <ion-icon name="help"></ion-icon>
+            </button>
+
           </ion-item>
         </ion-item-group>
 
@@ -53,11 +56,13 @@
           <ion-item-divider color="light"></ion-item-divider>
           <ion-item text-wrap>
             <ion-label>Members
-              <ion-icon name="help"></ion-icon>
             </ion-label>
             <ion-select (ionChange)="onMemberChange($event)" [(ngModel)]="initialMember" name="member">
               <ion-option *ngFor="let m of members" [value]="m">{{m}}</ion-option>
             </ion-select>
+            <button type="button" ion-button icon-only item-end (click)="showDefiniton('Members')">
+                <ion-icon name="help"></ion-icon>
+              </button>
           </ion-item>
         </ion-item-group>
 
@@ -128,6 +133,9 @@
           <ion-item text-wrap>
             <ion-label>Only complement to social security (CFE, OSSOM, ETC) </ion-label>
             <ion-toggle (ionChange)="toggleChange($event,1)"></ion-toggle>
+            <button type="button" ion-button icon-only item-end (click)="showDefiniton('Complement to social security')">
+                <ion-icon name="help"></ion-icon>
+              </button>
           </ion-item>
         </ion-item-group>
 
@@ -137,14 +145,23 @@
           <ion-item text-wrap>
             <ion-label>Inpatient</ion-label>
             <ion-toggle disabled [(ngModel)]="inpatientToggle" name="inpatientToggle"></ion-toggle>
+            <button type="button" ion-button icon-only item-end (click)="showDefiniton('Inpatient')">
+                <ion-icon name="help"></ion-icon>
+              </button>
           </ion-item>
           <ion-item text-wrap>
             <ion-label>Outpatient</ion-label>
             <ion-toggle (ionChange)="toggleChange($event,3)"></ion-toggle>
+            <button type="button" ion-button icon-only item-end (click)="showDefiniton('Outpatient')">
+                <ion-icon name="help"></ion-icon>
+              </button>
           </ion-item>
           <ion-item text-wrap>
             <ion-label>Dental Optical</ion-label>
             <ion-toggle (ionChange)="toggleChange($event,4)"></ion-toggle>
+            <button type="button" ion-button icon-only item-end (click)="showDefiniton('Dental Optical')">
+                <ion-icon name="help"></ion-icon>
+              </button>
           </ion-item>
         </ion-item-group>
 
@@ -156,6 +173,9 @@
             <ion-select (ionChange)="onEvacuationChange($event)" [(ngModel)]="initialEvacuation" name="evacuation">
               <ion-option *ngFor="let m of assistantEvacuations" [value]="m">{{m}}</ion-option>
             </ion-select>
+            <button type="button" ion-button icon-only item-end (click)="showDefiniton('Assistance Evacuation Repatriation')">
+                <ion-icon name="help"></ion-icon>
+              </button>
           </ion-item>
         </ion-item-group>
 
@@ -167,6 +187,9 @@
             <ion-select (ionChange)="onGlobalLimitChange($event)" [(ngModel)]="initialGlobalLimit" name="globalLimit">
               <ion-option *ngFor="let g of globalLimits" [value]="g">{{g.name}}</ion-option>
             </ion-select>
+            <button type="button" ion-button icon-only item-end (click)="showDefiniton('Adjust Global Limit')">
+                <ion-icon name="help"></ion-icon>
+              </button>
           </ion-item>
         </ion-item-group>
 
@@ -178,6 +201,9 @@
             <ion-select (ionChange)="onAdjustmentChange($event)" [(ngModel)]="initialAdjustment" name="adjustment">
               <ion-option *ngFor="let a of adjustments" [value]="a">{{a.name}}</ion-option>
             </ion-select>
+            <button type="button" ion-button icon-only item-end (click)="showDefiniton('Adjust deductible per Hospitalization claim')">
+                <ion-icon name="help"></ion-icon>
+              </button>
           </ion-item>
         </ion-item-group>
 
@@ -697,14 +723,14 @@
 
       <page-prevnext-component [isDisabled]="true" (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
 
-      <div >
-      <h3>
-        <b>Payable Amount:</b> {{form2SubmitResponse?.currency==1?'$':'€'}} {{form2SubmitResponse?.last_amount}}</h3>
-      <h3>
-        <b>Policy: </b>{{form2SubmitResponse?.transaction_id}}</h3>
-      <h3>
-        <b>Payment Mode: </b>Paypal</h3>
-        
+      <div>
+        <h3>
+          <b>Payable Amount:</b> {{form2SubmitResponse?.currency==1?'$':'€'}} {{form2SubmitResponse?.last_amount}}</h3>
+        <h3>
+          <b>Policy: </b>{{form2SubmitResponse?.transaction_id}}</h3>
+        <h3>
+          <b>Payment Mode: </b>Paypal</h3>
+
         <button ion-button full (click)="onMakePaymentBtn()">Make Payment</button>
       </div>
     </ion-slide>
