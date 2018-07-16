@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides, Navbar, AlertController, Alert, Platform, Modal,ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Slides, Navbar, AlertController, Alert, Platform, Modal, ModalController } from 'ionic-angular';
 import { MedicalInsuranceService, FormPayload } from '../../../providers/medicalInsurance.service';
 import { CustomService } from '../../../providers/custom.service';
 import { Content } from 'ionic-angular';
@@ -70,7 +70,7 @@ export class MedicalInsuranceFormPage {
   initialEvacuation = 'None';
   initialGlobalLimit = this.globalLimits[1];
   initialAdjustment = this.adjustments[0];
-  inpatientToggle = false;
+  inpatientToggle = true; // always remain true and disabled
 
   //ngModel variables for Date of Births
   dobs: Array<any> = [];
@@ -97,7 +97,7 @@ export class MedicalInsuranceFormPage {
     private alertCtrl: AlertController,
     private platform: Platform,
     private deeplinks: Deeplinks,
-private modalCtrl:ModalController
+    private modalCtrl: ModalController
   ) { }
 
 
@@ -474,7 +474,7 @@ private modalCtrl:ModalController
     child.dob = `${dd}/${mm}/${yyyy}`;
   }
 
-  onAddChildBtn() {
+  onAddChildBtn() {     
     // all added child will have memberType:3
     this.childrenDetail.push(new Child(3));
   }
@@ -660,8 +660,8 @@ private modalCtrl:ModalController
           }
         }, (nomatch) => {
           //this.nl.showToast('Got a deeplink that didn\'t match');
-          this.customService.hideLoader();
-          this.customService.showToast('Some error occured');
+          // this.customService.hideLoader();
+          // this.customService.showToast('Some error occured');
         });
     });
   }
@@ -670,9 +670,9 @@ private modalCtrl:ModalController
     const alert: Alert = this.alertCtrl.create({
       title: title,
       subTitle: subTitle,
-      buttons:[{
-        text:'OK',
-        role:'cancel'
+      buttons: [{
+        text: 'OK',
+        role: 'cancel'
       }]
     });
     alert.present();
@@ -687,8 +687,8 @@ private modalCtrl:ModalController
   }
 
 
-  showDefiniton(title:string){
-    const modal:Modal = this.modalCtrl.create('AllDefinitionsPage',{'title':title});
+  showDefiniton(title: string) {
+    const modal: Modal = this.modalCtrl.create('AllDefinitionsPage', { 'title': title });
     modal.present();
   }
 

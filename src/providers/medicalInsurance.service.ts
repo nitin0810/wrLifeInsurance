@@ -73,7 +73,6 @@ export class MedicalInsuranceService {
     calculatePremiumPrice(data: FormPayload) {
 
         return this.post(this.phpUrl, data);
-
     }
 
     // POST request to php server for calculating premium price
@@ -94,7 +93,6 @@ export class MedicalInsuranceService {
     }
 
     private handleError(err: HttpErrorResponse) {
-        // console.log('inside handle error', err);
         let errorInfo: any = {};
 
         if (err.error instanceof Error || err.error instanceof ProgressEvent) {
