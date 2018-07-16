@@ -25,10 +25,10 @@ export class MedicalInsuranceFormPage {
 
   // for showing the current form
   formNames = ['Select Policy', 'Enter Details', 'Make Payment'];
-  selectedFormIndex = 0;
   showFooter = false;
+  title = `Step 1: ${this.formNames[0]}`;
 
-  // state contains all the current inputs and selections
+  // state contains all the current inputs and selections and used to calculate premium  price
   state: FormPayload;
 
   //response from the server containing all the prices
@@ -38,8 +38,8 @@ export class MedicalInsuranceFormPage {
 
   // FORM-1 related data
 
+  countries: Array<{ area_name: string, country_name: string, status: number, uid: string }>; // fetched from server
   // static data list 
-  countries: Array<{ area_name: string, country_name: string, status: number, uid: string }>;
   members: Array<string> = ['Individual', '2 Persons', 'Family'];
   assistantEvacuations = ['None', 'Individual', '2 Persons', 'Family'];
   globalLimits: Array<any> = [
@@ -87,6 +87,12 @@ export class MedicalInsuranceFormPage {
   minDOBMain: string;
   //minimum selectable DOB for children (calculated using maxAgeChild)
   minDOBChild: string;
+
+
+  //variables to show/hide different optional fields group
+  showModulesToggles = false; // form1
+  otherPersonalInfoToggle = false; //  form2 
+  planInfoToggle = false; //  form2
 
 
   constructor(
@@ -192,18 +198,8 @@ export class MedicalInsuranceFormPage {
     this.slides.lockSwipeToPrev(bool);
   }
 
-  highlightSelectedForm() {
-
-    const totalSlides = this.state.members == 'Individual' ? 8 : 9;
-    if (this.slides.getActiveIndex() == 0) {
-      this.selectedFormIndex = 0;
-    } else if (this.slides.getActiveIndex() >= 1 && this.slides.getActiveIndex() < totalSlides - 1) {
-      this.selectedFormIndex = 1;
-    } else {
-      this.selectedFormIndex = 2;
-    }
-
-
+  changTitle(slideIndex: number) {
+    this.title = `Step ${slideIndex + 1}: ${this.formNames[slideIndex]}`;
   }
 
   slideChanged() {
@@ -215,7 +211,8 @@ export class MedicalInsuranceFormPage {
     } else {
       this.showFooter = false;
     }
-    this.highlightSelectedForm();
+
+    this.changTitle(currentSlideIndex);
   }
 
   calculatePremiumPrice() {
@@ -474,7 +471,7 @@ export class MedicalInsuranceFormPage {
     child.dob = `${dd}/${mm}/${yyyy}`;
   }
 
-  onAddChildBtn() {     
+  onAddChildBtn() {
     // all added child will have memberType:3
     this.childrenDetail.push(new Child(3));
   }
@@ -491,30 +488,15 @@ export class MedicalInsuranceFormPage {
     this.lockSliding(true);
   }
 
-  onNext(formNo: number) {
-    // perform additional form validation here 
-    // forms can be differentiated using formNo 
-    if (formNo == 3) {
-
-      //validate mobile number
-      const re1 = /^[0-9]+$/;
-      if (!re1.test(this.form2Details.mobile_phone)) {
-        this.customService.showToast('Please enter a valid mobile number');
-        return;
-      }
-      const re2 = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (!re2.test(this.form2Details.mail_id)) {
-        this.customService.showToast('Please enter a valid email address');
-        return;
-      }
-    }
-
+  onNext() {
     this.lockSliding(false);
     this.slides.slideNext();
     this.lockSliding(true);
   }
 
   onGoToPaymentBtn() {
+    // validate phone and email format before submitting form
+    if (!this.validateMailAndPhone()) { return; }
 
     const payLoad: any = this.prepareData();
     this.customService.showLoader();
@@ -530,6 +512,22 @@ export class MedicalInsuranceFormPage {
         this.customService.hideLoader();
         this.customService.showToast(err.msg);
       });
+  }
+
+  validateMailAndPhone() {
+    //validate mobile number
+    const re1 = /^[0-9]+$/;
+    if (!re1.test(this.form2Details.mobile_phone)) {
+      this.customService.showToast('Please enter a valid mobile number');
+      return false;
+    }
+    //validate email
+    const re2 = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re2.test(this.form2Details.mail_id)) {
+      this.customService.showToast('Please enter a valid email address');
+      return false;
+    }
+    return true;
   }
 
 
