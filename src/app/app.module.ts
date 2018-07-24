@@ -15,6 +15,7 @@ import { Network } from '@ionic-native/network';
 import { LoginPage } from '../pages/login/login';
 import { MedicalInsuranceService } from '../providers/medicalInsurance.service';
 import { Deeplinks } from '@ionic-native/deeplinks';
+import { Stripe } from '@ionic-native/stripe';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { Deeplinks } from '@ionic-native/deeplinks';
     CustomHttpService,
     CustomService,
     MedicalInsuranceService,
-    Deeplinks
+    Deeplinks,
+    Stripe
   ]
 })
 export class AppModule {}

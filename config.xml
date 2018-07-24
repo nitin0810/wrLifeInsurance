@@ -88,4 +88,7 @@
         <variable name="ANDROID_PATH_PREFIX" value="/" />
     </plugin>
     <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-plugin-stripe" spec="^1.5.3" />
+    <allow-navigation href="http://192.168.1.36:8100" />
+    <allow-navigation href="http://192.168.1.17:8100" />
 </widget>

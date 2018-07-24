@@ -4,8 +4,8 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content >
-  
+<ion-content>
+
 
     <ion-slides (ionSlideDidChange)="slideChanged()">
 
@@ -661,7 +661,7 @@
                     </ion-list>
 
                 </div>
-                <button ion-button full type="submit" [disabled]="form2.invalid">Go Ahead to Payment</button>
+                <button ion-button full type="submit">Go Ahead to Payment</button>
 
             </form>
         </ion-slide>
@@ -672,15 +672,29 @@
             <page-prevnext-component [isDisabled]="true" (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
 
             <div>
-                <h3>
-                    <b>Payable Amount:</b> {{form2SubmitResponse?.currency==1?'$':'€'}} {{form2SubmitResponse?.last_amount}}</h3>
-                <h3>
-                    <b>Policy: </b>{{form2SubmitResponse?.transaction_id}}</h3>
-                <h3>
-                    <b>Payment Mode: </b>Paypal</h3>
-
-                <button ion-button full (click)="onMakePaymentBtn()">Make Payment</button>
+                <h4>
+                    <b>Payable Amount:</b> {{form2SubmitResponse?.currency==1?'$':'€'}} {{form2SubmitResponse?.last_amount}}</h4>
+                <h4>
+                    <b>Policy: </b>{{form2SubmitResponse?.transaction_id}}</h4>
             </div>
+
+            <div >
+                <ion-list-header>Enter Payment Details</ion-list-header>
+                <div style="background-color: gray">
+                    <p>Credit or Debit card</p>
+                    <ion-item>
+                        <ion-icon item-start name="card"></ion-icon>
+                        <input type="text" placeholder="Card number" [ngModel]="cardNumber" (ngModelChange)="onCardNumberChange($event)"/>
+                        <!-- <ion-input type="number" placeholder="Card number" [value]="cardNumber" (ionChange)="onCardNumberChange($event.value)"></ion-input> -->
+                    </ion-item>
+                    <ion-item>
+                            <ion-icon item-start name="calendar"></ion-icon>
+                        <ion-input style="width:50%" placeholder="MM/YYYY" [(ngModel)]="cardExpiryDate"></ion-input>
+                    </ion-item>
+                </div>
+
+            </div>
+            <button ion-button full (click)="onMakePaymentBtn()">Make Payment</button>
         </ion-slide>
 
     </ion-slides>

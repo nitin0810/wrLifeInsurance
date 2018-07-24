@@ -6,6 +6,7 @@ import { Content } from 'ionic-angular';
 import { Child } from '../../../Classes/child';
 import { Deeplinks } from '@ionic-native/deeplinks';
 import { Subscription } from 'rxjs/Subscription';
+import { Stripe } from '@ionic-native/stripe';
 
 
 @IonicPage()
@@ -94,6 +95,11 @@ export class MedicalInsuranceFormPage {
   otherPersonalInfoToggle = false; //  form2 
   planInfoToggle = false; //  form2
 
+  //variables for taking payment details
+  cardNumber = '';
+  cardExpiryDate = ''; // MM/YYYY
+  cvv = '';
+
 
   constructor(
     public navCtrl: NavController,
@@ -103,7 +109,8 @@ export class MedicalInsuranceFormPage {
     private alertCtrl: AlertController,
     private platform: Platform,
     private deeplinks: Deeplinks,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private stripe: Stripe
   ) { }
 
 
@@ -228,7 +235,7 @@ export class MedicalInsuranceFormPage {
         // info about the error response from php server is not available, 
         // So check if error is obtained or not
         if (err) {
-          const msg = err.toString() + "\n" + "Please Try Again";
+          const msg = JSON.stringify(err) + "\n" + "Please Try Again";
           const alert: Alert = this.alertCtrl.create({
             title: 'Error',
             message: msg,
@@ -378,8 +385,8 @@ export class MedicalInsuranceFormPage {
     const form2DetailsCopy = JSON.parse(JSON.stringify(this.form2Details));
 
     this.form2Details = {
-      policy_owner_first: form2DetailsCopy.policy_owner_first || '',
-      policy_owner_last: form2DetailsCopy.policy_owner_last || '',
+      policy_owner_first: form2DetailsCopy.policy_owner_first || 'Nitin',// remove default value
+      policy_owner_last: form2DetailsCopy.policy_owner_last || 'negi',
       sex: form2DetailsCopy.sex || 0, //Male: 0, Female: 1
       dateofbirth_main: this.changeDateFormat(this.dobs[0]), // main person's DOB
       family_description: this.state.members,
@@ -388,8 +395,8 @@ export class MedicalInsuranceFormPage {
       billing_address: form2DetailsCopy.billing_address || '',
 
       Phone: form2DetailsCopy.Phone || '',
-      mobile_phone: form2DetailsCopy.mobile_phone || '',
-      mail_id: form2DetailsCopy.mail_id || '',
+      mobile_phone: form2DetailsCopy.mobile_phone || '8527466046', // remove default value
+      mail_id: form2DetailsCopy.mail_id || 'nitinnegi0810@gmail.com', // remove default value
       skype_id: form2DetailsCopy.skype_id || '',
 
       first_usd_cover: this.state.complement == 1 ? 0 : 1,
@@ -403,15 +410,15 @@ export class MedicalInsuranceFormPage {
       dental_optical_modules: this.state.dentalstatus ? 1 : 0,
       assistance_evacuation_modules: this.state.selectevacuation == 'None'.toLowerCase() ? 0 : 1,
 
-      main_insured_height: form2DetailsCopy.main_insured_height || '',
-      main_insured_weight: form2DetailsCopy.main_insured_weight || '',
+      main_insured_height: form2DetailsCopy.main_insured_height || '1.5',// remove default value
+      main_insured_weight: form2DetailsCopy.main_insured_weight || '60',
 
       preexisting_main_insured: form2DetailsCopy.preexisting_main_insured || 0,
       preexisting_main_insured_1: form2DetailsCopy.preexisting_main_insured_1 || '',
 
       adjust_globallimit: this.state.globallimit,
       hospital_adjusment: this.state.adjusment,
-      date_of_cover: form2DetailsCopy.date_of_cover || '',
+      date_of_cover: form2DetailsCopy.date_of_cover || '2018-08-10',//removve defalut
       currency: form2DetailsCopy.currency || 1,
       frequency_payment: form2DetailsCopy.frequency_payment || 'Annual'
 
@@ -496,7 +503,7 @@ export class MedicalInsuranceFormPage {
 
   onGoToPaymentBtn() {
     // validate phone and email format before submitting form
-    if (!this.validateMailAndPhone()) { return; }
+    // if (!this.validateMailAndPhone()) { return; }
 
     const payLoad: any = this.prepareData();
     this.customService.showLoader();
@@ -533,7 +540,7 @@ export class MedicalInsuranceFormPage {
 
   prepareData() {
     let payLoad: any = {};
-    // cllect all the info except parner and children info (that is to be included in another key)
+    // collect all the info except parner and children info (which is to be included in another key)
     for (let key in this.form2Details) {
       if (key.indexOf('partner') == -1) {
         payLoad[key] = this.form2Details[key];
@@ -597,24 +604,73 @@ export class MedicalInsuranceFormPage {
 
 
   onMakePaymentBtn() {
-
-    const info = {
-      transactionId: this.form2SubmitResponse.transaction_id,
-      membershipNumber: this.form2SubmitResponse.membership_number,
-      subscriptionPackage: this.form2SubmitResponse.policy_id,
-      description: `transId: ${this.form2SubmitResponse.transaction_id}, membershipNo: ${this.form2SubmitResponse.membership_number}`
-    };
     this.customService.showLoader();
-    this.medicalInsuranceService.makePayment(info)
-      .subscribe((res: any) => {
-        this.customService.hideLoader();
-        this.redirectToPaypal(res.message);
-
-      }, (err: any) => {
-        this.customService.hideLoader();
-        this.customService.showToast(err.msg);
-      });
+    this.getCardToken()
+      .then(token => this.makePayment(token))
+      .then((response) => {
+        // show success alert
+        alert(JSON.stringify(response));
+      })
+      .catch((err) => {
+        // show error alert
+        alert(JSON.stringify(err));
+      })
+      .then(() => { this.customService.hideLoader(); });
   }
+
+  // THINGS TO RESET
+  // 1: [disabled]="form2.invalid" in form 2 btn
+  // 2: uncomment validateMailAndPhone 
+
+  getCardToken() {
+
+    return new Promise((res, rej) => {
+
+      this.stripe.setPublishableKey('pk_test_Bf1PMBYrIIEQ24mwgtH4HJhL');
+
+      const card = {
+        number: '4242424242424242',
+        expMonth: 12,
+        expYear: 2020,
+        cvc: '220'
+      };
+
+      this.stripe.createCardToken(card)
+        .then(token => { alert(JSON.stringify(token)); res(token.id) })
+        .catch(error => { rej(error) });
+    });
+
+  }
+
+  makePayment(token) {
+
+    return new Promise((res, rej) => {
+
+      const info = {
+        transactionId: this.form2SubmitResponse.transaction_id,
+        membershipNumber: this.form2SubmitResponse.membership_number,
+        subscriptionPackage: this.form2SubmitResponse.policy_id,
+        description: `transId: ${this.form2SubmitResponse.transaction_id}, membershipNo: ${this.form2SubmitResponse.membership_number}`,
+        stripeToken: token
+      };
+
+      this.medicalInsuranceService.makePayment(info)
+        .subscribe((resp: any) => {
+          res(resp);
+        }, (err: any) => {
+          alert(JSON.stringify(err));
+          rej(err);
+        });
+    });
+  }
+
+  onCardNumberChange(value:string){
+    console.log('value',value);
+    console.log(this.cardNumber);
+    
+    this.cardNumber=value+'0';
+    
+  }     
 
   redirectToPaypal(url: string) {
     this.customService.showLoader('Redirecting to Paypal...');
