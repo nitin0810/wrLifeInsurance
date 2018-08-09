@@ -13,6 +13,9 @@ import { CustomService } from '../providers/custom.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Network } from '@ionic-native/network';
 import { LoginPage } from '../pages/login/login';
+import { MedicalInsuranceService } from '../providers/medicalInsurance.service';
+import { Deeplinks } from '@ionic-native/deeplinks';
+import { Stripe } from '@ionic-native/stripe';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,9 @@ import { LoginPage } from '../pages/login/login';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp,{
-      preloadModules: true
+      preloadModules: true,
+      scrollPadding: false,
+      scrollAssist: false
     }),
     HttpClientModule
   ],
@@ -41,7 +46,10 @@ import { LoginPage } from '../pages/login/login';
     NetworkService,
     AuthService,
     CustomHttpService,
-    CustomService
+    CustomService,
+    MedicalInsuranceService,
+    Deeplinks,
+    Stripe
   ]
 })
 export class AppModule {}

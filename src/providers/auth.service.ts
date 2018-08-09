@@ -17,9 +17,9 @@ export class AuthService {
     //     return this.http.put('/update', notificationToken)
     // }
 
-    login(loginCredentials: any) {
-        return this.http.postForLogin(loginCredentials);
-    }
+    // login(loginCredentials: any) {
+    //     return this.http.postForLogin(loginCredentials);
+    // }
 
     isLoggedIn() {
         return localStorage.getItem('access_token') ? true : false;

@@ -1,5 +1,5 @@
 
-export const BASEURL = "https://yugma.ind-cloud.everdata.com";
+export const BASEURL = "http://wrlife.us-east-2.elasticbeanstalk.com";
 
 
 

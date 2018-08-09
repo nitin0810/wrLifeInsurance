@@ -84,7 +84,7 @@ export class UserSessionManage {
     setRootPage() {
 
         this.menu.enable(true);
-        this.appCtrl.getRootNavs()[0].setRoot(GuestHomePage);
+        this.appCtrl.getRootNavs()[0].setRoot(GuestHomePage,{}, {animate: true, direction: 'forward'});
         this.decideSideMenuContent();
         //check role and set root page
         // const role = JSON.parse(localStorage.getItem('userInfo')).urlPrefix;
@@ -192,7 +192,7 @@ export class UserSessionManage {
         localStorage.clear();
         URLPREFIX = undefined;
         ROLE = undefined;
-        this.appCtrl.getRootNavs()[0].setRoot(LoginPage);
+        this.appCtrl.getRootNavs()[0].setRoot(LoginPage,{}, {animate: true, direction: 'forward'});
     }
 
     public offline() {

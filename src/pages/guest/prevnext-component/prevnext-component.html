@@ -1,0 +1,13 @@
+
+  <ion-row>
+      <ion-col col-6>
+        <button ion-button icon-start clear (click)="onPrevBtn()">
+          <ion-icon name="arrow-dropleft"></ion-icon>Back
+        </button>
+      </ion-col>
+      <ion-col col-6>
+        <button ion-button icon-end clear (click)="onNextBtn()" [disabled]="isDisabled">
+            Next <ion-icon name="arrow-dropright"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
