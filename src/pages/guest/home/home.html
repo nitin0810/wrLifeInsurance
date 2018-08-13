@@ -7,9 +7,9 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="backgorund-color" padding>
 
-  <button ion-button full (click)="openPolicyForm()" style="height: 75px;
+  <!-- <button ion-button full (click)="openPolicyForm()" style="height: 75px;
   border-radius: 10px;">
     <div text-center padding margin>
       <h4>
@@ -19,6 +19,13 @@
         FULL TIME MEDICAL INSURANCE FOR EXPATRIATES WORLDWIDE
       </small>
     </div>
-  </button>
+  </button> -->
+
+  <ion-card>
+    <p padding-top text-center>FULL TIME MEDICAL INSURANCE FOR EXPATRIATES WORLDWIDE</p>
+    <div padding>
+    <button ion-button full (click)="openPolicyForm()" round margin-bottom>Get Quote</button>
+    </div>
+  </ion-card>
 
 </ion-content>
