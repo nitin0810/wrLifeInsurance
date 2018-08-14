@@ -96,9 +96,20 @@ export class MedicalInsuranceFormPage {
   planInfoToggle = false; //  form2
 
   //variables for taking payment details
-  cardNumber = '';
-  cardExpiryDate = ''; // MM/YYYY
-  cvv = '';
+  card: any = {
+    cardNumber: '',
+    cardExpiryDate: '2018-06',//MMMM-YY
+    cvv: ''
+  }
+
+  get minDate() {
+    return new Date().toISOString().slice(0, 7);
+  }
+  get maxDate() {
+    const y: string = new Date().toISOString().slice(0, 7).split('-')[0];
+    return `${Number(y) + 30}-01`;
+  }
+
 
 
   constructor(
@@ -115,6 +126,10 @@ export class MedicalInsuranceFormPage {
 
 
   ionViewDidLoad() {
+    // setTimeout(() => {
+    //   this.slides.slideTo(2); //remove
+
+    // }, 500);
     this.lockSliding(true);
     this.getCountriesAndAge();
     this.overrideBackBtnFunctionality();
@@ -385,7 +400,7 @@ export class MedicalInsuranceFormPage {
     const form2DetailsCopy = JSON.parse(JSON.stringify(this.form2Details));
 
     this.form2Details = {
-      policy_owner_first: form2DetailsCopy.policy_owner_first || 'Nitin',// remove default value
+      policy_owner_first: form2DetailsCopy.policy_owner_first || 'Nitin',
       policy_owner_last: form2DetailsCopy.policy_owner_last || 'negi',
       sex: form2DetailsCopy.sex || 0, //Male: 0, Female: 1
       dateofbirth_main: this.changeDateFormat(this.dobs[0]), // main person's DOB
@@ -395,8 +410,8 @@ export class MedicalInsuranceFormPage {
       billing_address: form2DetailsCopy.billing_address || '',
 
       Phone: form2DetailsCopy.Phone || '',
-      mobile_phone: form2DetailsCopy.mobile_phone || '8527466046', // remove default value
-      mail_id: form2DetailsCopy.mail_id || 'nitinnegi0810@gmail.com', // remove default value
+      mobile_phone: form2DetailsCopy.mobile_phone || '8527466046', 
+      mail_id: form2DetailsCopy.mail_id || 'nitinnegi0810@gmail.com', 
       skype_id: form2DetailsCopy.skype_id || '',
 
       first_usd_cover: this.state.complement == 1 ? 0 : 1,
@@ -410,7 +425,7 @@ export class MedicalInsuranceFormPage {
       dental_optical_modules: this.state.dentalstatus ? 1 : 0,
       assistance_evacuation_modules: this.state.selectevacuation == 'None'.toLowerCase() ? 0 : 1,
 
-      main_insured_height: form2DetailsCopy.main_insured_height || '1.5',// remove default value
+      main_insured_height: form2DetailsCopy.main_insured_height || '1.5',
       main_insured_weight: form2DetailsCopy.main_insured_weight || '60',
 
       preexisting_main_insured: form2DetailsCopy.preexisting_main_insured || 0,
@@ -418,7 +433,7 @@ export class MedicalInsuranceFormPage {
 
       adjust_globallimit: this.state.globallimit,
       hospital_adjusment: this.state.adjusment,
-      date_of_cover: form2DetailsCopy.date_of_cover || '2018-08-10',//removve defalut
+      date_of_cover: form2DetailsCopy.date_of_cover || '2018-08-10',
       currency: form2DetailsCopy.currency || 1,
       frequency_payment: form2DetailsCopy.frequency_payment || 'Annual'
 
@@ -604,6 +619,11 @@ export class MedicalInsuranceFormPage {
 
 
   onMakePaymentBtn() {
+
+    if (!this.isCardValid()) {
+      this.customService.showToast('Please enter correct card details');
+      return;
+    };
     this.customService.showLoader();
     this.getCardToken()
       .then(token => this.makePayment(token))
@@ -618,6 +638,15 @@ export class MedicalInsuranceFormPage {
       .then(() => { this.customService.hideLoader(); });
   }
 
+  isCardValid() {
+    // console.log(this.card.cardNumber);
+    // console.log(this.card);
+    const re = /^[0-9]+$/;
+    if (!re.test(this.card.cardNumber)) { debugger; return false; }
+    if (!re.test(this.card.cvv)) { debugger; return false; }
+    return true;
+  }
+
   // THINGS TO RESET
   // 1: [disabled]="form2.invalid" in form 2 btn
   // 2: uncomment validateMailAndPhone 
@@ -627,12 +656,12 @@ export class MedicalInsuranceFormPage {
     return new Promise((res, rej) => {
 
       this.stripe.setPublishableKey('pk_test_Bf1PMBYrIIEQ24mwgtH4HJhL');
-
+      const [y, m] = this.card.cardExpiryDate.split('-');
       const card = {
-        number: '4242424242424242',
-        expMonth: 12,
-        expYear: 2020,
-        cvc: '220'
+        number: this.card.cardNumber,
+        expMonth: m,
+        expYear: y,
+        cvc: this.card.cvv
       };
 
       this.stripe.createCardToken(card)
@@ -643,7 +672,7 @@ export class MedicalInsuranceFormPage {
   }
 
   makePayment(token) {
-
+    alert('make ayment called//,' + token);
     return new Promise((res, rej) => {
 
       const info = {
@@ -653,24 +682,39 @@ export class MedicalInsuranceFormPage {
         description: `transId: ${this.form2SubmitResponse.transaction_id}, membershipNo: ${this.form2SubmitResponse.membership_number}`,
         stripeToken: token
       };
-
+      alert(JSON.stringify(info));
       this.medicalInsuranceService.makePayment(info)
         .subscribe((resp: any) => {
           res(resp);
         }, (err: any) => {
-          alert(JSON.stringify(err));
+          // alert(JSON.stringify(err));
           rej(err);
         });
     });
   }
 
-  onCardNumberChange(value:string){
-    console.log('value',value);
-    console.log(this.cardNumber);
-    
-    this.cardNumber=value+'0';
-    
-  }     
+
+  // LIVE CARD VALIDATION NOT BEING USED NOW
+  // onCardNumberChange(value: string) {
+  //   console.log(this.cardNumber);
+  //   console.log('value', value);
+  //   if (this.cardNumber.length == 19) { return; }
+  //   if (/^[0-9]$/.test(value)) {
+
+
+  //     if (this.cardNumber.length == 4 || this.cardNumber.length == 9 || this.cardNumber.length == 14) {
+  //       this.cardNumber += ` ${value}`;
+  //     } else {
+
+  //       this.cardNumber += `${value}`;
+  //     }
+  //   }
+
+  //   if (value == 'Backspace') {
+  //     this.cardNumber = this.cardNumber.slice(0, -1);
+  //   }
+  //   else { this.cardNumber = this.cardNumber; }
+  // }
 
   redirectToPaypal(url: string) {
     this.customService.showLoader('Redirecting to Paypal...');

@@ -678,18 +678,21 @@
                     <b>Policy: </b>{{form2SubmitResponse?.transaction_id}}</h4>
             </div>
 
-            <div >
+            <div>
                 <ion-list-header>Enter Payment Details</ion-list-header>
                 <div style="background-color: gray">
                     <p>Credit or Debit card</p>
                     <ion-item>
                         <ion-icon item-start name="card"></ion-icon>
-                        <input type="text" placeholder="Card number" [ngModel]="cardNumber" (ngModelChange)="onCardNumberChange($event)"/>
-                        <!-- <ion-input type="number" placeholder="Card number" [value]="cardNumber" (ionChange)="onCardNumberChange($event.value)"></ion-input> -->
+                        <ion-input type="number" placeholder="Card number" [(ngModel)]="card.cardNumber"></ion-input>
                     </ion-item>
-                    <ion-item>
-                            <ion-icon item-start name="calendar"></ion-icon>
-                        <ion-input style="width:50%" placeholder="MM/YYYY" [(ngModel)]="cardExpiryDate"></ion-input>
+                    <ion-item style="width:50%;float:left">
+                        <small>Expiration Date</small>
+                        <ion-datetime [(ngModel)]="card.cardExpiryDate" displayFormat="MMM YYYY" [min]="minDate" [max]="maxDate"></ion-datetime>
+                    </ion-item>
+                    <ion-item style="width:50%;float:right">
+                            <small></small>
+                        <ion-input type="text" maxlength="3" placeholder="CVC/CVV" [(ngModel)]="card.cvv"></ion-input>
                     </ion-item>
                 </div>
 
