@@ -1,19 +1,40 @@
-
-.selectedFormName{
-    color:blue
+page-medical-insurance-form {
+  
+  .primaryColor {
+    color: color($colors, primary);
+  }
+  .border-bottom {
+    border-bottom: 1px solid #e4d7d7;
+  }
+  .options {
+    // margin-bottom:32px;
+  }
+  .headerColor {
+    // background: rgba(128, 128, 128, 0.4117647058823529);
+    color: color($colors, secondary);
+  }
+  .mandotry {
+    color: color($colors, danger);
+  }
 }
 
-.swiper-slide{
-    align-items: flex-start !important;
-    overflow-y: auto;
-    border: 1px solid black;
+.selectedFormName {
+  color: blue
 }
 
-.selectedFrequency{
-    background-color: antiquewhite;
+.swiper-slide {
+  align-items: flex-start !important;
+  overflow-y: auto; // border: 1px solid black;
 }
 
-.scroll-content{
-    padding-bottom: 0px !important;
+.selectedFrequency {
+  background-color: antiquewhite;
 }
-   
+
+.scroll-content {
+  padding-bottom: 0px !important;
+}
+.backgorund-color {
+    background: color($colors, light);
+  }
+.detailForm {}

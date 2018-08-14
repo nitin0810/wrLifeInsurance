@@ -11,119 +11,136 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="backgorund-color">
 
   <div [ngSwitch]="title">
 
     <!-- AREA OF EXPATRIATION -->
     <div *ngSwitchCase="'Area of Expatriation'">
-      <p>This is the country where you are expatriated or live most of the time. If your family lives in another country, you
+     <ion-item>
+      <p style="white-space: initial;">This is the country where you are expatriated or live most of the time. If your family lives in another country, you
         can make 2 different covers: one for you and one for your family in case you do not live in the same area of cover:
       </p>
-      <br>
-      <p>
-        <b>AREA 1:</b>
-        (USA, Canada not for the beginning), Switzerland, Israel, Japan, Iraq, Afghanistan & AREA 2
-      </p>
-      <p>
-        <b>AREA 2:</b>
-        Europe (not Switzerland), Australia, New Zealand, American continent(not USA and Canada), China, Hong Kong, Macau, Singapore,
+    </ion-item>
+      
+      <ion-card>
+        <ion-item-divider color="primary" text-center>AREA 1</ion-item-divider>
+        <p padding>(USA, Canada not for the beginning), Switzerland, Israel, Japan, Iraq, Afghanistan & AREA 2</p>
+      </ion-card>
+      <ion-card>
+          <ion-item-divider color="primary" text-center>AREA 2</ion-item-divider>
+      <p padding>  Europe (not Switzerland), Australia, New Zealand, American continent(not USA and Canada), China, Hong Kong, Macau, Singapore,
         Taiwan & AREA 3 </p>
-      <p>
-        <b>AREA 3:</b>
-        Africa, Asia (not China, Hong-Kong, Japan, Macau, Singapore, Taiwan), Middle East (not Israel), other countries </p>
-
+      </ion-card>
+      <ion-card>
+          <ion-item-divider color="primary" text-center>AREA 3</ion-item-divider>
+       <p padding> Africa, Asia (not China, Hong-Kong, Japan, Macau, Singapore, Taiwan), Middle East (not Israel), other countries </p>
+      </ion-card>
       <!-- DOWNLOAD BUTTON  -->
-      <div>
-        <h6>IF YOU NEED THE SUMMARY OF COVER AND THE POLICY: </h6>
-        <button ion-button (click)="openDownloadsWebPage()">DOWNLOAD DOCUMENT</button>
-      </div>
+      <ion-card text-center>
+        <div padding-top>SUMMARY OF COVER AND POLICY </div>
+        <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
+      </ion-card>
 
     </div>
 
     <!-- MEMBERS -->
     <div *ngSwitchCase="'Members'">
-      <p>No need to be married. You can cover the kids of your companion, even if they are not your own kids. </p>
+      <ion-card><p padding>No need to be married. You can cover the kids of your companion, even if they are not your own kids.</p></ion-card>
       <!-- DOWNLOAD BUTTON  -->
-      <div>
-        <h6>IF YOU NEED THE SUMMARY OF COVER AND THE POLICY: </h6>
-        <button ion-button (click)="openDownloadsWebPage()">DOWNLOAD DOCUMENT</button>
-      </div>
+      <ion-card text-center>
+        <div padding-top >SUMMARY OF COVER AND POLICY </div>
+        <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
+      </ion-card>
+
     </div>
 
     <!-- Complement to social security -->
     <div *ngSwitchCase="'Complement to social security'">
-      <p>The cover can be, if you wish so, only a complementary to the French Caisse des FranÃ§ais de lâ€™Etranger or the Belgium
+      <ion-card>
+      <p padding text-center>The cover can be, if you wish so, only a complementary to the French Caisse des FranÃ§ais de lâ€™Etranger or the Belgium
         OSSOM, which new name is ORPSS. </p>
+      </ion-card>
       <!-- DOWNLOAD BUTTON  -->
-      <div>
-        <h6>IF YOU NEED THE SUMMARY OF COVER AND THE POLICY: </h6>
-        <button ion-button (click)="openDownloadsWebPage()">DOWNLOAD DOCUMENT</button>
-      </div>
+      <ion-card text-center>
+          <div padding-top >SUMMARY OF COVER AND POLICY </div>
+          <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
+        </ion-card>
+  
     </div>
 
     <!-- Inpatient -->
     <div *ngSwitchCase="'Inpatient'">
-      <p>This is for the major risks. Most of the time you just need this cover. It covers you when you sleep in the hospital,
+      <ion-card>
+      <p padding text-center>This is for the major risks. Most of the time you just need this cover. It covers you when you sleep in the hospital,
         or when you have an outpatient visit (you do not sleep in the hospital) but an outpatient with a small surgery or
         a total anesthesia. Indeed cancer if fully covered even if you not sleep in the hospital.
       </p>
+      </ion-card>
     </div>
 
     <!-- Outpatient -->
     <div *ngSwitchCase="'Outpatient'">
-      <p>This part is the cover for small risks only. You can save money by not taking it. It covers you for short visits to
+      <ion-card>
+      <p padding text-center>This part is the cover for small risks only. You can save money by not taking it. It covers you for short visits to
         your family doctor without sleeping in the hospital.
       </p>
+    </ion-card>
       <!-- DOWNLOAD BUTTON  -->
-      <div>
-        <h6>IF YOU NEED THE SUMMARY OF COVER AND THE POLICY: </h6>
-        <button ion-button (click)="openDownloadsWebPage()">DOWNLOAD DOCUMENT</button>
-      </div>
+      <ion-card text-center>
+          <div padding-top >SUMMARY OF COVER AND POLICY </div>
+          <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
+      </ion-card>
     </div>
 
     <!-- Dental Optical -->
     <div *ngSwitchCase="'Dental Optical'">
-      <p>This covers you for dental care, prostheses, glasses, lenses, laser surgery for the Elite Plan. </p>
+      <ion-card>
+      <p padding text-center>This covers you for dental care, prostheses, glasses, lenses, laser surgery for the Elite Plan. </p>
+    </ion-card>
       <!-- DOWNLOAD BUTTON  -->
-      <div>
-        <h6>IF YOU NEED THE SUMMARY OF COVER AND THE POLICY: </h6>
-        <button ion-button (click)="openDownloadsWebPage()">DOWNLOAD DOCUMENT</button>
-      </div>
+      <ion-card text-center>
+          <div padding-top >SUMMARY OF COVER AND POLICY </div>
+          <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
+      </ion-card>
     </div>
 
     <!-- Assistance Evacuation Repatriation -->
     <div *ngSwitchCase="'Assistance Evacuation Repatriation'">
-      <p>The repatriation is possible to place of residence (which is your place of expatriation) or your place of origin or
+      <ion-card>
+      <p padding text-center>The repatriation is possible to place of residence (which is your place of expatriation) or your place of origin or
         place of birth. If you live in a big city with all the modern hospitals, you can save money without taking this cover.
         If the place you live does not have good hospitals and the good ones are far, then we advise to take this cover.
       </p>
+    </ion-card>
       <!-- DOWNLOAD BUTTON  -->
-      <div>
-        <h6>IF YOU NEED THE SUMMARY OF COVER AND THE POLICY: </h6>
-        <button ion-button (click)="openDownloadsWebPage()">DOWNLOAD DOCUMENT</button>
-      </div>
+      <ion-card text-center>
+          <div padding-top >SUMMARY OF COVER AND POLICY </div>
+          <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
+      </ion-card>
     </div>
 
     <!-- Adjust Global Limit -->
     <div *ngSwitchCase="'Adjust Global Limit'">
-      <p>The customers chooses the maximum amount that can be paid per person and per year.</p>
+      <ion-card>
+      <p padding text-center>The customers chooses the maximum amount that can be paid per person and per year.</p></ion-card>
       <!-- DOWNLOAD BUTTON  -->
-      <div>
-        <h6>IF YOU NEED THE SUMMARY OF COVER AND THE POLICY: </h6>
-        <button ion-button (click)="openDownloadsWebPage()">DOWNLOAD DOCUMENT</button>
-      </div>
+      <ion-card text-center>
+          <div padding-top >SUMMARY OF COVER AND POLICY </div>
+          <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
+      </ion-card>
     </div>
 
     <!-- Adjust deductible per Hospitalization claim -->
     <div *ngSwitchCase="'Adjust deductible per Hospitalization claim'">
-      <p>For example, if you choose a 500 USD deductible, the OBLIGATORY COVER (HOSPITALIZATION, BIG RISKS, CANCER) will refund
-        100% less 500 USD for each claim.</p>
+      <ion-card>
+      <p padding text-center>For example, if you choose a 500 USD deductible, the OBLIGATORY COVER (HOSPITALIZATION, BIG RISKS, CANCER) will refund
+        100% less 500 USD for each claim.</p></ion-card>
       <!-- DOWNLOAD BUTTON  -->
-      <div>
-        <h6>IF YOU NEED THE SUMMARY OF COVER AND THE POLICY: </h6>
-        <button ion-button (click)="openDownloadsWebPage()">DOWNLOAD DOCUMENT</button>
-      </div>
+      <ion-card text-center>
+          <div padding-top >SUMMARY OF COVER AND POLICY </div>
+          <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
+      </ion-card>
     </div>
 
 

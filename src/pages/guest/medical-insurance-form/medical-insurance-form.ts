@@ -400,8 +400,8 @@ export class MedicalInsuranceFormPage {
     const form2DetailsCopy = JSON.parse(JSON.stringify(this.form2Details));
 
     this.form2Details = {
-      policy_owner_first: form2DetailsCopy.policy_owner_first || 'Nitin',
-      policy_owner_last: form2DetailsCopy.policy_owner_last || 'negi',
+      policy_owner_first: form2DetailsCopy.policy_owner_first || '',
+      policy_owner_last: form2DetailsCopy.policy_owner_last || '',
       sex: form2DetailsCopy.sex || 0, //Male: 0, Female: 1
       dateofbirth_main: this.changeDateFormat(this.dobs[0]), // main person's DOB
       family_description: this.state.members,
@@ -410,8 +410,8 @@ export class MedicalInsuranceFormPage {
       billing_address: form2DetailsCopy.billing_address || '',
 
       Phone: form2DetailsCopy.Phone || '',
-      mobile_phone: form2DetailsCopy.mobile_phone || '8527466046', 
-      mail_id: form2DetailsCopy.mail_id || 'nitinnegi0810@gmail.com', 
+      mobile_phone: form2DetailsCopy.mobile_phone || '', 
+      mail_id: form2DetailsCopy.mail_id || '', 
       skype_id: form2DetailsCopy.skype_id || '',
 
       first_usd_cover: this.state.complement == 1 ? 0 : 1,
@@ -425,15 +425,15 @@ export class MedicalInsuranceFormPage {
       dental_optical_modules: this.state.dentalstatus ? 1 : 0,
       assistance_evacuation_modules: this.state.selectevacuation == 'None'.toLowerCase() ? 0 : 1,
 
-      main_insured_height: form2DetailsCopy.main_insured_height || '1.5',
-      main_insured_weight: form2DetailsCopy.main_insured_weight || '60',
+      main_insured_height: form2DetailsCopy.main_insured_height || '',
+      main_insured_weight: form2DetailsCopy.main_insured_weight || '',
 
       preexisting_main_insured: form2DetailsCopy.preexisting_main_insured || 0,
       preexisting_main_insured_1: form2DetailsCopy.preexisting_main_insured_1 || '',
 
       adjust_globallimit: this.state.globallimit,
       hospital_adjusment: this.state.adjusment,
-      date_of_cover: form2DetailsCopy.date_of_cover || '2018-08-10',
+      date_of_cover: form2DetailsCopy.date_of_cover || '',
       currency: form2DetailsCopy.currency || 1,
       frequency_payment: form2DetailsCopy.frequency_payment || 'Annual'
 
@@ -518,7 +518,7 @@ export class MedicalInsuranceFormPage {
 
   onGoToPaymentBtn() {
     // validate phone and email format before submitting form
-    // if (!this.validateMailAndPhone()) { return; }
+    if (!this.validateMailAndPhone()) { return; }
 
     const payLoad: any = this.prepareData();
     this.customService.showLoader();
