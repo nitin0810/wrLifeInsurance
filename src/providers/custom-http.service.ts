@@ -15,38 +15,39 @@ export class CustomHttpService {
 
     constructor(private httpClient: HttpClient) { }
 
-    // private getAccessToken() {
+    private getAccessToken() {
 
-    //     let basicToken = "nxtlifefeedbacksystem:kabuliwala";
+        let basicToken = "wrlife:nxtlife";
 
-    //     return !localStorage.getItem('access_token') ? 'Basic ' + btoa(basicToken) : 'Bearer ' + localStorage.getItem('access_token');
-    // }
+        return !localStorage.getItem('access_token') ? 'Basic ' + btoa(basicToken) : 'Bearer ' + localStorage.getItem('access_token');
+    }
 
-    // private addHeaders(optionalHeaders?: HttpHeaders) {
+    private addHeaders(optionalHeaders?: HttpHeaders) {
 
-    //     let requestHeaders = new HttpHeaders()
-    //         .set('Authorization', this.getAccessToken())
-    //         .set('Content-Type', 'application/json');
-    //     if (optionalHeaders) {
-    //         for (const header of optionalHeaders.keys()) {
-    //             requestHeaders = requestHeaders.append(header, optionalHeaders.get(header));
-    //         }
-    //     }
-    //     return requestHeaders;
-    // }
+        let requestHeaders = new HttpHeaders()
+            .set('Authorization', this.getAccessToken())
+        if (optionalHeaders) {
+            for (const header of optionalHeaders.keys()) {
+                requestHeaders = requestHeaders.append(header, optionalHeaders.get(header));
+            }
+        }
+        return requestHeaders;
+    }
 
 
 
     get(url: string, options?: HttpHeaders) {
+        const headers = this.addHeaders(options);
 
-        return this.httpClient.get(BASEURL+url, { observe: 'response' })
+        return this.httpClient.get(BASEURL + url, { observe: 'response', headers: headers })
             .map(this.extractData)
             .catch(this.handleError);
     }
 
     post(url: string, body: any, options?: HttpHeaders) {
+        const headers = this.addHeaders(options);
 
-        return this.httpClient.post(BASEURL+url, body, { observe: 'response' })
+        return this.httpClient.post(BASEURL + url, body, { observe: 'response', headers: headers })
             .map(this.extractData)
             .catch(this.handleError);
     }
@@ -95,7 +96,7 @@ export class CustomHttpService {
             /**A client-side or network error occurred. Handle it accordingly.*/
             // console.log('An error occurred:', );
             errorInfo.status = err.status;
-            errorInfo.status == 0 ? errorInfo.msg = "No Internet, Check Your connection Or Try again" : errorInfo.msg = err.message || 'Some Error Occured';
+            errorInfo.status == 0 ? errorInfo.msg = "Some error occured, couldn\'t conect to server" : errorInfo.msg = err.message || 'Some Error Occured';
         }
         else {
             /**The backend returned an unsuccessful response code.*/
@@ -107,12 +108,6 @@ export class CustomHttpService {
 
     }
 
-    getSockJs() {
 
-        let access_token = localStorage.getItem('access_token');
-        let url = BASEURL + `/${URLPREFIX}/nxtlife/websocket?access_token=${access_token}`;
-        var socket = new SockJS(url);
-        return Stomp.over(socket);
-    }
 
 }

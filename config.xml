@@ -3,7 +3,7 @@
     <name>WRLife</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.1.2:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -87,8 +87,14 @@
         <variable name="DEEPLINK_HOST" value="nxtlife.com" />
         <variable name="ANDROID_PATH_PREFIX" value="/" />
     </plugin>
-    <engine name="android" spec="7.0.0" />
     <plugin name="cordova-plugin-stripe" spec="^1.5.3" />
     <allow-navigation href="http://192.168.1.36:8100" />
     <allow-navigation href="http://192.168.1.17:8100" />
+    <plugin name="cordova-plugin-linkedin" spec="^1.2.1">
+        <variable name="APP_ID" value="5314565" />
+    </plugin>
+    <allow-navigation href="http://192.168.1.2:8100" />
+    <allow-navigation href="http://192.168.0.105:8100" />
+    <allow-navigation href="http://192.168.0.106:8100" />
+    <engine name="android" spec="7.0.0" />
 </widget>

@@ -23,6 +23,8 @@
     "@angular/platform-browser-dynamic": "5.2.10",
     "@ionic-native/core": "4.7.0",
     "@ionic-native/deeplinks": "^4.7.0",
+    "@ionic-native/facebook": "^4.12.0",
+    "@ionic-native/linkedin": "^4.11.0",
     "@ionic-native/network": "^4.7.0",
     "@ionic-native/splash-screen": "4.7.0",
     "@ionic-native/status-bar": "4.7.0",
@@ -32,6 +34,7 @@
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^1.1.19",
+    "cordova-plugin-linkedin": "^1.2.1",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-stripe": "^1.5.3",
     "cordova-plugin-whitelist": "^1.3.3",
@@ -60,7 +63,10 @@
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-stripe": {}
+      "cordova-plugin-stripe": {},
+      "cordova-plugin-linkedin": {
+        "APP_ID": "5314565"
+      }
     },
     "platforms": [
       "android"

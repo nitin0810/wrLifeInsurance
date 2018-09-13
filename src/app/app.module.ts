@@ -16,6 +16,8 @@ import { LoginPage } from '../pages/login/login';
 import { MedicalInsuranceService } from '../providers/medicalInsurance.service';
 import { Deeplinks } from '@ionic-native/deeplinks';
 import { Stripe } from '@ionic-native/stripe';
+import { LinkedIn } from '@ionic-native/linkedin';
+import { Facebook } from '@ionic-native/facebook';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { Stripe } from '@ionic-native/stripe';
     CustomService,
     MedicalInsuranceService,
     Deeplinks,
-    Stripe
+    Stripe,
+    LinkedIn,
+    Facebook
   ]
 })
 export class AppModule {}

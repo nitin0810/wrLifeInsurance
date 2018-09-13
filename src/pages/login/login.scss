@@ -1,7 +1,7 @@
 page-login {
     .logo{
         width: 100px;
-        margin-top: 30px;
+        margin-top: 15px;
         animation:logo-scale 0.5s ease;
     }
     .open-background{
@@ -36,3 +36,21 @@ page-login {
         transform:scale(1)
     }
 }
+
+.container {
+    border:1px solid black;
+    text-align: center;
+    border-radius: 10px;
+    width: 80%;
+    margin: 10px auto;
+    padding: 30px;
+  }    
+
+
+  .err-msg{
+    padding: 5px;
+    border: 1px solid red;
+    p{
+        color: red;
+    }
+  }
