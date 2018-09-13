@@ -36,7 +36,7 @@ export class AuthService {
 
 
     sendFacebokToken(token: string) {
-        return this.http.get(`/facebook/login?access_token=${token}`);
+        return this.http.get(`/fb/login?access_token=${token}`);
     }
 
     login(username: string, password: string) {

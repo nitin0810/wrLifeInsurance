@@ -97,7 +97,7 @@ export class LoginPage implements OnInit {
     this.facebook.login(['public_profile', 'email'])
       .then((res: FacebookLoginResponse) => {
         alert(JSON.stringify(res));
-        // return this.authService.sendFacebokToken().toPromise();
+        return this.authService.sendFacebokToken(res.authResponse.accessToken).toPromise();
       })
       .then((backendToken: any) => {
         this.authService.saveToken(backendToken.token)
@@ -147,10 +147,10 @@ export class LoginPage implements OnInit {
           error = err.errorMessage || err.message || err.msg || '';
         }
         this.showAlert(error || err);
+        localStorage.clear();
       })
       .then(() => {
         this.customService.hideLoader();
-        localStorage.clear();
       });
   }
 
