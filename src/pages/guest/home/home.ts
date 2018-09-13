@@ -20,21 +20,21 @@ export class GuestHomePage {
     this.navCtrl.push('MedicalInsuranceFormPage');
   }
 
-  getPolicies() {
-    if (this.authService.isLoggedIn()) {
-      this.authService.fetchPolicies()
-        .subscribe((res: any) => {
-          // this.storeInfo(res);
-        //   setTimeout(() => {
+  // getPolicies() {
+  //   if (this.authService.isLoggedIn()) {
+  //     this.authService.fetchPolicies()
+  //       .subscribe((res: any) => {
+  //         // this.storeInfo(res);
+  //         //   setTimeout(() => {
 
-        //     this.navigate();
-        //   }, 1000);
-        // }, (err: any) => {
-        //   this.logging = false;
-        //   this.showError(err.msg);
-        // });
-    }
-  }
+  //         //     this.navigate();
+  //         //   }, 1000);
+  //         // }, (err: any) => {
+  //         //   this.logging = false;
+  //         //   this.showError(err.msg);
+  //         // });
+  //       }
+  // }
 
-
+  // }
 }

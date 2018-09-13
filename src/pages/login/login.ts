@@ -88,19 +88,39 @@ export class LoginPage implements OnInit {
 
   onGuest() {
     this.events.publish('user:login');
-    // this.navCtrl.setRoot(GuestHomePage);
   }
 
 
 
   onFbLogin() {
+    this.customService.showLoader();
     this.facebook.login(['public_profile', 'email'])
       .then((res: FacebookLoginResponse) => {
         alert(JSON.stringify(res));
+        // return this.authService.sendFacebokToken().toPromise();
       })
-      .catch((e: any) => {
-
+      .then((backendToken: any) => {
+        this.authService.saveToken(backendToken.token)
+        return this.authService.fetchUserDetails().toPromise();
       })
+      .then(() => this.navigate())
+      .catch((err: any) => {
+        let error = '';
+        if (typeof err === 'string') { // err object in JSON format
+          try {
+            error = JSON.parse(err).errorMessage || JSON.parse(err).message || '';
+          } catch (e) {
+            error = err;
+          }
+        } else {
+          error = err.errorMessage || err.message || err.msg || '';
+        }
+        this.showAlert(error || err);
+      })
+      .then(() => {
+        this.customService.hideLoader();
+        localStorage.clear();
+      });
   }
 
   onLinkedinLogin() {
@@ -131,7 +151,7 @@ export class LoginPage implements OnInit {
       .then(() => {
         this.customService.hideLoader();
         localStorage.clear();
-      })
+      });
   }
 
 
