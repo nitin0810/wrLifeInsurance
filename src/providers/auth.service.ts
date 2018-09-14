@@ -30,6 +30,13 @@ export class AuthService {
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
     }
 
+    /**get userInfo from localstorage */
+    getUserDetails() {
+        const user = JSON.parse(localStorage.getItem('userInfo'));
+        if (Array.isArray(user)) { return user[0]; }
+        return user;
+    }
+
     sendLinkedinToken(token: string) {
         return this.http.get(`/linkedin/login?access_token=${token}`);
     }
@@ -39,8 +46,8 @@ export class AuthService {
         return this.http.get(`/fb/login?access_token=${token}`);
     }
 
-    login(data:any) {
-        return this.http.post(`/oauth/token?grant_type=password&username=${data.email}&password=${data.password}`,{});
+    login(data: any) {
+        return this.http.post(`/oauth/token?grant_type=password&username=${data.email}&password=${data.password}`, {});
     }
 
 

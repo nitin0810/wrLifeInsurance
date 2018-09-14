@@ -3,6 +3,7 @@ import { CustomHttpService } from './custom-http.service';
 import { HttpClient, HttpResponse, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { NgAnalyzeModulesHost } from '@angular/compiler';
+import { PHP_URL } from './app.constants';
 declare var URLPREFIX;
 declare var ROLE;
 
@@ -27,8 +28,6 @@ export interface FormPayload {
 @Injectable()
 export class MedicalInsuranceService {
 
-
-    phpUrl = "http://veom.biz/test/wrlife/calculation-ajax.php";
 
     constructor(
         private http: CustomHttpService,
@@ -72,7 +71,7 @@ export class MedicalInsuranceService {
 
     calculatePremiumPrice(data: FormPayload) {
 
-        return this.post(this.phpUrl, data);
+        return this.post(PHP_URL, data);
     }
 
     // POST request to php server for calculating premium price

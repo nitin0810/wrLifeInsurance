@@ -4,9 +4,10 @@ import { MedicalInsuranceService, FormPayload } from '../../../providers/medical
 import { CustomService } from '../../../providers/custom.service';
 import { Content } from 'ionic-angular';
 import { Child } from '../../../Classes/child';
-import { Deeplinks } from '@ionic-native/deeplinks';
 import { Subscription } from 'rxjs/Subscription';
 import { Stripe } from '@ionic-native/stripe';
+import { AuthService } from '../../../providers/auth.service';
+import { STRIPE_KEY } from '../../../providers/app.constants';
 
 
 @IonicPage()
@@ -98,9 +99,12 @@ export class MedicalInsuranceFormPage {
   //variables for taking payment details
   card: any = {
     cardNumber: '',
-    cardExpiryDate: '2018-06',//MMMM-YY
+    cardExpiryDate: '',//MMMM-YY
     cvv: ''
   }
+
+  // used for filling name and email in forms using already present info in case user is logged in
+  userStoredInfo: any;
 
   get minDate() {
     return new Date().toISOString().slice(0, 7);
@@ -116,6 +120,7 @@ export class MedicalInsuranceFormPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private customService: CustomService,
+    private authService: AuthService,
     private medicalInsuranceService: MedicalInsuranceService,
     private alertCtrl: AlertController,
     private platform: Platform,
@@ -133,6 +138,7 @@ export class MedicalInsuranceFormPage {
     this.lockSliding(true);
     this.getCountriesAndAge();
     this.overrideBackBtnFunctionality();
+    this.userStoredInfo = this.authService.getUserDetails();
   }
 
   ionViewWillLeave() {
@@ -363,7 +369,7 @@ export class MedicalInsuranceFormPage {
   }
 
   onGoAhead() {
-    // chcek if response is present or not, only then move to next slide
+    // check if response is present or not, only then move to next slide
     //it is done to handle the case when form has become valid( as DOB is selected) 
     //but some network error occurred while fetching the response
 
@@ -400,8 +406,8 @@ export class MedicalInsuranceFormPage {
     const form2DetailsCopy = JSON.parse(JSON.stringify(this.form2Details));
 
     this.form2Details = {
-      policy_owner_first: form2DetailsCopy.policy_owner_first || '',
-      policy_owner_last: form2DetailsCopy.policy_owner_last || '',
+      policy_owner_first: form2DetailsCopy.policy_owner_first || (this.userStoredInfo && this.userStoredInfo.first_name) || '',
+      policy_owner_last: form2DetailsCopy.policy_owner_last || (this.userStoredInfo && this.userStoredInfo.last_name) || '',
       sex: form2DetailsCopy.sex || 0, //Male: 0, Female: 1
       dateofbirth_main: this.changeDateFormat(this.dobs[0]), // main person's DOB
       family_description: this.state.members,
@@ -410,8 +416,8 @@ export class MedicalInsuranceFormPage {
       billing_address: form2DetailsCopy.billing_address || '',
 
       Phone: form2DetailsCopy.Phone || '',
-      mobile_phone: form2DetailsCopy.mobile_phone || '', 
-      mail_id: form2DetailsCopy.mail_id || '', 
+      mobile_phone: form2DetailsCopy.mobile_phone || '',
+      mail_id: form2DetailsCopy.mail_id || (this.userStoredInfo && this.userStoredInfo.email) || '',
       skype_id: form2DetailsCopy.skype_id || '',
 
       first_usd_cover: this.state.complement == 1 ? 0 : 1,
@@ -630,10 +636,12 @@ export class MedicalInsuranceFormPage {
       .then((response) => {
         // show success alert
         alert(JSON.stringify(response));
+        this.showSuccessPage();
       })
       .catch((err) => {
         // show error alert
         alert(JSON.stringify(err));
+        this.showAlert(err);
       })
       .then(() => { this.customService.hideLoader(); });
   }
@@ -641,21 +649,19 @@ export class MedicalInsuranceFormPage {
   isCardValid() {
     // console.log(this.card.cardNumber);
     // console.log(this.card);
+    alert(JSON.stringify(this.card));
     const re = /^[0-9]+$/;
     if (!re.test(this.card.cardNumber)) { debugger; return false; }
     if (!re.test(this.card.cvv)) { debugger; return false; }
     return true;
   }
 
-  // THINGS TO RESET
-  // 1: [disabled]="form2.invalid" in form 2 btn
-  // 2: uncomment validateMailAndPhone 
 
   getCardToken() {
 
     return new Promise((res, rej) => {
 
-      this.stripe.setPublishableKey('pk_test_Bf1PMBYrIIEQ24mwgtH4HJhL');
+      this.stripe.setPublishableKey(STRIPE_KEY);
       const [y, m] = this.card.cardExpiryDate.split('-');
       const card = {
         number: this.card.cardNumber,
@@ -682,6 +688,14 @@ export class MedicalInsuranceFormPage {
         description: `transId: ${this.form2SubmitResponse.transaction_id}, membershipNo: ${this.form2SubmitResponse.membership_number}`,
         stripeToken: token
       };
+      
+      // const info = {
+      //   transactionId: 'MDI8417898',
+      //   membershipNumber: '6835511',
+      //   subscriptionPackage: 'MDI',
+      //   description: `TEST`,
+      //   stripeToken: token
+      // };
       alert(JSON.stringify(info));
       this.medicalInsuranceService.makePayment(info)
         .subscribe((resp: any) => {
@@ -691,89 +705,6 @@ export class MedicalInsuranceFormPage {
           rej(err);
         });
     });
-  }
-
-
-  // LIVE CARD VALIDATION NOT BEING USED NOW
-  // onCardNumberChange(value: string) {
-  //   console.log(this.cardNumber);
-  //   console.log('value', value);
-  //   if (this.cardNumber.length == 19) { return; }
-  //   if (/^[0-9]$/.test(value)) {
-
-
-  //     if (this.cardNumber.length == 4 || this.cardNumber.length == 9 || this.cardNumber.length == 14) {
-  //       this.cardNumber += ` ${value}`;
-  //     } else {
-
-  //       this.cardNumber += `${value}`;
-  //     }
-  //   }
-
-  //   if (value == 'Backspace') {
-  //     this.cardNumber = this.cardNumber.slice(0, -1);
-  //   }
-  //   else { this.cardNumber = this.cardNumber; }
-  // }
-
-  redirectToPaypal(url: string) {
-    this.customService.showLoader('Redirecting to Paypal...');
-    setTimeout(() => {
-      // this.customService.hideLoader();
-      window.open(url, '_system', 'location=yes');
-    }, 1000);
-  }
-
-
-  ngAfterViewInit() {
-    this.platform.ready().then(() => {
-
-
-      this.deepLinkSubscription =
-        this.deeplinks.route({
-          '/': {},
-          '/connect': { 'connect': true },
-          '/error': { 'error': true },
-          '/paypal-success': { 'paypalConnect': true },
-          '/paypal-error': { 'paypalError': true },
-        }).subscribe((match) => {
-          this.customService.hideLoader();
-          // alert(JSON.stringify(match.$args));
-          if (match.$route.connect) {
-            //this.nl.showToast("Route is connect (somehow).");
-          } else if (match.$route.paypalConnect) {
-            this.showSuccessPage();
-          } else if (match.$route.paypalError) {
-
-            this.showFailureAlert("Payment Failed", "Please try again or contact PayPal Customer Support.");
-          } else if (match.$route.error) {
-            if (match.$args.error) {
-              const msg = match.$args.error.replace(/\%20/g, ' ');
-              this.showFailureAlert("Cancelled", msg);
-            } else {
-              this.showFailureAlert("Error Occured", "Please try again.");
-            }
-          } else {
-            //this.nl.showToast("None of the route values are true.");
-          }
-        }, (nomatch) => {
-          //this.nl.showToast('Got a deeplink that didn\'t match');
-          // this.customService.hideLoader();
-          // this.customService.showToast('Some error occured');
-        });
-    });
-  }
-
-  showFailureAlert(title: string, subTitle: string) {
-    const alert: Alert = this.alertCtrl.create({
-      title: title,
-      subTitle: subTitle,
-      buttons: [{
-        text: 'OK',
-        role: 'cancel'
-      }]
-    });
-    alert.present();
   }
 
   showSuccessPage() {
@@ -788,6 +719,31 @@ export class MedicalInsuranceFormPage {
   showDefiniton(title: string) {
     const modal: Modal = this.modalCtrl.create('AllDefinitionsPage', { 'title': title });
     modal.present();
+  }
+
+  handleError(err: any) {
+    let error = '';
+    if (typeof err === 'string') { // err object in JSON format
+      try {
+        error = JSON.parse(err).errorMessage || JSON.parse(err).message || '';
+      } catch (e) {
+        error = err;
+      }
+    } else {
+      error = err.errorMessage || err.message || err.msg || '';
+    }
+    this.showAlert(error || err);
+    localStorage.clear();
+  }
+
+  
+  showAlert(msg: string | any) {
+    const aler = this.alertCtrl.create({
+      title: 'Error',
+      message: typeof msg === 'string' ? msg : JSON.stringify(msg),
+      buttons: ['Ok']
+    });
+    aler.present();
   }
 
 

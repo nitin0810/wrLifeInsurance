@@ -35,5 +35,5 @@
 
 </ion-content>
 <ion-footer>
-    <button ion-button full (click)="onGuest()" class="animate slideUp" style="margin:0px">Continue as Guest</button>
+    <button ion-button full (click)="onGuest()" class="animate slideUp" style="margin:0px" [disabled]="logging">Continue as Guest</button>
 </ion-footer>

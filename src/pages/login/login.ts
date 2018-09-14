@@ -61,7 +61,7 @@ export class LoginPage implements OnInit {
     this.logging = true;
     this.authService.login(this.loginForm.value).toPromise()
       .then((res: any) => {
-        this.authService.saveToken(res.token)
+        this.authService.saveToken(res.access_token)
         return this.authService.fetchUserDetails().toPromise();
       })
       .then(() => this.navigate())
@@ -98,6 +98,7 @@ export class LoginPage implements OnInit {
         return this.authService.sendFacebokToken(res.authResponse.accessToken).toPromise();
       })
       .then((backendToken: any) => {
+        alert(JSON.stringify(backendToken));
         this.authService.saveToken(backendToken.token)
         return this.authService.fetchUserDetails().toPromise();
       })

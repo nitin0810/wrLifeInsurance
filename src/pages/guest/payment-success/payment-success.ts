@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, Alert, AlertController } from 'ionic-angular';
+import { GuestHomePage } from '../home/home';
 
 
 @IonicPage()
@@ -9,30 +10,32 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 })
 export class PaymentSuccessPage {
 
-  timerId: number;
+  isLoggedIn = localStorage.getItem('access_token');
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private alertCtrl: AlertController
   ) {
   }
 
   ionViewDidLoad() {
-    this.removeFormPage();
-    this.timerId = setTimeout(() => {
-      this.navCtrl.pop();
+
+    setTimeout(() => {
+      if (this.isLoggedIn) {
+        this.navCtrl.setRoot(GuestHomePage, { animate: true, direction: 'forward' });
+      } else {
+        this.navCtrl.setRoot("LoginPage", { animate: true, direction: 'forward' })
+          .then(() => {
+            const alert: Alert = this.alertCtrl.create({
+              title: 'Success',
+              message: 'Please login now with credentials sent to your email.',
+              buttons: ['ok']
+            });
+            alert.present();
+          });
+      }
     }, 4000);
   }
 
-  // remove the insurance form page from the stack so that 
-  // on going back, we reach to root page 
-  removeFormPage() {
-    const prevView: ViewController = this.navCtrl.getPrevious();
-    this.navCtrl.removeView(prevView);
-  }
-
-  pop() {
-    clearTimeout(this.timerId);
-    this.navCtrl.pop();
-  }
 }

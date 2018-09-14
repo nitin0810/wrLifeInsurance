@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { AuthService } from '../../../providers/auth.service';
 import { CustomService } from '../../../providers/custom.service';
 
+/**GuestHomepage is actually home page for all users wheather logged in or not */
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
