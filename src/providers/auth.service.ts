@@ -39,8 +39,8 @@ export class AuthService {
         return this.http.get(`/fb/login?access_token=${token}`);
     }
 
-    login(username: string, password: string) {
-        return this.http.post(`/oauth/token?grant_type=password&username=${username}&password=${password}`,{});
+    login(data:any) {
+        return this.http.post(`/oauth/token?grant_type=password&username=${data.email}&password=${data.password}`,{});
     }
 
 

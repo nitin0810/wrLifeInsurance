@@ -38,13 +38,13 @@ export class LoginPage implements OnInit {
     this.createForm();
   }
 
-  get username() { return this.loginForm.get('username'); }
+  get email() { return this.loginForm.get('email'); }
   get password() { return this.loginForm.get('password'); }
 
   createForm() {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      email: ['nitinnegi0810@gmail.com', Validators.required],
+      password: ['16615463', Validators.required]
     });
   }
 
@@ -54,30 +54,28 @@ export class LoginPage implements OnInit {
       this.showError();
       return;
     }
-    this.logging = true;
-    this.errorMsg = '';
-
+    this.login();
   }
 
   login() {
-
-    // this.authService.login(this.loginForm.value)
-    //   .subscribe((res: any) => {
-    //     // this.storeInfo(res);
-    //     setTimeout(() => {
-
-    //       this.navigate();
-    //     }, 1000);
-    //   }, (err: any) => {
-    //     this.logging = false;
-    //     this.showError(err.msg);
-    //   });
+    this.logging = true;
+    this.authService.login(this.loginForm.value).toPromise()
+      .then((res: any) => {
+        this.authService.saveToken(res.token)
+        return this.authService.fetchUserDetails().toPromise();
+      })
+      .then(() => this.navigate())
+      .catch(this.handleError.bind(this))
+      .then(() => {
+        this.logging = false;
+      });
   }
 
+  /**for showing only validation errors */
   showError(msg?: string) {
     if (msg) { this.errorMsg = msg; return; }
-    if (this.loginForm.controls.username.invalid) {
-      this.errorMsg = 'Please enter username';
+    if (this.loginForm.controls.email.invalid) {
+      this.errorMsg = 'Please enter email';
       return;
     }
     if (this.loginForm.controls.password.invalid) {
@@ -104,22 +102,9 @@ export class LoginPage implements OnInit {
         return this.authService.fetchUserDetails().toPromise();
       })
       .then(() => this.navigate())
-      .catch((err: any) => {
-        let error = '';
-        if (typeof err === 'string') { // err object in JSON format
-          try {
-            error = JSON.parse(err).errorMessage || JSON.parse(err).message || '';
-          } catch (e) {
-            error = err;
-          }
-        } else {
-          error = err.errorMessage || err.message || err.msg || '';
-        }
-        this.showAlert(error || err);
-      })
+      .catch(this.handleError.bind(this))
       .then(() => {
         this.customService.hideLoader();
-        localStorage.clear();
       });
   }
 
@@ -135,23 +120,25 @@ export class LoginPage implements OnInit {
         return this.authService.fetchUserDetails().toPromise();
       })
       .then(() => this.navigate())
-      .catch((err: any) => {
-        let error = '';
-        if (typeof err === 'string') { // err object in JSON format
-          try {
-            error = JSON.parse(err).errorMessage || JSON.parse(err).message || '';
-          } catch (e) {
-            error = err;
-          }
-        } else {
-          error = err.errorMessage || err.message || err.msg || '';
-        }
-        this.showAlert(error || err);
-        localStorage.clear();
-      })
+      .catch(this.handleError.bind(this))
       .then(() => {
         this.customService.hideLoader();
       });
+  }
+
+  handleError(err: any) {
+    let error = '';
+    if (typeof err === 'string') { // err object in JSON format
+      try {
+        error = JSON.parse(err).errorMessage || JSON.parse(err).message || '';
+      } catch (e) {
+        error = err;
+      }
+    } else {
+      error = err.errorMessage || err.message || err.msg || '';
+    }
+    this.showAlert(error || err);
+    localStorage.clear();
   }
 
 

@@ -10,6 +10,8 @@ import { CustomService } from '../../../providers/custom.service';
 export class GuestHomePage implements OnInit {
 
   policies: Array<any>;
+  showPolices = false; // only show for logged in user
+  loadingPolicies = false;
 
   constructor(
     public navCtrl: NavController,
@@ -19,7 +21,10 @@ export class GuestHomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.getPolicies();
+    this.showPolices = this.authService.isLoggedIn();
+    if (this.showPolices) {
+      this.getPolicies();
+    }
   }
 
   openPolicyForm() {
@@ -27,15 +32,18 @@ export class GuestHomePage implements OnInit {
   }
 
   getPolicies() {
-    if (this.authService.isLoggedIn()) {
-      this.authService.fetchPolicies()
-        .subscribe((res: any) => {
-          console.log(res);
-          this.policies = res;
-        }, (err: any) => {
-          this.customService.showToast(err.msg);
-        });
-    }
+    this.loadingPolicies = true;
+    this.authService.fetchPolicies()
+      .subscribe((res: any) => {
+        this.policies = res;
+        this.loadingPolicies = false;
+      }, (err: any) => {
+        this.customService.showToast(err.msg);
+        this.loadingPolicies = false;
+      });
+  }
 
+  openPolicyDetail(policy:any){
+    // this.navCtrl.push('PolicyDetailPage',{policy:policy});
   }
 }

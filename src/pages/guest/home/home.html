@@ -14,8 +14,24 @@
   <ion-card>
     <p padding-top text-center>FULL TIME MEDICAL INSURANCE FOR EXPATRIATES WORLDWIDE</p>
     <div padding>
-    <button ion-button full (click)="openPolicyForm()" round margin-bottom>Get Quote</button>
+      <button ion-button full (click)="openPolicyForm()" round margin-bottom>Get Quote</button>
     </div>
   </ion-card>
+
+  <div *ngIf="showPolices">
+
+    <ion-spinner *ngIf="loadingPolicies"></ion-spinner>
+
+    <ion-list *ngIf="!loadingPolicies">
+      <ion-list-header>Purchased Policies</ion-list-header>
+      <ion-item *ngFor="let p of policies;let i =index" (click)="openPolicyDetail(p)">
+        <h5>Plan:{{p.active_plan}}</h5>
+        <p>Payment Frequency: {{p.payment_frequency}}</p>
+        <p>Payment Amount: {{p.amount}}</p>
+        <p>Membership No.: {{p.membership_number}}</p>
+        <p>Starting Date: {{p.starting_date}}</p>
+      </ion-item>
+    </ion-list>
+  </div>
 
 </ion-content>

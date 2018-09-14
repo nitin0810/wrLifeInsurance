@@ -5,7 +5,7 @@
         <form name="Login_Form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
             <ion-item>
-                <ion-input type="text" formControlName="username" placeholder="Username"></ion-input>
+                <ion-input type="text" formControlName="email" placeholder="Email"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
@@ -23,11 +23,11 @@
     </div>
 
     <div text-center>
-        <button ion-button color="facebook" (click)="onFbLogin()">
+        <button ion-button color="facebook" (click)="onFbLogin()" [disabled]="logging">
             <ion-icon name="logo-facebook" style="margin:0 5px"></ion-icon>
             Login with Facebook
         </button>
-        <button ion-button color="linkedin" (click)="onLinkedinLogin()">
+        <button ion-button color="linkedin" (click)="onLinkedinLogin()" [disabled]="logging">
             <ion-icon name="logo-linkedin" style="margin:0 5px"></ion-icon>
             Login with Linkedin
         </button>
