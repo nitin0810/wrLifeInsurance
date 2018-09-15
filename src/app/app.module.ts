@@ -14,7 +14,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Network } from '@ionic-native/network';
 import { LoginPage } from '../pages/login/login';
 import { MedicalInsuranceService } from '../providers/medicalInsurance.service';
-import { Deeplinks } from '@ionic-native/deeplinks';
 import { Stripe } from '@ionic-native/stripe';
 import { LinkedIn } from '@ionic-native/linkedin';
 import { Facebook } from '@ionic-native/facebook';
@@ -50,7 +49,6 @@ import { Facebook } from '@ionic-native/facebook';
     CustomHttpService,
     CustomService,
     MedicalInsuranceService,
-    Deeplinks,
     Stripe,
     LinkedIn,
     Facebook

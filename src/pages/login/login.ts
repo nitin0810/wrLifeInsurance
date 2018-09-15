@@ -43,8 +43,8 @@ export class LoginPage implements OnInit {
 
   createForm() {
     this.loginForm = this.fb.group({
-      email: ['nitinnegi0810@gmail.com', Validators.required],
-      password: ['16615463', Validators.required]
+      email: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
@@ -94,7 +94,7 @@ export class LoginPage implements OnInit {
     this.customService.showLoader();
     this.facebook.login(['public_profile', 'email'])
       .then((res: FacebookLoginResponse) => {
-        alert(JSON.stringify(res));
+        // alert(JSON.stringify(res));
         return this.authService.sendFacebokToken(res.authResponse.accessToken).toPromise();
       })
       .then((backendToken: any) => {

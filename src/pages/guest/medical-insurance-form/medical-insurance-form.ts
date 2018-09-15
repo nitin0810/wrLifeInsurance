@@ -124,7 +124,6 @@ export class MedicalInsuranceFormPage {
     private medicalInsuranceService: MedicalInsuranceService,
     private alertCtrl: AlertController,
     private platform: Platform,
-    private deeplinks: Deeplinks,
     private modalCtrl: ModalController,
     private stripe: Stripe
   ) { }
@@ -244,6 +243,8 @@ export class MedicalInsuranceFormPage {
   }
 
   calculatePremiumPrice() {
+    console.log(this.state);
+
     this.customService.showLoader('Calculating Price...');
     this.medicalInsuranceService.calculatePremiumPrice(this.state)
       .subscribe((res) => {
@@ -633,14 +634,18 @@ export class MedicalInsuranceFormPage {
     this.customService.showLoader();
     this.getCardToken()
       .then(token => this.makePayment(token))
-      .then((response) => {
+      .then((response: any) => {
         // show success alert
-        alert(JSON.stringify(response));
-        this.showSuccessPage();
+        // alert(JSON.stringify(response));
+        if (!response.failure_code) {
+          this.showSuccessPage();
+        } else {
+          this.showAlert(response.failure_message);
+        }
       })
       .catch((err) => {
         // show error alert
-        alert(JSON.stringify(err));
+        // alert(JSON.stringify(err));
         this.showAlert(err);
       })
       .then(() => { this.customService.hideLoader(); });
@@ -649,7 +654,7 @@ export class MedicalInsuranceFormPage {
   isCardValid() {
     // console.log(this.card.cardNumber);
     // console.log(this.card);
-    alert(JSON.stringify(this.card));
+    // alert(JSON.stringify(this.card));
     const re = /^[0-9]+$/;
     if (!re.test(this.card.cardNumber)) { debugger; return false; }
     if (!re.test(this.card.cvv)) { debugger; return false; }
@@ -671,14 +676,17 @@ export class MedicalInsuranceFormPage {
       };
 
       this.stripe.createCardToken(card)
-        .then(token => { alert(JSON.stringify(token)); res(token.id) })
+        .then(token => { 
+          // alert(JSON.stringify(token)); 
+          res(token.id)
+         })
         .catch(error => { rej(error) });
     });
 
   }
 
   makePayment(token) {
-    alert('make ayment called//,' + token);
+    // alert('make ayment called//,' + token);
     return new Promise((res, rej) => {
 
       const info = {
@@ -688,7 +696,7 @@ export class MedicalInsuranceFormPage {
         description: `transId: ${this.form2SubmitResponse.transaction_id}, membershipNo: ${this.form2SubmitResponse.membership_number}`,
         stripeToken: token
       };
-      
+
       // const info = {
       //   transactionId: 'MDI8417898',
       //   membershipNumber: '6835511',
@@ -696,7 +704,7 @@ export class MedicalInsuranceFormPage {
       //   description: `TEST`,
       //   stripeToken: token
       // };
-      alert(JSON.stringify(info));
+      // alert(JSON.stringify(info));
       this.medicalInsuranceService.makePayment(info)
         .subscribe((resp: any) => {
           res(resp);
@@ -736,7 +744,7 @@ export class MedicalInsuranceFormPage {
     localStorage.clear();
   }
 
-  
+
   showAlert(msg: string | any) {
     const aler = this.alertCtrl.create({
       title: 'Error',

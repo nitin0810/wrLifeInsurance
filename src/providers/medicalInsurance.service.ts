@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { CustomHttpService } from './custom-http.service';
 import { HttpClient, HttpResponse, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { NgAnalyzeModulesHost } from '@angular/compiler';
 import { PHP_URL } from './app.constants';
-declare var URLPREFIX;
-declare var ROLE;
 
 export interface FormPayload {
     area: string;
