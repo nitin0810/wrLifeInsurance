@@ -716,7 +716,7 @@ export class MedicalInsuranceFormPage {
   }
 
   showSuccessPage() {
-    this.navCtrl.push('PaymentSuccessPage');
+    this.navCtrl.setRoot('PaymentSuccessPage', { animate: true, direction: 'forward' })
   }
 
   ngOnDestroy() {

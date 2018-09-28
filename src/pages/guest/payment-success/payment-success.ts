@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, Alert, AlertController } from 'ionic-angular';
 import { GuestHomePage } from '../home/home';
+import { LoginPage } from '../../login/login';
 
 
 @IonicPage()
@@ -25,7 +26,7 @@ export class PaymentSuccessPage {
       if (this.isLoggedIn) {
         this.navCtrl.setRoot(GuestHomePage, { animate: true, direction: 'forward' });
       } else {
-        this.navCtrl.setRoot("LoginPage", { animate: true, direction: 'forward' })
+        this.navCtrl.setRoot(LoginPage, { animate: true, direction: 'forward' })
           .then(() => {
             const alert: Alert = this.alertCtrl.create({
               title: 'Success',

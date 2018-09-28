@@ -51,7 +51,7 @@ export class UserSessionManage {
 
     public hasLoggedIn() {
         // this.rootPage = LoginPage;
-        
+
         if (this.authService.isLoggedIn()) {
             this.authService.fetchUserDetails()
                 .subscribe((res) => {
@@ -111,37 +111,13 @@ export class UserSessionManage {
     }
 
     public offline() {
-        // if (this.authService.isLoggedIn()) {
+        this.customService.showToast('You are offline', 'top', true);
 
-        //     this.appCtrl.getRootNavs()[0].setRoot(NoInternet);
-        // }
     }
 
     public online() {
-        // if (this.authService.isLoggedIn()) {
-        //     this.login();
-        // } else {
-        //     this.logout();
-        // }
+        this.customService.showToast('Back Online', 'top', true);
     }
-
-
-    // public sessionExpired() {
-
-    //     let alert = this.alertCtrl.create({
-    //         title: 'Session Expired',
-    //         message: "You're already logged in some other device. You may again login.",
-    //         enableBackdropDismiss: false,
-    //         buttons: [{
-    //             text: 'Logout',
-    //             handler: () => {
-    //                 this.events.publish("user:logout");
-    //             }
-    //         }]
-    //     });
-    //     alert.present();
-    // }
-
 
 }
 

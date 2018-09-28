@@ -98,7 +98,7 @@ export class LoginPage implements OnInit {
         return this.authService.sendFacebokToken(res.authResponse.accessToken).toPromise();
       })
       .then((backendToken: any) => {
-        alert(JSON.stringify(backendToken));
+        // alert(JSON.stringify(backendToken));
         this.authService.saveToken(backendToken.token)
         return this.authService.fetchUserDetails().toPromise();
       })
