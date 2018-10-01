@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, MenuController } from 'ionic-angular';
 import { AuthService } from '../../../providers/auth.service';
 import { CustomService } from '../../../providers/custom.service';
 
@@ -17,7 +17,8 @@ export class GuestHomePage implements OnInit {
   constructor(
     public navCtrl: NavController,
     private authService: AuthService,
-    private customService: CustomService
+    private customService: CustomService,
+    private menu: MenuController
   ) {
   }
 
@@ -26,6 +27,14 @@ export class GuestHomePage implements OnInit {
     if (this.showPolices) {
       this.getPolicies();
     }
+  }
+
+  ionViewWillEnter() {
+    this.menu.enable(true);
+  }
+
+  ionViewDidLeave() {
+    this.menu.enable(false);
   }
 
   openPolicyForm() {
@@ -44,7 +53,7 @@ export class GuestHomePage implements OnInit {
       });
   }
 
-  openPolicyDetail(policy:any){
+  openPolicyDetail(policy: any) {
     // this.navCtrl.push('PolicyDetailPage',{policy:policy});
   }
 }

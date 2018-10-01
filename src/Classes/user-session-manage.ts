@@ -85,8 +85,8 @@ export class UserSessionManage {
     decideSideMenuContent() {
 
         this.sideMenuOptions = [
-
-            { title: 'Home', component: GuestHomePage, icon: 'home', color: "green" },
+     
+            // { title: 'Home', component: GuestHomePage, icon: 'home', color: "green" },
             { title: 'Buy Shares', component: "BuySharesPage", icon: 'ios-cash', color: "green" },
             { title: 'Why Choose Us', component: "WhyChooseUsPage", icon: 'bulb', color: "green" },
             { title: 'Visiblity', component: "VisiblityPage", icon: 'thumbs-up', color: "green" },

@@ -13,8 +13,8 @@ export class GoodPricePage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad GoodPricePage');
+  onBack() {
+    this.navCtrl.pop();
   }
 
 }

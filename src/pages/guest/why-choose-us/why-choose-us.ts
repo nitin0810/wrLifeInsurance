@@ -18,8 +18,8 @@ export class WhyChooseUsPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad WhyChooseUsPage');
+  onBack() {
+    this.navCtrl.pop();
   }
 
 }

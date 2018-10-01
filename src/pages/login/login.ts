@@ -65,13 +65,19 @@ export class LoginPage implements OnInit {
         return this.authService.fetchUserDetails().toPromise();
       })
       .then(() => this.navigate())
-      .catch(this.handleError.bind(this))
+      .catch((err: any) => {
+        if (err.status == 400) {
+          this.showError('Username or Password is Invalid');
+        } else {
+          this.showError(err.msg);
+        }
+      })
       .then(() => {
         this.logging = false;
       });
   }
 
-  /**for showing only validation errors */
+  /**for showing only validation and login credential errors */
   showError(msg?: string) {
     if (msg) { this.errorMsg = msg; return; }
     if (this.loginForm.controls.email.invalid) {

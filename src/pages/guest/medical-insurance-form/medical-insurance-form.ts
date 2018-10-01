@@ -22,8 +22,6 @@ export class MedicalInsuranceFormPage {
   @ViewChild(Navbar) navBar: Navbar; // for overriding backbtn's default functionality
   unregisterBackButtonActionForAndroid: any;
 
-  // for unsubscribing the deeplink subscription on leaving the page
-  deepLinkSubscription: Subscription;
 
   // for showing the current form
   formNames = ['Select Policy', 'Enter Details', 'Make Payment'];
@@ -77,8 +75,11 @@ export class MedicalInsuranceFormPage {
   //ngModel variables for Date of Births
   dobs: Array<any> = [];
 
-  // today is just for setting the max date selectable from calender
+  // today is just for setting the max/min date selectable from calender
   today: string = new Date().toISOString().slice(0, 10);
+
+  // for restricting the max date on calendar while selecting starting date of cover, it shud be within 365 days
+  nextYearSameDate: string = `${Number(this.today.split('-')[0]) + 1}-${this.today.split('-')[1]}-${this.today.split('-')[2]}`;
 
   // maximum possible age for main person and children are obtained from server
   // based on which minimum selectable dob is decided
@@ -106,6 +107,7 @@ export class MedicalInsuranceFormPage {
   // used for filling name and email in forms using already present info in case user is logged in
   userStoredInfo: any;
 
+  // min and max date for debit/credit card expiry date
   get minDate() {
     return new Date().toISOString().slice(0, 7);
   }
@@ -113,6 +115,15 @@ export class MedicalInsuranceFormPage {
     const y: string = new Date().toISOString().slice(0, 7).split('-')[0];
     return `${Number(y) + 30}-01`;
   }
+
+  // subscriptions for unsubscribing pending request when leaving the page
+  subscriptions = {
+    countryAge: null,
+    broker: null,
+    premium: null,
+    form2: null,
+    payment: null
+  };
 
 
 
@@ -132,7 +143,7 @@ export class MedicalInsuranceFormPage {
   ionViewDidLoad() {
     // setTimeout(() => {
     //   this.slides.slideTo(2); //remove
-
+    //   this.navCtrl.pop();
     // }, 500);
     this.lockSliding(true);
     this.getCountriesAndAge();
@@ -141,6 +152,23 @@ export class MedicalInsuranceFormPage {
   }
 
   ionViewWillLeave() {
+
+    //hide loader in case its visible (any request is pending)
+    try {
+      // put this line inside try block as it generates error if loader is not visible
+      this.customService.hideLoader();
+    } catch (e) {
+
+    }
+
+    // unsubscribe from requests subscriptions, it is done in order to remova a bug in which
+    // after closing the page while a request is in progress, code related to request subscription
+    // still executes even page is closed
+    this.subscriptions.countryAge.unsubscribe();
+    this.subscriptions.broker.unsubscribe();
+    this.subscriptions.premium.unsubscribe();
+    this.subscriptions.payment.unsubscribe();
+    this.subscriptions.form2.unsubscribe();
     // Unregister the custom back button action for this page
     this.unregisterBackButtonActionForAndroid && this.unregisterBackButtonActionForAndroid();
   }
@@ -183,7 +211,7 @@ export class MedicalInsuranceFormPage {
 
   getCountriesAndAge() {
     this.customService.showLoader();
-    this.medicalInsuranceService.getCountriesAndAge()
+    this.subscriptions.countryAge = this.medicalInsuranceService.getCountriesAndAge()
       .subscribe((res: any) => {
 
         //set max ages
@@ -206,7 +234,7 @@ export class MedicalInsuranceFormPage {
   }
 
   getBrokerId() {
-    this.medicalInsuranceService.getBrokerId()
+   this.subscriptions.broker= this.medicalInsuranceService.getBrokerId()
       .subscribe((res: any) => {
         this.brokerId = res.brokerId;
       }, (err: any) => {
@@ -243,10 +271,10 @@ export class MedicalInsuranceFormPage {
   }
 
   calculatePremiumPrice() {
-    console.log(this.state);
+    // console.log(this.state);
 
     this.customService.showLoader('Calculating Price...');
-    this.medicalInsuranceService.calculatePremiumPrice(this.state)
+    this.subscriptions.premium = this.medicalInsuranceService.calculatePremiumPrice(this.state)
       .subscribe((res) => {
         this.premiumInfo = res;
         this.showFooter = true;
@@ -529,7 +557,7 @@ export class MedicalInsuranceFormPage {
 
     const payLoad: any = this.prepareData();
     this.customService.showLoader();
-    this.medicalInsuranceService.submitForm2(payLoad)
+    this.subscriptions.form2= this.medicalInsuranceService.submitForm2(payLoad)
       .subscribe((res: any) => {
 
         this.customService.hideLoader();
@@ -676,10 +704,10 @@ export class MedicalInsuranceFormPage {
       };
 
       this.stripe.createCardToken(card)
-        .then(token => { 
+        .then(token => {
           // alert(JSON.stringify(token)); 
           res(token.id)
-         })
+        })
         .catch(error => { rej(error) });
     });
 
@@ -705,7 +733,7 @@ export class MedicalInsuranceFormPage {
       //   stripeToken: token
       // };
       // alert(JSON.stringify(info));
-      this.medicalInsuranceService.makePayment(info)
+      this.subscriptions.payment = this.medicalInsuranceService.makePayment(info)
         .subscribe((resp: any) => {
           res(resp);
         }, (err: any) => {
@@ -717,10 +745,6 @@ export class MedicalInsuranceFormPage {
 
   showSuccessPage() {
     this.navCtrl.setRoot('PaymentSuccessPage', { animate: true, direction: 'forward' })
-  }
-
-  ngOnDestroy() {
-    this.deepLinkSubscription.unsubscribe();
   }
 
 

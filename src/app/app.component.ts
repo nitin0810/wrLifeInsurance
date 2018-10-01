@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Events, App, AlertController, MenuController, Nav } from 'ionic-angular';
+import { Platform, Events, App, AlertController, MenuController, Nav, Alert } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { UserSessionManage } from '../Classes/user-session-manage';
@@ -18,7 +18,7 @@ import { LoginPage } from '../pages/login/login';
 export class MyApp extends UserSessionManage {
 
   @ViewChild(Nav) nav: Nav;
-  activePage: any="";
+  activePage: any = "";
   defaultUserImage: string = "assets/imgs/user.png";
 
   constructor(
@@ -34,12 +34,12 @@ export class MyApp extends UserSessionManage {
     private customSercvice: CustomService,
   ) {
     super(events, appCtrl, authService, alertCtrl, networkService, menu, customSercvice);
-
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+      this.menu.enable(false);
     });
   }
 
@@ -55,16 +55,37 @@ export class MyApp extends UserSessionManage {
 
     /**logout click case */
     if (!page.component) {
-      this.menu.close();
-      this.activePage="";
-      this.events.publish('user:logout');
+      this.menu.close()
+        .then(() => this.askForConfirmation());
       return;
     }
 
-    this.activePage = page.component;
+    // active page highlight not needed now, as there will be only home page as root page
+    // from which side menu is visible 
+    // this.activePage = page.component; 
     this.menu.close();
-    this.nav.setRoot(page.component);
+    this.nav.push(page.component);
 
+  }
+
+  askForConfirmation() {
+
+    const alert: Alert = this.alertCtrl.create({
+      title:'Confirm',
+      message: 'Are you sure you want to logout ?',
+      buttons: [{
+        text: 'Cancel',
+        role: 'cancel'
+      }, {
+        text: 'Logout',
+        handler: () => {
+          this.activePage = "";
+          this.events.publish('user:logout');
+        }
+      }]
+
+    });
+    alert.present();
   }
 
 

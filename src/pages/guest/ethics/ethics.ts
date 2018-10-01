@@ -13,8 +13,8 @@ export class EthicsPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EthicsPage');
+  onBack() {
+    this.navCtrl.pop();
   }
 
 }

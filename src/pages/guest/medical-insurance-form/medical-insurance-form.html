@@ -623,7 +623,7 @@
                                     <b>Starting date of cover *</b>
                                 </div>
                                 <ion-datetime item-end [(ngModel)]="date_of_cover" name="date_of_cover" required displayFormat="DD/MM/YYYY" placeholder="DD MMM, YYYY"
-                                    pickerFormat="DD MMM, YYYY" [min]="today" (ionChange)="setDateOfCover($event)"></ion-datetime>
+                                    pickerFormat="DD MMM, YYYY" [min]="today" [max]="nextYearSameDate" (ionChange)="setDateOfCover($event)"></ion-datetime>
                             </ion-item>
 
                             <ion-item>

@@ -13,8 +13,8 @@ export class VisiblityPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad VisiblityPage');
+  onBack() {
+    this.navCtrl.pop();
   }
 
 }

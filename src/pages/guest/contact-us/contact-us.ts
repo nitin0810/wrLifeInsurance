@@ -12,16 +12,16 @@ export class ContactUsPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private mdoalCtrl: ModalController
+    private modalCtrl: ModalController
   ) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ContactUsPage');
+  onBack() {
+    this.navCtrl.pop();
   }
-
+  
   openDropMessagepage() {
-    const modal = this.mdoalCtrl.create('MessagePage');
+    const modal = this.modalCtrl.create('MessagePage');
     modal.present();
   }
 
