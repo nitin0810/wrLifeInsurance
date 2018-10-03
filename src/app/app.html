@@ -6,12 +6,12 @@
             <img src="assets/imgs/logo.png" class="center-block sidebar-logo" />
         </ion-item>
         <ion-list>
-            <ion-item class="sidebar-button"  text-center no-padding *ngFor="let option of sideMenuOptions" (click)="openPage(option)" [ngClass]="{'activePage': activePage == option.component}">
+            <ion-item class="sidebar-button"  text-center no-padding *ngFor="let option of sideMenuOptions" (click)="openPage(option)" >
                 <ion-icon [name]="option.icon" ></ion-icon>
                 <h4>{{option.title}}</h4>
             </ion-item>
         </ion-list>
     </ion-content>
 </ion-menu>
-
+   
 <ion-nav #mycontent [root]="rootPage"></ion-nav>

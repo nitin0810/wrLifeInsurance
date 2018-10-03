@@ -5,10 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { BASEURL } from './app.constants';
-declare var URLPREFIX;
-declare var ROLE;
-declare const SockJS;
-declare const Stomp;
+
 
 @Injectable()
 export class CustomHttpService {
@@ -52,35 +49,7 @@ export class CustomHttpService {
             .catch(this.handleError);
     }
 
-    // put(url: string, body: any, options?: HttpHeaders) {
-
-    //     let headers = this.addHeaders(options);
-    //     let _url: string;
-    //     if (ROLE) {
-    //         // in case of admin.mngmnt, each request contains ROLE if ROLE exists
-    //         _url = BASEURL + (URLPREFIX ? '/' + URLPREFIX : '') + '/' + ROLE + url;
-    //     } else {
-    //         _url = BASEURL + (URLPREFIX ? '/' + URLPREFIX : '') + url;
-
-    //     }
-    //     return this.httpClient.put(_url, body, { headers: headers, observe: 'response' })
-    //         .map(this.extractData)
-    //         .catch(this.handleError);
-    // }
-
-    // postForLogin(body: any) {
-
-    //     const searchParams = new HttpParams()
-    //         .append('username', body.username)
-    //         .append('password', body.password);
-
-    //     const loginHeaders = new HttpHeaders()
-    //         .set('Authorization', this.getAccessToken());
-
-    //     return this.httpClient.post(BASEURL + '/oauth/token?grant_type=password', {}, { headers: loginHeaders, params: searchParams, observe: 'response' })
-    //         .map(this.extractData)
-    //         .catch(this.handleError);
-    // }
+  
 
     private extractData(res: HttpResponse<any>) {
 

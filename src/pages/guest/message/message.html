@@ -1,11 +1,5 @@
 <ion-header>
-
   <ion-navbar color="primary">
-    <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-        <span>Cancel</span>
-      </button>
-    </ion-buttons>
     <ion-title>Drop a Message</ion-title>
   </ion-navbar>
 
@@ -14,7 +8,7 @@
 
 <ion-content class="gray-back">
   <img src="assets/imgs/message.png" class="center-block" style="width:50%" />
-
+  
   <form #dropMessageForm="ngForm" no-validate (ngSubmit)="onSubmit()">
 
     <ion-card>
@@ -47,4 +41,4 @@
     <button ion-button full [disabled]='dropMessageForm.invalid'>Submit</button>
   </form>
 
-</ion-content>
+</ion-content>   

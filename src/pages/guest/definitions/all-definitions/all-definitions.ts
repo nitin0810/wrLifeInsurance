@@ -14,7 +14,7 @@ export class AllDefinitionsPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private viewCtrl: ViewController) {
+    ) {
   }
 
 
@@ -25,10 +25,5 @@ export class AllDefinitionsPage {
   openDownloadsWebPage(){
     window.open('https://www.wrlife.net/downloads.php','_system','location=yes');
   }
-
-  dismiss() {
-    this.viewCtrl.dismiss();
-  }
-
 
 }
