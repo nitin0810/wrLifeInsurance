@@ -14,8 +14,8 @@
             <div class="err-msg" *ngIf="errorMsg">
                 <p>{{errorMsg}}</p>
             </div>
-            <button ion-button full rounded type="submit" [disabled]="logging">{{logging?'Logging In ...' :'Login' }}</button>
-            <button ion-button full rounded type="button" (click)="onGuest()" [disabled]="logging">Continue as Guest</button>
+            <button ion-button full rounded type="submit" [disabled]="logging" style="border-radius: 4px;">{{logging?'Logging In ...' :'Login' }}</button>
+            <button ion-button full rounded type="button" (click)="onGuest()" [disabled]="logging" style="border-radius: 4px;">Continue as Guest</button>
 
         </form>
     </ion-card>
