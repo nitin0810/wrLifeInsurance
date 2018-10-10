@@ -10,12 +10,14 @@
 <ion-content class="backgorund-color">
 
 
-
   <ion-card>
-    <p padding-top text-center>FULL TIME MEDICAL INSURANCE FOR EXPATRIATES WORLDWIDE</p>
-    <div padding>
+    <ion-item text-wrap>
+      <h5>FULL TIME MEDICAL INSURANCE FOR EXPATRIATES WORLDWIDE</h5>
       <button ion-button full (click)="openPolicyForm()" round margin-bottom>Get Quote</button>
-    </div>
+      <ion-thumbnail item-start>    
+        <img src="assets/imgs/health-calculator.png" class="icon-bg">
+      </ion-thumbnail>
+    </ion-item>
   </ion-card>
 
   <div *ngIf="showPolices">

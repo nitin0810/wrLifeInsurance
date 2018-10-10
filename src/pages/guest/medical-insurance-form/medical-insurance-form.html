@@ -224,7 +224,7 @@
         <!-- SLIDE 2: PERSONAL DETAILS SLIDE-->
         <ion-slide>
             <ion-toolbar color="primary">
-                <page-prevnext-component [isDisabled]="true" (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
+                <page-prevnext-component [isDisabled]="form2.invalid" (prev)="onPrev()" (next)="onGoToPaymentBtn()"></page-prevnext-component>
             </ion-toolbar>
             <form #form2="ngForm" no-validate (ngSubmit)="onGoToPaymentBtn()">
                 <div *ngIf="form2Details">
@@ -534,7 +534,11 @@
 
 
                     <div text-center>
-                        <button type="button" ion-button small round (click)="planInfoToggle=!planInfoToggle">Plan Info</button>
+                        <button type="button" ion-button small round (click)="planInfoToggle=!planInfoToggle">Plan Info
+                                <span style="margin-left:4px;">
+                                        <ion-icon [name]="planInfoToggle?'arrow-up':'arrow-down'"></ion-icon>
+                                    </span>
+                        </button>
                     </div>
 
                     <div *ngIf="planInfoToggle">
@@ -553,7 +557,7 @@
                             </ion-item>
                             <ion-item>
                                 <ion-label color="primary" stacked>Social security No. (in case of CFE):</ion-label>
-                                <ion-input type="text" [(ngModel)]="form2Details.security_CFE_1" name="SSN"></ion-input>
+                                <ion-input type="text" [(ngModel)]="form2Details.security_CFE_1" name="SSN" placeholder="Enter Social Security No."></ion-input>
                             </ion-item>
                         </ion-card>
                         <!-- SELECTED PLAN-->
@@ -637,11 +641,10 @@
                         </ion-list>
                     </ion-card>
                     <ion-card>
-                        <ion-item-divider color="primary">Currency and Payment</ion-item-divider>
-
+                        <ion-item-divider color="primary">Currency and Paymentdfvsdf sdfsdfsdfasdfasdfasdfasdfasdfasdfasdfsdfdsfr</ion-item-divider>
+                        <p style="text-align: left;margin-left: 15px">This price includes your shares  </p>
                         <!-- SHOW THE AVAILABLE AND SELECTED PAYMENT CURRENCY AND FREQUENCY -->
-
-                        <ion-grid>
+                        <ion-grid class="payment">
                             <ion-row>
                                 <ion-col col-3>
                                     <p>Yearly</p>

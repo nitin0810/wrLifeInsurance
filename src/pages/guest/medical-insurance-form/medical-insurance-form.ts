@@ -593,9 +593,7 @@ export class MedicalInsuranceFormPage {
       .subscribe((res: any) => {
 
         this.customService.hideLoader();
-        this.lockSliding(false);
-        this.slides.slideNext();
-        this.lockSliding(true);
+        this.onNext();
         this.form2SubmitResponse = res;
       }, (err: any) => {
         this.customService.hideLoader();

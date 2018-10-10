@@ -37,4 +37,8 @@ page-medical-insurance-form {
 .backgorund-color {
     background: color($colors, light);
   }
-.detailForm {}
+.payment{
+  margin-top: 15px;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgrey;
+}
