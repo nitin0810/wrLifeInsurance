@@ -23,7 +23,7 @@ export class MedicalInsuranceFormPage {
 
 
   // for showing the current form
-  formNames = ['Select Policy', 'Enter Details', 'Make Payment'];
+  formNames = ['Select Policy', 'Enter Details', 'Summary','Payment'];
   showFooter = false;
   title = `Step 1: ${this.formNames[0]}`;
 
@@ -680,6 +680,10 @@ export class MedicalInsuranceFormPage {
 
     // console.log(payLoad);
     return payLoad;
+  }
+
+  onEnterPaymentDetais(){
+    this.onNext();
   }
 
 

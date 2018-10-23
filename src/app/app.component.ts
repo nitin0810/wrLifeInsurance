@@ -19,6 +19,7 @@ export class MyApp extends UserSessionManage {
   @ViewChild(Nav) nav: Nav;
   defaultUserImage: string = "assets/imgs/user.png";
   unregisterBackButtonActionForAndroid: Function;
+  exitAppPopup: Alert;
 
   constructor(
     public events: Events,
@@ -92,7 +93,7 @@ export class MyApp extends UserSessionManage {
         if (this.nav.getActive().index === 0) {
           this.showpageLeaveAlert();
         } else {
-            this.nav.pop();
+          this.nav.pop();
         }
       });
     }
@@ -100,7 +101,9 @@ export class MyApp extends UserSessionManage {
 
   showpageLeaveAlert() {
 
-    const alert: Alert = this.alertCtrl.create({
+
+    if (this.exitAppPopup) { return; }
+    this.exitAppPopup = this.alertCtrl.create({
       title: 'Confirm',
       message: 'Are you sure to exit the app ?',
       buttons: [{
@@ -112,7 +115,9 @@ export class MyApp extends UserSessionManage {
       }]
 
     });
-    alert.present();
+    this.exitAppPopup.present();
+
+    this.exitAppPopup.onDidDismiss(() => this.exitAppPopup = null);
   }
 
 
