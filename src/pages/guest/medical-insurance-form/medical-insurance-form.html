@@ -752,7 +752,7 @@
 
         <!-- SLIDE 3 :SUMMARY PAGE -->
         <ion-slide>
-            <page-prevnext-component (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
+            <page-prevnext-component [isDisabled]="true" (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
 
             <h4><b>Payable Amount:</b> {{form2SubmitResponse?.currency==1?'$':'€'}}
                 {{form2SubmitResponse?.last_amount}}</h4>
