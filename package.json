@@ -57,13 +57,13 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-stripe": {},
-      "cordova-plugin-linkedin": {
-        "APP_ID": "5314565"
-      },
       "cordova-plugin-facebook4": {
         "APP_ID": "119702548743519",
         "APP_NAME": "socme",
         "ANDROID_SDK_VERSION": "4.+"
+      },
+      "cordova-plugin-linkedin": {
+        "APP_ID": "5366615"
       }
     },
     "platforms": [

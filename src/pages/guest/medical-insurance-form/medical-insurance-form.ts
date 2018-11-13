@@ -688,41 +688,46 @@ export class MedicalInsuranceFormPage {
 
   onEnterPaymentDetais() {
 
-    const alert: Alert = this.alertCtrl.create({
-      title: 'Enroll With',
-      inputs: [
-        {
-          type: 'radio',
-          label: 'Facebook',
-          value: 'fb'
-        }, {
-          type: 'radio',
-          label: 'LinkedIn',
-          value: 'li',
-        }, {
-          type: 'radio',
-          label: 'Continue as Guest',
-          value: 'none',
-        }
-      ],
-      buttons: [{
-        text: 'Cancel',
-        role: 'cancel',
-        // handler:
-      }, {
-        text: 'Continue',
-        handler: this.loginWithHandler.bind(this)
-      }]
-    });
+    // if already logged in, go to next page, otherwise ask for login 
+    if (this.authService.isLoggedIn()) {
+      this.onNext();
+    } else {
 
-    alert.present();
-    // this.onNext();
+      const alert: Alert = this.alertCtrl.create({
+        title: 'Enroll With',
+        inputs: [
+          {
+            type: 'radio',
+            label: 'Facebook',
+            value: 'fb'
+          }, {
+            type: 'radio',
+            label: 'LinkedIn',
+            value: 'li',
+          }, {
+            type: 'radio',
+            label: 'Continue as Guest',
+            value: 'none',
+          }
+        ],
+        buttons: [{
+          text: 'Cancel',
+          role: 'cancel',
+          // handler:
+        }, {
+          text: 'Continue',
+          handler: this.loginWithHandler.bind(this)
+        }]
+      });
+
+      alert.present();
+    }
   }
 
   loginWithHandler(data: string) {
-    if(data==='fb'){this.onFbLogin();}
-    else if(data==='li'){this.onLinkedinLogin();}
-    else if(data==='none'){this.onNext();}
+    if (data === 'fb') { this.onFbLogin(); }
+    else if (data === 'li') { this.onLinkedinLogin(); }
+    else if (data === 'none') { this.onNext(); }
   }
 
 
