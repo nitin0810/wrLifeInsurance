@@ -90,18 +90,21 @@ export class MyApp extends UserSessionManage {
     if (this.platform.is('android')) {
       this.unregisterBackButtonActionForAndroid = this.platform.registerBackButtonAction(() => {
 
+        // show app leave alert when opened page is root page, pop otherwise
         if (this.nav.getActive().index === 0) {
-          this.showpageLeaveAlert();
+          this.showAppLeaveAlert();
         } else {
+          console.log(this.nav.getActive());
+          
           this.nav.pop();
         }
       });
     }
   }
 
-  showpageLeaveAlert() {
+  showAppLeaveAlert() {
 
-
+    // ignore when popup is already opened, in case of repeated back btn press
     if (this.exitAppPopup) { return; }
     this.exitAppPopup = this.alertCtrl.create({
       title: 'Confirm',
@@ -119,9 +122,6 @@ export class MyApp extends UserSessionManage {
 
     this.exitAppPopup.onDidDismiss(() => this.exitAppPopup = null);
   }
-
-
-
 
 }
 

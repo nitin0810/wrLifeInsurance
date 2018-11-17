@@ -1,28 +1,37 @@
-<!-- <ion-header>
-
-  <ion-navbar>
+<ion-header>
+  <ion-navbar color="primary">
     <ion-title>Policy Detail</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content padding>
-  <ion-list>
-    <ion-item>
-      <h5>Plan:{{p.active_plan}}</h5>
-    </ion-item>
-    <ion-item>
-      <p>Payment Frequency: {{p.payment_frequency}}</p>
-    </ion-item>
-    <ion-item>
-      <p>Payment Amount: {{p.amount}}</p>
-    </ion-item>
-    <ion-item>
-      <p>Membership No.: {{p.membership_number}}</p>
-    </ion-item>
-    <ion-item>
-      <h5>Plan:{{p.active_plan}}</h5>
-    </ion-item>
-  </ion-list>
-</ion-content> -->
+<ion-content class="backgorund-color">
+  <ion-card *ngIf="policy">
+
+    <h5>Plan:{{policy.active_plan}}</h5>
+    <p>Policy No. : {{policy.policyNumber}}</p>
+    <p>Payment Frequency: {{policy.payment_frequency}}</p>
+    <p>Payment Amount: {{policy.amount}}{{policy?.currency==1?'$':'€'}}</p>
+    <p>Membership No.: {{policy.membership_number}}</p>
+    <p>Date : {{policy.date}}</p>
+
+    <p>For Complete Details, view the Insurance Certificate </p>
+    <!-- TODO -->
+    <a>Insurance Certificate</a>
+
+    <!-- <ion-item-divider></ion-item-divider>
+    <p>sssssssssssssss asdfa asdfa sfdasd fasdfas dfas df asdf asdf as dfa sdf asd fas df asdf asd f</p>
+    <p>Area : {{policy.area_cover}}</p>
+    <p>Assistance Evacuation : {{policy.assistance_evacuation}}</p>
+    <p>Billing Address : {{policy.bill_address}}</p>
+    <p>Main Address : {{policy.main_address}}</p>
+
+    <p>Complement to Social Security : {{policy.complementary_social=='0'?'No':'Yes'}}</p>
+    <p>Hospital Adjustment : {{policy.deductible_hospitalization}}</p>
+    <p>Dental Optical : {{policy.dental_optical=='0'?'No':'Yes'}}</p>
+    <p>Members : {{policy.family_description}}</p>
+    <p>Global Limit : {{policy.global_limit}}</p>
+    <p>Inpatient : {{policy.inpatient=='0'?'No':'Yes'}}</p> -->
+
+  </ion-card>
+</ion-content>

@@ -69,7 +69,7 @@
                         <ion-item-divider color="primary">Member 2: wife, husband, partner or child {{maxAgeChild}}
                         </ion-item-divider>
                         <ion-item text-wrap>
-                            <ion-label class="mandotry">Date of Birth *</ion-label>
+                            <ion-label >Date of Birth<span class="mandotry">*</span> </ion-label>
                             <ion-datetime [(ngModel)]="dobs[1]" name="dob1" required displayFormat="DD MMM, YYYY"
                                 placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBMain" [max]="today"
                                 (ionChange)="calculateAge($event,1)"></ion-datetime>
@@ -88,7 +88,7 @@
                     <ion-item-group>
                         <ion-item-divider color="primary">Member 3: Child {{maxAgeChild}} </ion-item-divider>
                         <ion-item>
-                            <ion-label>Date of Birth *</ion-label>
+                            <ion-label>Date of Birth <span class="mandotry">*</span></ion-label>
                             <ion-datetime [(ngModel)]="dobs[2]" name="dob2" required displayFormat="DD MMM, YYYY"
                                 placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBChild" [max]="today"
                                 (ionChange)="calculateAge($event,2)"></ion-datetime>
@@ -111,7 +111,7 @@
                             <ion-toggle (ionChange)="toggleChange($event,5)"></ion-toggle>
                         </ion-item>
                         <ion-item *ngIf="state.member4status==1">
-                            <ion-label class="mandotry">Date of Birth *</ion-label>
+                            <ion-label >Date of Birth <span class="mandotry">*</span></ion-label>
                             <ion-datetime [(ngModel)]="dobs[3]" name="dob3" required displayFormat="DD MMM, YYYY"
                                 placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBChild" [max]="today"
                                 (ionChange)="calculateAge($event,3)"></ion-datetime>
@@ -398,12 +398,12 @@
                                 </ion-item-divider>
 
                                 <ion-item>
-                                    <ion-label color="primary">Last Name *</ion-label>
+                                    <ion-label color="primary">Last Name <span class="mandotry">*</span></ion-label>
                                     <ion-input type="text" required [(ngModel)]="child.last" name="child.last{{i+1}}"
                                         placeholder="Last Name"></ion-input>
                                 </ion-item>
                                 <ion-item>
-                                    <ion-label color="primary">First Name *</ion-label>
+                                    <ion-label color="primary">First Name <span class="mandotry">*</span></ion-label>
                                     <ion-input type="text" required [(ngModel)]="child.first" name="child.first{{i+1}}"
                                         placeholder="First Name"></ion-input>
                                 </ion-item>
@@ -430,7 +430,7 @@
                                     <span item-end>{{changeDateFormat(dobs[i+2])}}</span>
                                 </ion-item>
                                 <ion-item *ngIf="i>=2">
-                                    <ion-label>Date of Birth *</ion-label>
+                                    <ion-label>Date of Birth <span class="mandotry">*</span></ion-label>
                                     <ion-datetime required [(ngModel)]="dobsForm2[i]" name="dobs2{{i}}" displayFormat="DD/MM/YYYY"
                                         placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBChild"
                                         [max]="today" (ionChange)="calculateAgeForForm2($event,child,i)"></ion-datetime>
@@ -446,14 +446,14 @@
                     <h4>Medical Questionnaire </h4>
                     <ion-card>
                         <ion-item-group>
-                            <ion-item-divider color="primary">Main Insured *</ion-item-divider>
+                            <ion-item-divider color="primary">Main Insured </ion-item-divider>
                             <ion-item>
-                                <ion-label color="primary">Height</ion-label>
+                                <ion-label color="primary">Height<span class="mandotry">*</span></ion-label>
                                 <ion-input type="number" class="border-bottom" required [(ngModel)]="form2Details.main_insured_height"
                                     name="main_height" placeholder="Height (m)"></ion-input>
                             </ion-item>
                             <ion-item>
-                                <ion-label color="primary">Weight</ion-label>
+                                <ion-label color="primary">Weight<span class="mandotry">*</span></ion-label>
                                 <ion-input type="number" required [(ngModel)]="form2Details.main_insured_weight" name="main_weight"
                                     placeholder="Weight (Kg)"></ion-input>
                             </ion-item>
@@ -463,18 +463,18 @@
 
                         <!-- PARTNER'S  HEIGHT-WEIGHT -->
                         <ion-item-group *ngIf="form2Details.family_description=='Family' || form2Details.family_description=='2-Persons'">
-                            <ion-item-divider>Partner *</ion-item-divider>
+                            <ion-item-divider color="primary">Partner <span class="mandotry">*</span></ion-item-divider>
                             <ion-item>
                                 <ion-input type="number" required [(ngModel)]="form2Details.partner_height" name="partner_height"
-                                    placeholder="Height (m)"></ion-input>
+                                    placeholder="Height* (m)"></ion-input>
                                 <ion-input type="number" required [(ngModel)]="form2Details.partner_weight" name="partner_weight"
-                                    placeholder="Weight (Kg)"></ion-input>
+                                    placeholder="Weight* (Kg)"></ion-input>
                             </ion-item>
                         </ion-item-group>
 
                         <!-- CHILDREN'S  HEIGHT-WEIGHT -->
                         <ion-item-group *ngFor="let child of childrenDetail;let i=index">
-                            <ion-item-divider>Child {{i+1}} *</ion-item-divider>
+                            <ion-item-divider color="primary">Child {{i+1}} <span class="mandotry">*</span></ion-item-divider>
                             <ion-item>
                                 <ion-input type="number" required [(ngModel)]="child.height" name="child_height{{i+1}}"
                                     placeholder="Height (m)"></ion-input>
@@ -652,7 +652,7 @@
 
                             <ion-item text-wrap>
                                 <div color="dark" item-start>
-                                    <b>Starting date of cover *</b>
+                                    <b>Starting date of cover <span class="mandotry">*</span></b>
                                 </div>
                                 <ion-datetime item-end [(ngModel)]="date_of_cover" name="date_of_cover" required
                                     displayFormat="DD/MM/YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
@@ -752,7 +752,9 @@
 
         <!-- SLIDE 3 :SUMMARY PAGE -->
         <ion-slide>
-            <page-prevnext-component [isDisabled]="true" (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
+            <ion-toolbar color="primary">
+                <page-prevnext-component [isDisabled]="true" (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
+            </ion-toolbar>
 
             <h4><b>Payable Amount:</b> {{form2SubmitResponse?.currency==1?'$':'€'}}
                 {{form2SubmitResponse?.last_amount}}</h4>
@@ -802,7 +804,7 @@
                     </ion-item>
                     <ion-item class="border-bottom">
                         <ion-label item-start>Hospital Adjustment</ion-label>
-                        <span item-end> {{assistantEvacuations[form2SubmitResponse?.hospital_adjusment]}}</span>
+                        <span item-end> {{form2SubmitResponse?.hospital_adjusment}}</span>
                     </ion-item>
                 </ion-list>
             </ion-card>

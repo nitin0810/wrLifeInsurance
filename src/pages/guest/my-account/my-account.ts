@@ -38,7 +38,8 @@ export class MyAccountPage {
   }
 
   openPolicyDetail(policy: any) {
-    // this.navCtrl.push('PolicyDetailPage',{policy:policy});
+    this.navCtrl.push('PolicyDetailPage',{policy:policy});
   }
 
 }
+     
