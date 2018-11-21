@@ -14,23 +14,24 @@
             <div class="err-msg" *ngIf="errorMsg">
                 <p>{{errorMsg}}</p>
             </div>
-            <button ion-button full rounded type="submit" [disabled]="logging">{{logging?'Logging In ...' :'Login' }}</button>
-            <button ion-button full rounded type="button" (click)="onGuest()" [disabled]="logging">Continue as Guest</button>
+            <button ion-button full rounded type="submit" [disabled]="logging" style="border-radius: 4px;">{{logging?'Logging In ...' :'Login' }}</button>
+            <button ion-button full rounded type="button" (click)="onGuest()" [disabled]="logging" style="border-radius: 4px;">Continue as Guest</button>
 
         </form>
     </ion-card>
 
     <div text-center>
-        <h4>OR</h4>
+        <h4>----OR----</h4>
     </div>
 
     <div text-center>
-        <button ion-button color="facebook" (click)="onFbLogin()" [disabled]="logging">
-            <ion-icon name="logo-facebook" style="margin:0 5px"></ion-icon>
+         <button ion-button color="facebook" class="fbloginBtn" (click)="onFbLogin()" [disabled]="logging">
+            <ion-icon name="logo-facebook" class="iconFB" style="margin:0 5px"></ion-icon>
             Login with Facebook
         </button>
-        <button ion-button color="linkedin" (click)="onLinkedinLogin()" [disabled]="logging">
-            <ion-icon name="logo-linkedin" style="margin:0 5px"></ion-icon>
+        
+        <button ion-button color="linkedin"  class="fbloginBtn" (click)="onLinkedinLogin()" [disabled]="logging">
+            <ion-icon name="logo-linkedin" class="iconFB"></ion-icon>
             Login with Linkedin
         </button>
     </div>

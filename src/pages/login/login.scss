@@ -45,7 +45,22 @@ page-login {
     margin: 10px auto;
     padding: 30px;
   }    
-
+  .fbloginBtn{
+      width: 54%;
+    padding-top: 23px;
+    padding-left: 2px;
+    padding-bottom: 22px;
+  
+    .iconFB{
+        margin-right: 10px;
+    font-size: 47px;
+    padding-right: 4px;
+    border-radius: 4px!important;
+    border-right: 1px solid #253963;
+    
+    // border-right: 1px solid #22396af5;
+    }
+  }
 
   .err-msg{
     padding: 5px;
