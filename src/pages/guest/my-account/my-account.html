@@ -1,0 +1,26 @@
+
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>My Account</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content  class="backgorund-color">
+    <ion-spinner *ngIf="loadingPolicies" style="text-align: center;"></ion-spinner>
+
+    <ion-list *ngIf="!loadingPolicies">
+      <ion-list-header>Purchased Policies</ion-list-header>
+      <ion-item *ngFor="let p of policies;let i =index" (click)="openPolicyDetail(p)">
+        <h5>Plan:{{p.active_plan}}</h5>
+        <p>Policy No. : {{p.policyNumber}}</p>
+        <p>Payment Amount: {{p.amount}}</p>
+        <p>Payment Frequency: {{p.payment_frequency}}</p>
+        <!-- <p>Membership No.: {{p.membership_number}}</p> -->
+        <p>Starting Date: {{p.starting_date}}</p>
+      </ion-item>
+      <div text-center *ngIf="!policies?.length">
+        <p>Your policies will appear here</p>
+      </div>
+    </ion-list>
+</ion-content>

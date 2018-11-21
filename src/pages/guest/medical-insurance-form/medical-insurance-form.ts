@@ -7,6 +7,8 @@ import { Child } from '../../../Classes/child';
 import { Stripe } from '@ionic-native/stripe';
 import { AuthService } from '../../../providers/auth.service';
 import { STRIPE_KEY } from '../../../providers/app.constants';
+import { LinkedIn, LinkedInLoginScopes } from '@ionic-native/linkedin';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
 
 @IonicPage()
@@ -23,7 +25,7 @@ export class MedicalInsuranceFormPage {
 
 
   // for showing the current form
-  formNames = ['Select Policy', 'Enter Details', 'Make Payment'];
+  formNames = ['Select Policy', 'Enter Details', 'Summary', 'Payment'];
   showFooter = false;
   title = `Step 1: ${this.formNames[0]}`;
 
@@ -135,6 +137,8 @@ export class MedicalInsuranceFormPage {
     private alertCtrl: AlertController,
     private platform: Platform,
     private stripe: Stripe,
+    private linkedIn: LinkedIn,
+    private facebook: Facebook,
   ) { }
 
 
@@ -541,7 +545,7 @@ export class MedicalInsuranceFormPage {
   changeDateFormat(date: string) {
     // date is in yyyy-mm-dd format
     // output data will be in dd/mm/yyyy format for showing on screen
-    const d: any = date.split('-');
+    const d: string[] = date.split('-');
     return `${d[2]}/${d[1]}/${d[0]}`;
   }
 
@@ -682,6 +686,50 @@ export class MedicalInsuranceFormPage {
     return payLoad;
   }
 
+  onEnterPaymentDetais() {
+
+    // if already logged in, go to next page, otherwise ask for login 
+    if (this.authService.isLoggedIn()) {
+      this.onNext();
+    } else {
+
+      const alert: Alert = this.alertCtrl.create({
+        title: 'Enroll With',
+        inputs: [
+          {
+            type: 'radio',
+            label: 'Facebook',
+            value: 'fb'
+          }, {
+            type: 'radio',
+            label: 'LinkedIn',
+            value: 'li',
+          }, {
+            type: 'radio',
+            label: 'Continue as Guest',
+            value: 'none',
+          }
+        ],
+        buttons: [{
+          text: 'Cancel',
+          role: 'cancel',
+          // handler:
+        }, {
+          text: 'Continue',
+          handler: this.loginWithHandler.bind(this)
+        }]
+      });
+
+      alert.present();
+    }
+  }
+
+  loginWithHandler(data: string) {
+    if (data === 'fb') { this.onFbLogin(); }
+    else if (data === 'li') { this.onLinkedinLogin(); }
+    else if (data === 'none') { this.onNext(); }
+  }
+
 
   onMakePaymentBtn() {
 
@@ -782,6 +830,54 @@ export class MedicalInsuranceFormPage {
     this.navCtrl.push('AllDefinitionsPage', { 'title': title });
   }
 
+  showAlert(msg: string | any) {
+    const aler = this.alertCtrl.create({
+      title: 'Error',
+      message: typeof msg === 'string' ? msg : JSON.stringify(msg),
+      buttons: ['Ok']
+    });
+    aler.present();
+  }
+
+  // Methods related to fb and linked in login
+
+  onFbLogin() {
+    this.customService.showLoader();
+    this.facebook.login(['public_profile', 'email'])
+      .then((res: FacebookLoginResponse) => {
+        // alert(JSON.stringify(res));
+        return this.authService.sendFacebokToken(res.authResponse.accessToken).toPromise();
+      })
+      .then((backendToken: any) => {
+        // alert(JSON.stringify(backendToken));
+        this.authService.saveToken(backendToken.token)
+        return this.authService.fetchUserDetails().toPromise();
+      })
+      .then(() => this.onNext())
+      .catch(this.handleError.bind(this))
+      .then(() => {
+        this.customService.hideLoader();
+      });
+  }
+
+  onLinkedinLogin() {
+
+    this.customService.showLoader();
+    const scopes: LinkedInLoginScopes[] = ['r_basicprofile', 'r_emailaddress'/**, 'rw_company_admin', 'w_share'*/];
+    this.linkedIn.login(scopes, true)
+      .then((res: any) => this.linkedIn.getActiveSession())
+      .then((linkedInToken: any) => this.authService.sendLinkedinToken(linkedInToken.accessToken).toPromise())
+      .then((backendToken: any) => {
+        this.authService.saveToken(backendToken.token)
+        return this.authService.fetchUserDetails().toPromise();
+      })
+      .then(() => this.onNext())
+      .catch(this.handleError.bind(this))
+      .then(() => {
+        this.customService.hideLoader();
+      });
+  }
+
   handleError(err: any) {
     let error = '';
     if (typeof err === 'string') { // err object in JSON format
@@ -795,16 +891,6 @@ export class MedicalInsuranceFormPage {
     }
     this.showAlert(error || err);
     localStorage.clear();
-  }
-
-
-  showAlert(msg: string | any) {
-    const aler = this.alertCtrl.create({
-      title: 'Error',
-      message: typeof msg === 'string' ? msg : JSON.stringify(msg),
-      buttons: ['Ok']
-    });
-    aler.present();
   }
 
 

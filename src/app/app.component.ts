@@ -19,6 +19,7 @@ export class MyApp extends UserSessionManage {
   @ViewChild(Nav) nav: Nav;
   defaultUserImage: string = "assets/imgs/user.png";
   unregisterBackButtonActionForAndroid: Function;
+  exitAppPopup: Alert;
 
   constructor(
     public events: Events,
@@ -89,18 +90,23 @@ export class MyApp extends UserSessionManage {
     if (this.platform.is('android')) {
       this.unregisterBackButtonActionForAndroid = this.platform.registerBackButtonAction(() => {
 
+        // show app leave alert when opened page is root page, pop otherwise
         if (this.nav.getActive().index === 0) {
-          this.showpageLeaveAlert();
+          this.showAppLeaveAlert();
         } else {
-            this.nav.pop();
+          console.log(this.nav.getActive());
+          
+          this.nav.pop();
         }
       });
     }
   }
 
-  showpageLeaveAlert() {
+  showAppLeaveAlert() {
 
-    const alert: Alert = this.alertCtrl.create({
+    // ignore when popup is already opened, in case of repeated back btn press
+    if (this.exitAppPopup) { return; }
+    this.exitAppPopup = this.alertCtrl.create({
       title: 'Confirm',
       message: 'Are you sure to exit the app ?',
       buttons: [{
@@ -112,11 +118,10 @@ export class MyApp extends UserSessionManage {
       }]
 
     });
-    alert.present();
+    this.exitAppPopup.present();
+
+    this.exitAppPopup.onDidDismiss(() => this.exitAppPopup = null);
   }
-
-
-
 
 }
 
