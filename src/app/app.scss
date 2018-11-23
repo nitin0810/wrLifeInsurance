@@ -71,6 +71,13 @@ ion-item[main-header]{
 .primary-text{
     color:color($colors,primary);
 }
+
+.background-moving{
+    background: url('/assets/imgs/background.png');
+    background-size: cover;
+    background-repeat: repeat;
+}
+
 @keyframes slideUp{
     0%{
         transform:translatey(100px)

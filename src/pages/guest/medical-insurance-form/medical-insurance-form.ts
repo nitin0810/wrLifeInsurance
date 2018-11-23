@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides, Navbar, AlertController, Alert, Platform, Modal, ModalController, ViewController } from 'ionic-angular';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { IonicPage, NavController, NavParams, Slides, Navbar, AlertController, Alert, Platform, Modal, ModalController, ViewController, App } from 'ionic-angular';
 import { MedicalInsuranceService, FormPayload } from '../../../providers/medicalInsurance.service';
 import { CustomService } from '../../../providers/custom.service';
 import { Content } from 'ionic-angular';
@@ -16,7 +16,7 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
   selector: 'page-medical-insurance-form',
   templateUrl: 'medical-insurance-form.html',
 })
-export class MedicalInsuranceFormPage {
+export class MedicalInsuranceFormPage implements OnDestroy{
 
   @ViewChild(Slides) slides: Slides;
   @ViewChild(Content) content: Content;
@@ -130,6 +130,8 @@ export class MedicalInsuranceFormPage {
 
   constructor(
     public navCtrl: NavController,
+    public appCtrl: App,
+    public viewCtrl: ViewController,
     public navParams: NavParams,
     private customService: CustomService,
     private authService: AuthService,
@@ -197,10 +199,15 @@ export class MedicalInsuranceFormPage {
     /**handle the android hardware back btn for the same purpose*/
     if (this.platform.is('android')) {
       this.unregisterBackButtonActionForAndroid = this.platform.registerBackButtonAction(() => {
-        if (this.countries && this.premiumInfo) {
-          this.showpageLeaveAlert();
+        const overlayView = this.appCtrl._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
         } else {
-          this.navCtrl.pop();
+          if (this.countries && this.premiumInfo) {
+            this.showpageLeaveAlert();
+          } else {
+            this.navCtrl.pop();
+          }
         }
       });
     }
@@ -891,6 +898,10 @@ export class MedicalInsuranceFormPage {
     }
     this.showAlert(error || err);
     localStorage.clear();
+  }
+
+  ngOnDestroy(){
+    this.viewCtrl.dismiss();
   }
 
 

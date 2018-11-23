@@ -20,6 +20,7 @@ export class MyApp extends UserSessionManage {
   defaultUserImage: string = "assets/imgs/user.png";
   unregisterBackButtonActionForAndroid: Function;
   exitAppPopup: Alert;
+  lastBack: number;
 
   constructor(
     public events: Events,
@@ -40,7 +41,23 @@ export class MyApp extends UserSessionManage {
       statusBar.styleDefault();
       splashScreen.hide();
       this.menu.enable(false);
-      this.overrideBackBtnFunctionality();
+      // this.overrideBackBtnFunctionality();
+    });
+
+    platform.registerBackButtonAction(() => {
+      const overlayView = this.appCtrl._appRoot._overlayPortal._views[0];
+      if(overlayView && overlayView.dismiss) {
+        overlayView.dismiss();
+      } else {
+        let nav = this.appCtrl.getActiveNav();
+        if(nav.canGoBack()){
+          nav.pop();
+        } else if(this.lastBack + 500 < Date.now()) {
+          // this.platform.exitApp();
+          this.showAppLeaveAlert();
+        }
+      }
+      this.lastBack = Date.now();
     });
   }
 
@@ -94,8 +111,6 @@ export class MyApp extends UserSessionManage {
         if (this.nav.getActive().index === 0) {
           this.showAppLeaveAlert();
         } else {
-          console.log(this.nav.getActive());
-          
           this.nav.pop();
         }
       });
@@ -103,7 +118,6 @@ export class MyApp extends UserSessionManage {
   }
 
   showAppLeaveAlert() {
-
     // ignore when popup is already opened, in case of repeated back btn press
     if (this.exitAppPopup) { return; }
     this.exitAppPopup = this.alertCtrl.create({
@@ -119,7 +133,6 @@ export class MyApp extends UserSessionManage {
 
     });
     this.exitAppPopup.present();
-
     this.exitAppPopup.onDidDismiss(() => this.exitAppPopup = null);
   }
 

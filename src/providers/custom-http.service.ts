@@ -49,6 +49,14 @@ export class CustomHttpService {
             .catch(this.handleError);
     }
 
+    put(url: string, body: any, options?: HttpHeaders) {
+        const headers = this.addHeaders(options);
+
+        return this.httpClient.put(BASEURL + url, body, { observe: 'response', headers: headers })
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
   
 
     private extractData(res: HttpResponse<any>) {

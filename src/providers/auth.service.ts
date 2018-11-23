@@ -50,5 +50,13 @@ export class AuthService {
         return this.http.post(`/oauth/token?grant_type=password&username=${data.email}&password=${data.password}`, {});
     }
 
+    signup(data: any) {
+        return this.http.post('/signup',data);
+    }
+
+    forgotPassword(object: any){
+        return this.http.put('/forgot-password',object);
+    }
+
 
 }
