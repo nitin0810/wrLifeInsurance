@@ -154,17 +154,17 @@ export class MedicalInsuranceFormPage implements OnDestroy{
     this.overrideBackBtnFunctionality();
     this.userStoredInfo = this.authService.getUserDetails();
   }
-
+      
   ionViewWillLeave() {
 
     //hide loader in case its visible (any request is pending)
-    try {
-      // console.log('trying...1');
-      // put this line inside try block as it generates error if loader is not visible
-      this.customService.hideLoader();
-    } catch (e) {
-      // console.log('error', e);
-    }
+    // try {
+    //   // console.log('trying...1');
+    //   // put this line inside try block as it generates error if loader is not visible
+    //   this.customService.hideLoader();
+    // } catch (e) {
+    //   // console.log('error', e);
+    // }
 
     // unsubscribe from requests subscriptions, it is done in order to remova a bug in which
     // after closing the page while a request is in progress, code related to request subscription

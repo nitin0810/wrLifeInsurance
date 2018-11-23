@@ -71,6 +71,12 @@ export class SignUpPage {
     );
   }
 
+  checkPassword() {
+    let pass = this.signupForm.controls.password.value;
+    let confirmPass = this.signupForm.controls.confirmPassword.value;
+    return pass != confirmPass ? true : false; 
+  }
+
   dismiss() {
     this.viewCtrl.dismiss();
   }

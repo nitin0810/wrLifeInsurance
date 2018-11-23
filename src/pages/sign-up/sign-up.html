@@ -47,11 +47,14 @@
         <ion-input type="password" formControlName="password"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label floating>Confirm Password</ion-label>
+        <ion-label floating>Confirm Password *</ion-label>
         <ion-input type="password" formControlName="confirmPassword"></ion-input>
       </ion-item>
+      <div class="err-msg" *ngIf="signupForm.controls.confirmPassword.valid&&checkPassword()">
+        <p>* Password mismatch</p>
+      </div>
       <div padding>
-        <button ion-button block>Submit</button>
+        <button ion-button block [disabled]="signupForm.invalid">Submit</button>
       </div>
     </form>
   </ion-list>

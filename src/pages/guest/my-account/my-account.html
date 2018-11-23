@@ -7,8 +7,30 @@
 
 
 <ion-content  class="backgorund-color">
-    <ion-spinner *ngIf="loadingPolicies" style="text-align: center;"></ion-spinner>
+    <ion-card>
 
+        <ion-item>
+          <!-- <ion-avatar item-start>
+            <img src="img/marty-avatar.png">
+          </ion-avatar> -->
+          <h2>{{userDetails.first_name}} {{userDetails.last_name || ''}}</h2>
+          <p>Membership Number: <span>{{userDetails.membership_number}}</span></p>
+        </ion-item>
+      
+        <!-- <img src="img/advance-card-bttf.png"> -->
+      
+        <ion-card-content>
+          <p><b>Contact No : </b>{{userDetails.phone}}</p>
+          <p><b>Email: </b>{{userDetails.email}}</p>
+          <p><b>Skype: </b>{{userDetails.skype}}</p>
+        </ion-card-content>
+        <div padding>
+          <button ion-button block (click)="changePassword()">Change Password</button>
+        </div>
+    </ion-card>
+
+
+    <ion-spinner *ngIf="loadingPolicies" style="text-align: center;"></ion-spinner>
     <ion-list *ngIf="!loadingPolicies">
       <ion-list-header>Purchased Policies</ion-list-header>
       <ion-item *ngFor="let p of policies;let i =index" (click)="openPolicyDetail(p)">

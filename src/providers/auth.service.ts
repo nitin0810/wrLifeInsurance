@@ -58,5 +58,9 @@ export class AuthService {
         return this.http.put('/forgot-password',object);
     }
 
+    changePassword(data:any){
+        return this.http.put('/user/change-password',data);
+    }
+
 
 }
