@@ -10,9 +10,7 @@ import { CustomService } from '../../../providers/custom.service';
 })
 export class GuestHomePage implements OnInit {
 
-  policies: Array<any>;
-  showPolices = false; // only show for logged in user
-  loadingPolicies = false;
+
 
   constructor(
     public navCtrl: NavController,
@@ -22,12 +20,7 @@ export class GuestHomePage implements OnInit {
   ) {
   }
 
-  ngOnInit() {
-    this.showPolices = this.authService.isLoggedIn();
-    if (this.showPolices) {
-      this.getPolicies();
-    }
-  }
+  ngOnInit() {   }
 
   ionViewWillEnter() {
     this.menu.enable(true);
@@ -41,19 +34,4 @@ export class GuestHomePage implements OnInit {
     this.navCtrl.push('MedicalInsuranceFormPage');
   }
 
-  getPolicies() {
-    this.loadingPolicies = true;
-    this.authService.fetchPolicies()
-      .subscribe((res: any) => {
-        this.policies = res;
-        this.loadingPolicies = false;
-      }, (err: any) => {
-        this.customService.showToast(err.msg);
-        this.loadingPolicies = false;
-      });
-  }
-
-  openPolicyDetail(policy: any) {
-    // this.navCtrl.push('PolicyDetailPage',{policy:policy});
-  }
 }

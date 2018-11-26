@@ -14,8 +14,10 @@
             <div class="err-msg" *ngIf="errorMsg">
                 <p>{{errorMsg}}</p>
             </div>
-            <button ion-button full rounded type="submit" [disabled]="logging" style="border-radius: 4px;">{{logging?'Logging In ...' :'Login' }}</button>
             <button ion-button full rounded type="button" (click)="onGuest()" [disabled]="logging" style="border-radius: 4px;">Continue as Guest</button>
+            <button ion-button full rounded type="submit" [disabled]="logging" style="border-radius: 4px;">{{logging?'Logging In ...' :'Login' }}</button>
+
+            <button class="btn btn-link" type="button" (click)="forgotPassword()">forgot password</button>
 
         </form>
     </ion-card>
@@ -34,6 +36,8 @@
             <ion-icon name="logo-linkedin" class="iconFB"></ion-icon>
             Login with Linkedin
         </button>
+
+        <button ion-button color="primary" class="fbloginBtn" type="button" (click)="signup()">Sign Up</button>
     </div>
 
 </ion-content>

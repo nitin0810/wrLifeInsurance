@@ -15,12 +15,14 @@ export class CustomService {
     public showLoader(text?: string) {
 
         this.loading = this.l.create({
-            content: text || 'Please wait...'
+            content: text || 'Please wait...',
         });
         this.loading.present();
     }
 
-    public hideLoader() { this.loading.dismiss(); }
+    public hideLoader() {
+        this.loading.dismiss();
+     }
 
     public showToast(msg, pos?: string, showCloseBtn?: boolean) {
 

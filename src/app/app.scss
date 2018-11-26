@@ -42,22 +42,22 @@
 
 ion-item[main-header]{
     padding:0;
-    position: sticky;
-    top: -210px;
+    // position: sticky;
+    // top: -210px;
     background:linear-gradient(lighten(color($colors,primary),20),color($colors,primary));
     .title-image{
         height: 200px;
         display:block;
         margin:auto;
     }
-    ion-title, .toolbar-title{
-        color:color($colors,secondary) !important;
-        text-align:center;
-        padding: 10px 0 0 0;
-    }
-    .fab[mini]{
-        margin:0px!important;
-    }
+    // ion-title, .toolbar-title{
+    //     color:color($colors,secondary) !important;
+    //     text-align:center;
+    //     padding: 10px 0 0 0;
+    // }
+    // .fab[mini]{
+    //     margin:0px!important;
+    // }
 }
 
 .gray-back{
@@ -71,6 +71,13 @@ ion-item[main-header]{
 .primary-text{
     color:color($colors,primary);
 }
+
+.background-moving{
+    background: url('/assets/imgs/background.png');
+    background-size: cover;
+    background-repeat: repeat;
+}
+
 @keyframes slideUp{
     0%{
         transform:translatey(100px)

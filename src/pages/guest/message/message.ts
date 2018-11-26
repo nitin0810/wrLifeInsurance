@@ -21,7 +21,6 @@ export class MessagePage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private viewCtrl: ViewController,
     private customService: CustomService
   ) {
   }
@@ -32,11 +31,7 @@ export class MessagePage {
 
   onSubmit() {
     this.customService.showToast('Message sent, You will be contacted soon .');
-    this.dismiss();
-  }
-
-  dismiss() {
-    this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
 }

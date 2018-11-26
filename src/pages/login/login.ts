@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, Events, MenuController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, Events, MenuController, AlertController, ModalController } from 'ionic-angular';
 import { GuestHomePage } from '../guest/home/home';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from '../../providers/auth.service';
@@ -29,7 +29,8 @@ export class LoginPage implements OnInit {
     private linkedIn: LinkedIn,
     private facebook: Facebook,
     private alertCtrl: AlertController,
-    private customService: CustomService
+    private customService: CustomService,
+    public modalCtrl:ModalController
   ) { }
 
 
@@ -131,6 +132,16 @@ export class LoginPage implements OnInit {
       .then(() => {
         this.customService.hideLoader();
       });
+  }
+
+  forgotPassword(){
+    const forgotPasswordModal =  this.modalCtrl.create('ForgortPasswordPage');
+    forgotPasswordModal.present();
+  }
+
+  signup(){
+    const signupModal =  this.modalCtrl.create('SignUpPage');
+    signupModal.present();
   }
 
   handleError(err: any) {

@@ -1,13 +1,14 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides, Navbar, AlertController, Alert, Platform, Modal, ModalController } from 'ionic-angular';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { IonicPage, NavController, NavParams, Slides, Navbar, AlertController, Alert, Platform, Modal, ModalController, ViewController, App } from 'ionic-angular';
 import { MedicalInsuranceService, FormPayload } from '../../../providers/medicalInsurance.service';
 import { CustomService } from '../../../providers/custom.service';
 import { Content } from 'ionic-angular';
 import { Child } from '../../../Classes/child';
-import { Subscription } from 'rxjs/Subscription';
 import { Stripe } from '@ionic-native/stripe';
 import { AuthService } from '../../../providers/auth.service';
 import { STRIPE_KEY } from '../../../providers/app.constants';
+import { LinkedIn, LinkedInLoginScopes } from '@ionic-native/linkedin';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
 
 @IonicPage()
@@ -15,7 +16,7 @@ import { STRIPE_KEY } from '../../../providers/app.constants';
   selector: 'page-medical-insurance-form',
   templateUrl: 'medical-insurance-form.html',
 })
-export class MedicalInsuranceFormPage {
+export class MedicalInsuranceFormPage implements OnDestroy{
 
   @ViewChild(Slides) slides: Slides;
   @ViewChild(Content) content: Content;
@@ -24,7 +25,7 @@ export class MedicalInsuranceFormPage {
 
 
   // for showing the current form
-  formNames = ['Select Policy', 'Enter Details', 'Make Payment'];
+  formNames = ['Select Policy', 'Enter Details', 'Summary', 'Payment'];
   showFooter = false;
   title = `Step 1: ${this.formNames[0]}`;
 
@@ -129,14 +130,17 @@ export class MedicalInsuranceFormPage {
 
   constructor(
     public navCtrl: NavController,
+    public appCtrl: App,
+    public viewCtrl: ViewController,
     public navParams: NavParams,
     private customService: CustomService,
     private authService: AuthService,
     private medicalInsuranceService: MedicalInsuranceService,
     private alertCtrl: AlertController,
     private platform: Platform,
-    private modalCtrl: ModalController,
-    private stripe: Stripe
+    private stripe: Stripe,
+    private linkedIn: LinkedIn,
+    private facebook: Facebook,
   ) { }
 
 
@@ -150,25 +154,26 @@ export class MedicalInsuranceFormPage {
     this.overrideBackBtnFunctionality();
     this.userStoredInfo = this.authService.getUserDetails();
   }
-
+      
   ionViewWillLeave() {
 
     //hide loader in case its visible (any request is pending)
-    try {
-      // put this line inside try block as it generates error if loader is not visible
-      this.customService.hideLoader();
-    } catch (e) {
-
-    }
+    // try {
+    //   // console.log('trying...1');
+    //   // put this line inside try block as it generates error if loader is not visible
+    //   this.customService.hideLoader();
+    // } catch (e) {
+    //   // console.log('error', e);
+    // }
 
     // unsubscribe from requests subscriptions, it is done in order to remova a bug in which
     // after closing the page while a request is in progress, code related to request subscription
     // still executes even page is closed
-    this.subscriptions.countryAge.unsubscribe();
-    this.subscriptions.broker.unsubscribe();
-    this.subscriptions.premium.unsubscribe();
-    this.subscriptions.payment.unsubscribe();
-    this.subscriptions.form2.unsubscribe();
+    this.subscriptions.countryAge && this.subscriptions.countryAge.unsubscribe();
+    this.subscriptions.broker && this.subscriptions.broker.unsubscribe();
+    this.subscriptions.premium && this.subscriptions.premium.unsubscribe();
+    this.subscriptions.payment && this.subscriptions.payment.unsubscribe();
+    this.subscriptions.form2 && this.subscriptions.form2.unsubscribe();
     // Unregister the custom back button action for this page
     this.unregisterBackButtonActionForAndroid && this.unregisterBackButtonActionForAndroid();
   }
@@ -181,13 +186,29 @@ export class MedicalInsuranceFormPage {
     this.navBar.backButtonClick = (ev: any) => {
       ev.preventDefault();
       ev.stopPropagation();
-      this.showpageLeaveAlert();
+      // check if the data being fethed in the initial request is available
+      // then only alert the user to confirm leaving the page, not otherwise
+      if (this.countries && this.premiumInfo) {
+        this.showpageLeaveAlert();
+      } else {
+        this.navCtrl.pop();
+      }
     }
+
 
     /**handle the android hardware back btn for the same purpose*/
     if (this.platform.is('android')) {
       this.unregisterBackButtonActionForAndroid = this.platform.registerBackButtonAction(() => {
-        this.showpageLeaveAlert();
+        const overlayView = this.appCtrl._appRoot._overlayPortal._views[0];
+        if (overlayView && overlayView.dismiss) {
+          overlayView.dismiss();
+        } else {
+          if (this.countries && this.premiumInfo) {
+            this.showpageLeaveAlert();
+          } else {
+            this.navCtrl.pop();
+          }
+        }
       });
     }
   }
@@ -223,18 +244,29 @@ export class MedicalInsuranceFormPage {
         this.initialCountry = this.countries[0];
         // get the premium info for the first time
         this.state = this.medicalInsuranceService.getInitialState(this.initialCountry.area_name);
-        this.customService.hideLoader();
+        try {
+          // console.log('---------------------------------------');
+          // console.log('trying...2');
+          this.customService.hideLoader();
+        } catch (e) {
+          // console.log('error2',e);
+        }
+
         this.calculatePremiumPrice();
         this.getBrokerId();
       }, (err: any) => {
-
-        this.customService.hideLoader();
+        try {
+          // console.log('trying...3');
+          this.customService.hideLoader();
+        } catch (e) {
+          //  console.log('error3',e);
+        }
         this.customService.showToast(err.msg);
       });
   }
 
   getBrokerId() {
-   this.subscriptions.broker= this.medicalInsuranceService.getBrokerId()
+    this.subscriptions.broker = this.medicalInsuranceService.getBrokerId()
       .subscribe((res: any) => {
         this.brokerId = res.brokerId;
       }, (err: any) => {
@@ -279,9 +311,19 @@ export class MedicalInsuranceFormPage {
         this.premiumInfo = res;
         this.showFooter = true;
         this.content.resize();
-        this.customService.hideLoader();
+        try {
+          // console.log('trying price success');
+          this.customService.hideLoader();
+        } catch (e) {
+          // console.log('error', e);
+        }
       }, (err) => {
-        this.customService.hideLoader();
+        try {
+          // console.log('trying price error');
+          this.customService.hideLoader();
+        } catch (e) {
+          // console.log('error', e);
+        }
         // info about the error response from php server is not available, 
         // So check if error is obtained or not
         if (err) {
@@ -292,6 +334,7 @@ export class MedicalInsuranceFormPage {
             buttons: ['Dismiss']
           });
           alert.present();
+
         } else {
           this.customService.showToast('Some error occured, Please try again');
 
@@ -325,7 +368,7 @@ export class MedicalInsuranceFormPage {
     }
     // end of resetting the array items
 
-    // in case 2 Persons is selected, state.members shud be 2-Persons
+    // in case 2 Persons is selected, state.members shud be '2-Persons'
     if (members == '2 Persons') {
       this.state.members = members.split(' ').join('-');
     } else {
@@ -509,7 +552,7 @@ export class MedicalInsuranceFormPage {
   changeDateFormat(date: string) {
     // date is in yyyy-mm-dd format
     // output data will be in dd/mm/yyyy format for showing on screen
-    const d: any = date.split('-');
+    const d: string[] = date.split('-');
     return `${d[2]}/${d[1]}/${d[0]}`;
   }
 
@@ -557,13 +600,11 @@ export class MedicalInsuranceFormPage {
 
     const payLoad: any = this.prepareData();
     this.customService.showLoader();
-    this.subscriptions.form2= this.medicalInsuranceService.submitForm2(payLoad)
+    this.subscriptions.form2 = this.medicalInsuranceService.submitForm2(payLoad)
       .subscribe((res: any) => {
 
         this.customService.hideLoader();
-        this.lockSliding(false);
-        this.slides.slideNext();
-        this.lockSliding(true);
+        this.onNext();
         this.form2SubmitResponse = res;
       }, (err: any) => {
         this.customService.hideLoader();
@@ -650,6 +691,50 @@ export class MedicalInsuranceFormPage {
 
     // console.log(payLoad);
     return payLoad;
+  }
+
+  onEnterPaymentDetais() {
+
+    // if already logged in, go to next page, otherwise ask for login 
+    if (this.authService.isLoggedIn()) {
+      this.onNext();
+    } else {
+
+      const alert: Alert = this.alertCtrl.create({
+        title: 'Enroll With',
+        inputs: [
+          {
+            type: 'radio',
+            label: 'Facebook',
+            value: 'fb'
+          }, {
+            type: 'radio',
+            label: 'LinkedIn',
+            value: 'li',
+          }, {
+            type: 'radio',
+            label: 'Continue as Guest',
+            value: 'none',
+          }
+        ],
+        buttons: [{
+          text: 'Cancel',
+          role: 'cancel',
+          // handler:
+        }, {
+          text: 'Continue',
+          handler: this.loginWithHandler.bind(this)
+        }]
+      });
+
+      alert.present();
+    }
+  }
+
+  loginWithHandler(data: string) {
+    if (data === 'fb') { this.onFbLogin(); }
+    else if (data === 'li') { this.onLinkedinLogin(); }
+    else if (data === 'none') { this.onNext(); }
   }
 
 
@@ -749,8 +834,55 @@ export class MedicalInsuranceFormPage {
 
 
   showDefiniton(title: string) {
-    const modal: Modal = this.modalCtrl.create('AllDefinitionsPage', { 'title': title });
-    modal.present();
+    this.navCtrl.push('AllDefinitionsPage', { 'title': title });
+  }
+
+  showAlert(msg: string | any) {
+    const aler = this.alertCtrl.create({
+      title: 'Error',
+      message: typeof msg === 'string' ? msg : JSON.stringify(msg),
+      buttons: ['Ok']
+    });
+    aler.present();
+  }
+
+  // Methods related to fb and linked in login
+
+  onFbLogin() {
+    this.customService.showLoader();
+    this.facebook.login(['public_profile', 'email'])
+      .then((res: FacebookLoginResponse) => {
+        // alert(JSON.stringify(res));
+        return this.authService.sendFacebokToken(res.authResponse.accessToken).toPromise();
+      })
+      .then((backendToken: any) => {
+        // alert(JSON.stringify(backendToken));
+        this.authService.saveToken(backendToken.token)
+        return this.authService.fetchUserDetails().toPromise();
+      })
+      .then(() => this.onNext())
+      .catch(this.handleError.bind(this))
+      .then(() => {
+        this.customService.hideLoader();
+      });
+  }
+
+  onLinkedinLogin() {
+
+    this.customService.showLoader();
+    const scopes: LinkedInLoginScopes[] = ['r_basicprofile', 'r_emailaddress'/**, 'rw_company_admin', 'w_share'*/];
+    this.linkedIn.login(scopes, true)
+      .then((res: any) => this.linkedIn.getActiveSession())
+      .then((linkedInToken: any) => this.authService.sendLinkedinToken(linkedInToken.accessToken).toPromise())
+      .then((backendToken: any) => {
+        this.authService.saveToken(backendToken.token)
+        return this.authService.fetchUserDetails().toPromise();
+      })
+      .then(() => this.onNext())
+      .catch(this.handleError.bind(this))
+      .then(() => {
+        this.customService.hideLoader();
+      });
   }
 
   handleError(err: any) {
@@ -768,14 +900,8 @@ export class MedicalInsuranceFormPage {
     localStorage.clear();
   }
 
-
-  showAlert(msg: string | any) {
-    const aler = this.alertCtrl.create({
-      title: 'Error',
-      message: typeof msg === 'string' ? msg : JSON.stringify(msg),
-      buttons: ['Ok']
-    });
-    aler.present();
+  ngOnDestroy(){
+    this.viewCtrl.dismiss();
   }
 
 

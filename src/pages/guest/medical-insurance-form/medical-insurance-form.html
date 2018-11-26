@@ -34,8 +34,9 @@
                         <ion-label>Date of Birth
                             <span class="mandotry">*</span>
                         </ion-label>
-                        <ion-datetime [(ngModel)]="dobs[0]" name="dob0" required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
-                            [min]="minDOBMain" [max]="today" (ionChange)="calculateAge($event)"></ion-datetime>
+                        <ion-datetime [(ngModel)]="dobs[0]" name="dob0" required displayFormat="DD MMM, YYYY"
+                            placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBMain" [max]="today"
+                            (ionChange)="calculateAge($event)"></ion-datetime>
 
                     </ion-item>
 
@@ -44,7 +45,7 @@
                             <small>(Max Age {{maxAgeMain}})</small>
                         </ion-label>
 
-                        <div *ngIf="state.txtApAge" item-end> {{state.txtApAge}} Years</div>
+                        <span *ngIf="state.txtApAge" item-end> {{state.txtApAge}} Years</span>
 
                     </ion-item>
                     <ion-item>
@@ -68,9 +69,10 @@
                         <ion-item-divider color="primary">Member 2: wife, husband, partner or child {{maxAgeChild}}
                         </ion-item-divider>
                         <ion-item text-wrap>
-                            <ion-label class="mandotry">Date of Birth *</ion-label>
-                            <ion-datetime [(ngModel)]="dobs[1]" name="dob1" required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
-                                [min]="minDOBMain" [max]="today" (ionChange)="calculateAge($event,1)"></ion-datetime>
+                            <ion-label >Date of Birth<span class="mandotry">*</span> </ion-label>
+                            <ion-datetime [(ngModel)]="dobs[1]" name="dob1" required displayFormat="DD MMM, YYYY"
+                                placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBMain" [max]="today"
+                                (ionChange)="calculateAge($event,1)"></ion-datetime>
                         </ion-item>
                         <ion-item *ngIf="state.members==='2-Persons' || state.members==='Family'">
                             <ion-label item-start>
@@ -86,9 +88,10 @@
                     <ion-item-group>
                         <ion-item-divider color="primary">Member 3: Child {{maxAgeChild}} </ion-item-divider>
                         <ion-item>
-                            <ion-label>Date of Birth *</ion-label>
-                            <ion-datetime [(ngModel)]="dobs[2]" name="dob2" required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
-                                [min]="minDOBChild" [max]="today" (ionChange)="calculateAge($event,2)"></ion-datetime>
+                            <ion-label>Date of Birth <span class="mandotry">*</span></ion-label>
+                            <ion-datetime [(ngModel)]="dobs[2]" name="dob2" required displayFormat="DD MMM, YYYY"
+                                placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBChild" [max]="today"
+                                (ionChange)="calculateAge($event,2)"></ion-datetime>
                         </ion-item>
                         <ion-item>
                             <ion-label item-start>
@@ -108,9 +111,10 @@
                             <ion-toggle (ionChange)="toggleChange($event,5)"></ion-toggle>
                         </ion-item>
                         <ion-item *ngIf="state.member4status==1">
-                            <ion-label class="mandotry">Date of Birth *</ion-label>
-                            <ion-datetime [(ngModel)]="dobs[3]" name="dob3" required displayFormat="DD MMM, YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
-                                [min]="minDOBChild" [max]="today" (ionChange)="calculateAge($event,3)"></ion-datetime>
+                            <ion-label >Date of Birth <span class="mandotry">*</span></ion-label>
+                            <ion-datetime [(ngModel)]="dobs[3]" name="dob3" required displayFormat="DD MMM, YYYY"
+                                placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBChild" [max]="today"
+                                (ionChange)="calculateAge($event,3)"></ion-datetime>
                         </ion-item>
                         <ion-item *ngIf="state.member4status==1">
                             <ion-label item-start>
@@ -174,7 +178,8 @@
                             <ion-item-divider color="primary">Assistance Evacuation Repatriation</ion-item-divider>
                             <ion-item text-wrap>
                                 <ion-label>Select Member</ion-label>
-                                <ion-select (ionChange)="onEvacuationChange($event)" [(ngModel)]="initialEvacuation" name="evacuation">
+                                <ion-select (ionChange)="onEvacuationChange($event)" [(ngModel)]="initialEvacuation"
+                                    name="evacuation">
                                     <ion-option *ngFor="let m of assistantEvacuations" [value]="m">{{m}}</ion-option>
                                 </ion-select>
                                 <button type="button" clear ion-button icon-only item-end (click)="showDefiniton('Assistance Evacuation Repatriation')">
@@ -189,7 +194,8 @@
                             <ion-item-divider color="primary">Adjust Global Limit</ion-item-divider>
                             <ion-item text-wrap>
                                 <ion-label>Select Limit</ion-label>
-                                <ion-select (ionChange)="onGlobalLimitChange($event)" [(ngModel)]="initialGlobalLimit" name="globalLimit">
+                                <ion-select (ionChange)="onGlobalLimitChange($event)" [(ngModel)]="initialGlobalLimit"
+                                    name="globalLimit">
                                     <ion-option *ngFor="let g of globalLimits" [value]="g">{{g.name}}</ion-option>
                                 </ion-select>
                                 <button type="button" clear ion-button icon-only item-end (click)="showDefiniton('Adjust Global Limit')">
@@ -205,7 +211,8 @@
                             <ion-item-divider color="primary">Adjust deductible per Hospitalization claim</ion-item-divider>
                             <ion-item text-wrap>
                                 <ion-label>Select Adjustment</ion-label>
-                                <ion-select (ionChange)="onAdjustmentChange($event)" [(ngModel)]="initialAdjustment" name="adjustment">
+                                <ion-select (ionChange)="onAdjustmentChange($event)" [(ngModel)]="initialAdjustment"
+                                    name="adjustment">
                                     <ion-option *ngFor="let a of adjustments" [value]="a">{{a.name}}</ion-option>
                                 </ion-select>
                                 <button clear type="button" ion-button icon-only item-end (click)="showDefiniton('Adjust deductible per Hospitalization claim')">
@@ -224,7 +231,7 @@
         <!-- SLIDE 2: PERSONAL DETAILS SLIDE-->
         <ion-slide>
             <ion-toolbar color="primary">
-                <page-prevnext-component [isDisabled]="true" (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
+                <page-prevnext-component [isDisabled]="form2.invalid" (prev)="onPrev()" (next)="onGoToPaymentBtn()"></page-prevnext-component>
             </ion-toolbar>
             <form #form2="ngForm" no-validate (ngSubmit)="onGoToPaymentBtn()">
                 <div *ngIf="form2Details">
@@ -236,19 +243,22 @@
                             <ion-label color="primary">Last Name
                                 <span class="mandotry">*</span>
                             </ion-label>
-                            <ion-input type="text" required [(ngModel)]="form2Details.policy_owner_first" name="last" placeholder="Last Name"></ion-input>
+                            <ion-input type="text" required [(ngModel)]="form2Details.policy_owner_first" name="last"
+                                placeholder="Last Name"></ion-input>
                         </ion-item>
                         <ion-item>
                             <ion-label color="primary">First Name
                                 <span class="mandotry">*</span>
                             </ion-label>
-                            <ion-input type="text" required [(ngModel)]="form2Details.policy_owner_last" name="first" placeholder="First Name"></ion-input>
+                            <ion-input type="text" required [(ngModel)]="form2Details.policy_owner_last" name="first"
+                                placeholder="First Name"></ion-input>
                         </ion-item>
                         <ion-item>
                             <ion-label color="primary">Mobile
                                 <span class="mandotry">*</span>
                             </ion-label>
-                            <ion-input type="tel" required [(ngModel)]="form2Details.mobile_phone" name="mobile" placeholder="Enter Mobile" maxlength="20"></ion-input>
+                            <ion-input type="tel" required [(ngModel)]="form2Details.mobile_phone" name="mobile"
+                                placeholder="Enter Mobile" maxlength="20"></ion-input>
                         </ion-item>
                         <ion-item>
                             <ion-label color="primary">Email
@@ -284,7 +294,8 @@
 
                         <ion-item>
                             <ion-label color="primary">Nationality </ion-label>
-                            <ion-select name="nationality" [(ngModel)]="form2Details.nationality" name="nationality" placeholder="Select Country">
+                            <ion-select name="nationality" [(ngModel)]="form2Details.nationality" name="nationality"
+                                placeholder="Select Country">
                                 <ion-option *ngFor="let c of countries" [value]="c.country_name">{{c.country_name}}</ion-option>
                             </ion-select>
                         </ion-item>
@@ -304,7 +315,8 @@
                         <div>
                             <ion-item>
                                 <ion-label stacked color="primary">Address of Expatriation </ion-label>
-                                <ion-input class="border-bottom" [(ngModel)]="form2Details.expatriation_address" name="eAddress" (ionChange)="onExpatriationAddressChange()"></ion-input>
+                                <ion-input class="border-bottom" [(ngModel)]="form2Details.expatriation_address" name="eAddress"
+                                    (ionChange)="onExpatriationAddressChange()"></ion-input>
                             </ion-item>
 
                             <h5 color="primary" margin-top class="primaryColor">Billing Address</h5>
@@ -314,11 +326,13 @@
                             </ion-item>
                             <ion-item>
                                 <ion-label stacked color="primary">Billing Address</ion-label>
-                                <ion-input [disabled]="addressToggleValue" class="border-bottom" [(ngModel)]="form2Details.billing_address" name="bAddress"></ion-input>
+                                <ion-input [disabled]="addressToggleValue" class="border-bottom" [(ngModel)]="form2Details.billing_address"
+                                    name="bAddress"></ion-input>
                             </ion-item>
                             <ion-item>
                                 <ion-label color="primary">Phone</ion-label>
-                                <ion-input type="tel" [(ngModel)]="form2Details.Phone" name="phone" placeholder="Enter Phone" maxlength="20"></ion-input>
+                                <ion-input type="tel" [(ngModel)]="form2Details.Phone" name="phone" placeholder="Enter Phone"
+                                    maxlength="20"></ion-input>
                             </ion-item>
                             <ion-item>
                                 <ion-label color="primary">Skype Id</ion-label>
@@ -339,13 +353,15 @@
                                 <ion-label color="primary">Last Name
                                     <span class="mandotry">*</span>
                                 </ion-label>
-                                <ion-input class="border-bottom" type="text" required [(ngModel)]="form2Details.partner_last" name="partner_last" placeholder="Last Name"></ion-input>
+                                <ion-input class="border-bottom" type="text" required [(ngModel)]="form2Details.partner_last" name="partner_last"
+                                    placeholder="Last Name"></ion-input>
                             </ion-item>
                             <ion-item>
                                 <ion-label color="primary">First Name
                                     <span class="mandotry">*</span>
                                 </ion-label>
-                                <ion-input type="text" class="border-bottom" required [(ngModel)]="form2Details.partner_first" name="partner_first" placeholder="First Name"></ion-input>
+                                <ion-input class="border-bottom"  type="text" required [(ngModel)]="form2Details.partner_first" name="partner_first"
+                                    placeholder="First Name"></ion-input>
                             </ion-item>
 
                             <div radio-group [(ngModel)]="form2Details.partner_sex" name="partner_sex">
@@ -383,11 +399,13 @@
 
                                 <ion-item>
                                     <ion-label color="primary">Last Name <span class="mandotry">*</span></ion-label>
-                                    <ion-input type="text"class="border-bottom" required [(ngModel)]="child.last" name="child.last{{i+1}}" placeholder="Last Name"></ion-input>
+                                    <ion-input class="border-bottom" type="text" required [(ngModel)]="child.last" name="child.last{{i+1}}"
+                                        placeholder="Last Name"></ion-input>
                                 </ion-item>
                                 <ion-item>
                                     <ion-label color="primary">First Name <span class="mandotry">*</span></ion-label>
-                                    <ion-input type="text" class="border-bottom" required [(ngModel)]="child.first" name="child.first{{i+1}}" placeholder="First Name"></ion-input>
+                                    <ion-input  class="border-bottom" type="text" required [(ngModel)]="child.first" name="child.first{{i+1}}"
+                                        placeholder="First Name"></ion-input>
                                 </ion-item>
 
                                 <div radio-group [(ngModel)]="child.sex" name="child.sex{{i+1}}">
@@ -413,28 +431,31 @@
                                 </ion-item>
                                 <ion-item *ngIf="i>=2">
                                     <ion-label>Date of Birth <span class="mandotry">*</span></ion-label>
-                                    <ion-datetime required [(ngModel)]="dobsForm2[i]" name="dobs2{{i}}" displayFormat="DD/MM/YYYY" placeholder="DD MMM, YYYY"
-                                        pickerFormat="DD MMM, YYYY" [min]="minDOBChild" [max]="today" (ionChange)="calculateAgeForForm2($event,child,i)"></ion-datetime>
+                                    <ion-datetime required [(ngModel)]="dobsForm2[i]" name="dobs2{{i}}" displayFormat="DD/MM/YYYY"
+                                        placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBChild"
+                                        [max]="today" (ionChange)="calculateAgeForForm2($event,child,i)"></ion-datetime>
                                 </ion-item>
 
                             </div>
 
-                            <button *ngIf="childrenDetail.length>=2 &&childrenDetail.length<16" ion-button type="button" small (click)="onAddChildBtn()">Add
+                            <button *ngIf="childrenDetail.length>=2 &&childrenDetail.length<16" ion-button type="button"
+                                small (click)="onAddChildBtn()">Add
                                 One Child</button>
                         </ion-item-group>
                     </ion-card>
                     <h4>Medical Questionnaire </h4>
                     <ion-card>
                         <ion-item-group>
-                            <ion-item-divider color="primary">Main Insured *</ion-item-divider>
+                            <ion-item-divider color="primary">Main Insured </ion-item-divider>
                             <ion-item>
                                 <ion-label color="primary">Height<span class="mandotry">*</span></ion-label>
-                                <ion-input type="number" class="border-bottom" required [(ngModel)]="form2Details.main_insured_height" name="main_height"
-                                    placeholder="Height (m)"></ion-input>
+                                <ion-input type="number" class="border-bottom" required [(ngModel)]="form2Details.main_insured_height"
+                                    name="main_height" placeholder="Height (m)"></ion-input>
                             </ion-item>
                             <ion-item>
                                 <ion-label color="primary">Weight<span class="mandotry">*</span></ion-label>
-                                <ion-input type="number" class="border-bottom" required [(ngModel)]="form2Details.main_insured_weight" name="main_weight" placeholder="Weight (Kg)"></ion-input>
+                                <ion-input type="number" required [(ngModel)]="form2Details.main_insured_weight" name="main_weight"
+                                    placeholder="Weight (Kg)"></ion-input>
                             </ion-item>
 
 
@@ -442,19 +463,23 @@
 
                         <!-- PARTNER'S  HEIGHT-WEIGHT -->
                         <ion-item-group *ngIf="form2Details.family_description=='Family' || form2Details.family_description=='2-Persons'">
-                            <ion-item-divider ><b>Partner *</b></ion-item-divider>
+                            <ion-item-divider color="primary">Partner <span class="mandotry">*</span></ion-item-divider>
                             <ion-item>
-                                <ion-input type="number" required [(ngModel)]="form2Details.partner_height" name="partner_height" placeholder="Height (m)"></ion-input>
-                                <ion-input type="number" required [(ngModel)]="form2Details.partner_weight" name="partner_weight" placeholder="Weight (Kg)"></ion-input>
+                                <ion-input type="number" required [(ngModel)]="form2Details.partner_height" name="partner_height"
+                                    placeholder="Height* (m)"></ion-input>
+                                <ion-input type="number" required [(ngModel)]="form2Details.partner_weight" name="partner_weight"
+                                    placeholder="Weight* (Kg)"></ion-input>
                             </ion-item>
                         </ion-item-group>
 
                         <!-- CHILDREN'S  HEIGHT-WEIGHT -->
                         <ion-item-group *ngFor="let child of childrenDetail;let i=index">
-                            <ion-item-divider ><b>Child {{i+1}} *</b></ion-item-divider>
+                            <ion-item-divider color="primary">Child {{i+1}} <span class="mandotry">*</span></ion-item-divider>
                             <ion-item>
-                                <ion-input type="number" required [(ngModel)]="child.height" name="child_height{{i+1}}" placeholder="Height (m)"></ion-input>
-                                <ion-input type="number" required [(ngModel)]="child.weight" name="child_weight{{i+1}}" placeholder="Weight (Kg)"></ion-input>
+                                <ion-input type="number" required [(ngModel)]="child.height" name="child_height{{i+1}}"
+                                    placeholder="Height (m)"></ion-input>
+                                <ion-input type="number" required [(ngModel)]="child.weight" name="child_weight{{i+1}}"
+                                    placeholder="Weight (Kg)"></ion-input>
                             </ion-item>
                         </ion-item-group>
 
@@ -478,15 +503,16 @@
                                 </ion-row>
 
 
-                                <ion-textarea *ngIf="form2Details.preexisting_main_insured==1" type="text" required [(ngModel)]="form2Details.preexisting_main_insured_1"
-                                    name="preexisting_main_insured_1" placeholder="Details :" style="border: 1px solid lightgray">
+                                <ion-textarea *ngIf="form2Details.preexisting_main_insured==1" type="text" required
+                                    [(ngModel)]="form2Details.preexisting_main_insured_1" name="preexisting_main_insured_1"
+                                    placeholder="Details :">
                                 </ion-textarea>
 
                             </div>
 
                             <!-- PARTNER'S  preexisting condition-->
-                            <div *ngIf="state?.members==='2-Persons' || state?.members==='Family'" style="border-bottom: 1px solid black" radio-group
-                                [(ngModel)]="form2Details.preexisting_partner" name="preexisting_partner">
+                            <div *ngIf="state?.members==='2-Persons' || state?.members==='Family'" style="border-bottom: 1px solid black"
+                                radio-group [(ngModel)]="form2Details.preexisting_partner" name="preexisting_partner">
                                 <ion-row style="align-items: center">
                                     <ion-col col-4>Partner </ion-col>
                                     <ion-col col-8>
@@ -500,8 +526,9 @@
                                         </ion-row>
                                     </ion-col>
                                 </ion-row>
-                                <ion-textarea *ngIf="form2Details.preexisting_partner==1" type="text" required [(ngModel)]="form2Details.preexisting_partner_1"
-                                    name="preexisting_partner_1" placeholder=" Details :">
+                                <ion-textarea *ngIf="form2Details.preexisting_partner==1" type="text" required
+                                    [(ngModel)]="form2Details.preexisting_partner_1" name="preexisting_partner_1"
+                                    placeholder=" Details :">
                                 </ion-textarea>
                             </div>
 
@@ -523,7 +550,8 @@
                                                 </ion-row>
                                             </ion-col>
                                         </ion-row>
-                                        <ion-textarea class="border-bottom" *ngIf="child.preexisting==1" type="text" required [(ngModel)]="child.preexisting_1" name="child.preexisting_1{{i+1}}"
+                                        <ion-textarea class="border-bottom" *ngIf="child.preexisting==1" type="text"
+                                            required [(ngModel)]="child.preexisting_1" name="child.preexisting_1{{i+1}}"
                                             placeholder="If Yes, Details :">
                                         </ion-textarea>
                                     </div>
@@ -534,7 +562,11 @@
 
 
                     <div text-center>
-                        <button type="button" ion-button small round (click)="planInfoToggle=!planInfoToggle">Plan Info</button>
+                        <button type="button" ion-button small round (click)="planInfoToggle=!planInfoToggle">Plan Info
+                            <span style="margin-left:4px;">
+                                <ion-icon [name]="planInfoToggle?'arrow-up':'arrow-down'"></ion-icon>
+                            </span>
+                        </button>
                     </div>
 
                     <div *ngIf="planInfoToggle">
@@ -553,7 +585,7 @@
                             </ion-item>
                             <ion-item>
                                 <ion-label color="primary" stacked>Social security No. (in case of CFE):</ion-label>
-                                <ion-input type="text" [(ngModel)]="form2Details.security_CFE_1" name="SSN"></ion-input>
+                                <ion-input type="text" [(ngModel)]="form2Details.security_CFE_1" name="SSN" placeholder="Enter Social Security No."></ion-input>
                             </ion-item>
                         </ion-card>
                         <!-- SELECTED PLAN-->
@@ -620,10 +652,11 @@
 
                             <ion-item text-wrap>
                                 <div color="dark" item-start>
-                                    <b>Starting date of cover *</b>
+                                    <b>Starting date of cover <span class="mandotry">*</span></b>
                                 </div>
-                                <ion-datetime item-end [(ngModel)]="date_of_cover" name="date_of_cover" required displayFormat="DD/MM/YYYY" placeholder="DD MMM, YYYY"
-                                    pickerFormat="DD MMM, YYYY" [min]="today" [max]="nextYearSameDate" (ionChange)="setDateOfCover($event)"></ion-datetime>
+                                <ion-datetime item-end [(ngModel)]="date_of_cover" name="date_of_cover" required
+                                    displayFormat="DD/MM/YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
+                                    [min]="today" [max]="nextYearSameDate" (ionChange)="setDateOfCover($event)"></ion-datetime>
                             </ion-item>
 
                             <ion-item>
@@ -638,10 +671,9 @@
                     </ion-card>
                     <ion-card>
                         <ion-item-divider color="primary">Currency and Payment</ion-item-divider>
-
+                        <p style="text-align: left;margin-left: 15px">This price includes your shares </p>
                         <!-- SHOW THE AVAILABLE AND SELECTED PAYMENT CURRENCY AND FREQUENCY -->
-
-                        <ion-grid>
+                        <ion-grid class="payment">
                             <ion-row>
                                 <ion-col col-3>
                                     <p>Yearly</p>
@@ -718,14 +750,191 @@
             </form>
         </ion-slide>
 
-        <!-- SLIDE 3 -->
+        <!-- SLIDE 3 :SUMMARY PAGE -->
+        <ion-slide>
+            <ion-toolbar color="primary">
+                <page-prevnext-component [isDisabled]="true" (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
+            </ion-toolbar>
+
+            <h4><b>Payable Amount:</b> {{form2SubmitResponse?.currency==1?'$':'€'}}
+                {{form2SubmitResponse?.last_amount}}</h4>
+            <ion-card>
+                <ion-list>
+                    <ion-item class="border-bottom">
+                        <span item-start>Area </span>
+                        <!-- <ion-label item-end>{{form2SubmitResponse?.policy_AREA}} </ion-label> -->
+                        <span item-end> {{form2SubmitResponse?.policy_AREA}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Date of Birth </ion-label>
+                        <span item-end> {{form2SubmitResponse?.dateofbirth_main}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Members </ion-label>
+                        <span item-end> {{form2SubmitResponse?.family_description}}</span>
+                    </ion-item>
+                </ion-list>
+            </ion-card>
+
+            <ion-card>
+                <ion-list>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Complement to Social Security </ion-label>
+                        <ion-toggle disabled [checked]="form2SubmitResponse?.complementary_social"></ion-toggle>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Inpatient </ion-label>
+                        <ion-toggle disabled [checked]="form2SubmitResponse?.inpatient"></ion-toggle>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Outpatient </ion-label>
+                        <ion-toggle disabled [checked]="form2SubmitResponse?.outpatient"></ion-toggle>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Dental Optical </ion-label>
+                        <ion-toggle disabled [checked]="form2SubmitResponse?.dental_optical"></ion-toggle>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Assistance Evacuation </ion-label>
+                        <span item-end> {{assistantEvacuations[form2SubmitResponse?.assistance_evacuation]}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Global Limit </ion-label>
+                        <span item-end> {{form2SubmitResponse?.adjust_globallimit}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Hospital Adjustment</ion-label>
+                        <span item-end> {{form2SubmitResponse?.hospital_adjusment}}</span>
+                    </ion-item>
+                </ion-list>
+            </ion-card>
+
+            <ion-card>
+                <ion-list>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>First Name </ion-label>
+                        <span item-end> {{form2SubmitResponse?.policy_owner_first}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>last Name </ion-label>
+                        <span item-end> {{form2SubmitResponse?.policy_owner_last}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Sex </ion-label>
+                        <span item-end> {{form2SubmitResponse?.sex==0?'Male':'Female'}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Nationality </ion-label>
+                        <span item-end> {{form2SubmitResponse?.nationality}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Mobile </ion-label>
+                        <span item-end> {{form2SubmitResponse?.mobile_phone}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Email </ion-label>
+                        <span item-end> {{form2SubmitResponse?.mail_id}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Phone </ion-label>
+                        <span item-end> {{form2SubmitResponse?.phone}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Skype Id </ion-label>
+                        <span item-end> {{form2SubmitResponse?.skype_id}}</span>
+                    </ion-item>
+                </ion-list>
+            </ion-card>
+
+            <ion-card>
+                <ion-list>
+                    <ion-item class="border-bottom" text-wrap>
+                        <ion-label item-start>Expatriation Address </ion-label>
+                        <span item-end> {{form2SubmitResponse?.expatriation_address}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom" text-wrap>
+                        <ion-label item-start>Billing Address </ion-label>
+                        <span item-end> {{form2SubmitResponse?.billing_address}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Height </ion-label>
+                        <span item-end> {{form2SubmitResponse?.main_insured_height}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Weight </ion-label>
+                        <span item-end> {{form2SubmitResponse?.main_insured_weight}}</span>
+                    </ion-item>
+                    <ion-item class="border-bottom">
+                        <ion-label item-start>Main Insured </ion-label>
+                        <ion-toggle disabled [checked]="form2SubmitResponse?.preexisting_main_insured"></ion-toggle>
+                    </ion-item>
+                    <ion-item class="border-bottom" *ngIf="form2SubmitResponse?.preexisting_main_insured">
+                        <ion-label item-start>Pre-exisiting Condition </ion-label>
+                        <span item-end> {{form2SubmitResponse?.preexisting_main_insured_1}}</span>
+                    </ion-item>
+
+                    <ng-container *ngFor="let child of form2SubmitResponse?.form2;let i=index">
+
+                        <ion-item-divider>{{child.memberType==1?'Partner Details':'Child Details :'}}</ion-item-divider>
+                        <ion-item class="border-bottom">
+                            <ion-label item-start>First_Name </ion-label>
+                            <span item-end> {{child.first}}</span>
+                        </ion-item>
+                        <ion-item class="border-bottom">
+                            <ion-label item-start>Last_Name </ion-label>
+                            <span item-end> {{child.last}}</span>
+                        </ion-item>
+                        <ion-item class="border-bottom">
+                            <ion-label item-start>DOB </ion-label>
+                            <span item-end> {{child.dob}}</span>
+                        </ion-item>
+                        <ion-item class="border-bottom">
+                            <ion-label item-start>Sex </ion-label>
+                            <span item-end> {{child.sex==0?'Male':'Female'}}</span>
+                        </ion-item>
+                        <ion-item class="border-bottom">
+                            <ion-label item-start>Height </ion-label>
+                            <span item-end> {{child.height}}</span>
+                        </ion-item>
+                        <ion-item class="border-bottom">
+                            <ion-label item-start>Weight </ion-label>
+                            <span item-end> {{child.weight}}</span>
+                        </ion-item>
+                        <ion-item class="border-bottom">
+                            <ion-label item-start>Insured </ion-label>
+                            <ion-toggle disabled [checked]="child?.preexisting"></ion-toggle>
+                        </ion-item>
+                        <ion-item class="border-bottom" *ngIf="child?.preexisting_1">
+                            <ion-label item-start>Pre-exisiting Condition </ion-label>
+                            <span item-end> {{child.preexisting_1}}</span>
+                        </ion-item>
+                    </ng-container>
+
+                </ion-list>
+            </ion-card>
+
+            <ion-card>
+                <ion-list>
+                    <ion-item>
+                        <ion-label>Payment Frequency</ion-label>
+                        <span item-end> {{form2SubmitResponse?.frequency_payment}}</span>
+
+                    </ion-item>
+                </ion-list>
+            </ion-card>
+
+            <button type="button" ion-button full rounded (click)="onEnterPaymentDetais()">Enter Payment Detais</button>
+        </ion-slide>
+
+        <!-- SLIDE 4 -->
         <ion-slide>
 
             <page-prevnext-component [isDisabled]="true" (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
 
             <div>
                 <h4>
-                    <b>Payable Amount:</b> {{form2SubmitResponse?.currency==1?'$':'€'}} {{form2SubmitResponse?.last_amount}}</h4>
+                    <b>Payable Amount:</b> {{form2SubmitResponse?.currency==1?'$':'€'}}
+                    {{form2SubmitResponse?.last_amount}}</h4>
                 <h4>
                     <b>Policy: </b>{{form2SubmitResponse?.transaction_id}}</h4>
             </div>
@@ -740,7 +949,8 @@
                     </ion-item>
                     <ion-item style="width:50%;float:left">
                         <small>Expiration Date</small>
-                        <ion-datetime [(ngModel)]="card.cardExpiryDate" displayFormat="MMM YYYY" [min]="minDate" [max]="maxDate" placeholder="Expiry Date"></ion-datetime>
+                        <ion-datetime [(ngModel)]="card.cardExpiryDate" displayFormat="MMM YYYY" [min]="minDate" [max]="maxDate"
+                            placeholder="Expiry Date"></ion-datetime>
                     </ion-item>
                     <ion-item style="width:50%;float:right">
                         <small></small>

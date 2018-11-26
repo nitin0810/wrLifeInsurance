@@ -85,7 +85,7 @@ export class UserSessionManage {
     decideSideMenuContent() {
 
         this.sideMenuOptions = [
-     
+
             // { title: 'Home', component: GuestHomePage, icon: 'home', color: "green" },
             { title: 'Buy Shares', component: "BuySharesPage", icon: 'ios-cash', color: "green" },
             { title: 'Why Choose Us', component: "WhyChooseUsPage", icon: 'bulb', color: "green" },
@@ -96,7 +96,14 @@ export class UserSessionManage {
             { title: 'Sign Out', component: null, icon: 'log-out', color: "green" },
 
         ];
+
+        if (this.authService.isLoggedIn()) {
+            this.sideMenuOptions.unshift(
+                { title: 'My Account', component: "MyAccountPage", icon: 'ios-cash', color: "green" }
+            );
+        }
     }
+
 
     public imageUpdate() {
 
