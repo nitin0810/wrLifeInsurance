@@ -1,44 +1,54 @@
 <ion-content class="open-background">
-    <img class="center-block logo" src="assets/imgs/logo.png" />
-
+  <img class="center-block logo" src="assets/imgs/logo.png" />
+  <div style="position: relative">
     <ion-card class="container">
-        <form name="Login_Form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <form name="Login_Form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-            <ion-item>
-                <ion-input type="text" formControlName="email" placeholder="Email"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
-            </ion-item>
+        <ion-item>
+          <ion-input type="text" formControlName="email" placeholder="Email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
+        </ion-item>
 
-            <div class="err-msg" *ngIf="errorMsg">
-                <p>{{errorMsg}}</p>
-            </div>
-            <button ion-button full rounded type="button" (click)="onGuest()" [disabled]="logging" style="border-radius: 4px;">Continue as Guest</button>
-            <button ion-button full rounded type="submit" [disabled]="logging" style="border-radius: 4px;">{{logging?'Logging In ...' :'Login' }}</button>
+        <div class="err-msg" *ngIf="errorMsg">
+          <p>{{errorMsg}}</p>
+        </div>
+        <button ion-button full rounded type="button" (click)="onGuest()" [disabled]="logging" style="border-radius: 4px;">Continue
+          as Guest</button>
+        <button ion-button full rounded type="submit" [disabled]="logging" style="border-radius: 4px;">{{logging?'Logging
+          In ...' :'Login' }}</button>
+        <div (click)="forgotPassword()" class="forgotPwd" color="primary">Forgot Password?</div>
+        <div color="primary" (click)="signup()" class="signUp">Sign Up</div>
 
-            <button class="btn btn-link" type="button" (click)="forgotPassword()">forgot password</button>
-
-        </form>
+      </form>
+      <div class="orIcon">
+        <ion-icon name="ios-arrow-dropdown-circle" class="expandMore"></ion-icon>
+      </div>
     </ion-card>
+  </div>
 
-    <div text-center>
-        <h4>----OR----</h4>
-    </div>
-
-    <div text-center>
-         <button ion-button color="facebook" class="fbloginBtn" (click)="onFbLogin()" [disabled]="logging">
-            <ion-icon name="logo-facebook" class="iconFB" style="margin:0 5px"></ion-icon>
-            Login with Facebook
-        </button>
+  <!-- <span><i class="material-icons">
+    expand_more
+  </i></span> -->
+  <!-- <div text-center class="flex">
         
-        <button ion-button color="linkedin"  class="fbloginBtn" (click)="onLinkedinLogin()" [disabled]="logging">
-            <ion-icon name="logo-linkedin" class="iconFB"></ion-icon>
-            Login with Linkedin
-        </button>
+        <hr class="or mr">
+        <span class="alignCenter ">Or</span>
+        <hr class="or ml">
+    </div> -->
 
-        <button ion-button color="primary" class="fbloginBtn" type="button" (click)="signup()">Sign Up</button>
-    </div>
+  <div text-center padding-top>
+    <button ion-button color="facebook" class="fbloginBtn" (click)="onFbLogin()" [disabled]="logging">
+      <ion-icon name="logo-facebook" class="iconFB" style="margin:0 5px"></ion-icon>
+      Login with Facebook
+    </button>
+
+    <button ion-button color="linkedin" class="fbloginBtn" (click)="onLinkedinLogin()" [disabled]="logging">
+      <ion-icon name="logo-linkedin" class="iconFB"></ion-icon>
+      Login with Linkedin
+    </button>
+  </div>
 
 </ion-content>
 <ion-footer>

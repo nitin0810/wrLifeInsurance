@@ -1,9 +1,19 @@
-page-sign-up {
+page-sign-up , page-forgort-password {
   .err-msg{
     padding: 5px;
     border: 1px solid red;
     p{
         color: red;
     }
+  }
+  .signupCard {
+    border:1px solid black;
+    text-align: center;
+    border-radius: 10px;
+    padding: 10px 15px;
+  } 
+  .heading{
+    text-align: center;
+    color: color($colors,primary)
   }
 }

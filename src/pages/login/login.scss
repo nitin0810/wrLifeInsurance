@@ -1,4 +1,4 @@
-page-login {
+page-login ,page-sign-up,page-forgort-password{
     .logo{
         width: 100px;
         margin-top: 15px;
@@ -16,6 +16,56 @@ page-login {
             animation:increase-border 0.5s ease-out;
             animation-fill-mode: forwards;
         }
+    }
+    .forgotPwd{
+      float: left;
+      color:color($colors, primary);
+      margin-top: 10px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    .signUp{
+      float: right;
+      color: color($colors,primary);
+      margin-top: 10px;
+      border-bottom: 1px solid color($colors,primary);
+      cursor: pointer;
+      font-size: 15px;
+    }
+    // .or{
+    //   margin-top: 37px;
+    //   margin-bottom: 26px;
+    //   background-color: black;
+    // width: 21%;
+    // }
+    // .mr{
+    //   margin-right: 12px;
+    // }
+    // .ml{
+    //   margin-left: 12px;
+    // }
+    // .alignCenter{
+    //   margin-top: 10px;
+    //   display: grid;
+    //   align-items: center;
+    //   font-size: 18px;
+    // }
+    // .flex{
+    //   display: flex;
+    // }
+    .orIcon{
+      font-size: 18px;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+     bottom: -12px;
+    position: absolute;
+    z-index: 20;
+    .expandMore{
+      font-size: 40px;
+    color: color($colors,primary);
+    }
     }
 }
 
@@ -46,17 +96,17 @@ page-login {
     padding: 30px;
   }    
   .fbloginBtn{
-      width: 54%;
+      width: 80%;
     padding-top: 23px;
     padding-left: 2px;
     padding-bottom: 22px;
   
     .iconFB{
-        margin-right: 10px;
+    margin-right: 10px;
     font-size: 47px;
     padding-right: 4px;
     border-radius: 4px!important;
-    border-right: 1px solid #253963;
+    
     
     // border-right: 1px solid #22396af5;
     }
@@ -68,4 +118,6 @@ page-login {
     p{
         color: red;
     }
+    
+    
   }

@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar  color="primary">
+  <ion-navbar color="primary">
     <ion-title>Signup</ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
@@ -19,8 +19,9 @@
 </ion-header>
 
 
-<ion-content padding>
-  <ion-list>
+<ion-content padding class="open-background">
+  <h3 class="heading">Sign Up</h3>
+  <ion-card class="signupCard">
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
       <ion-item>
         <ion-label floating>First Name *</ion-label>
@@ -53,9 +54,11 @@
       <div class="err-msg" *ngIf="signupForm.controls.confirmPassword.valid&&checkPassword()">
         <p>* Password mismatch</p>
       </div>
-      <div padding>
-        <button ion-button block [disabled]="signupForm.invalid">Submit</button>
-      </div>
+
     </form>
-  </ion-list>
+
+  </ion-card>
+  <div padding>
+    <button ion-button block [disabled]="signupForm.invalid">Submit</button>
+  </div>
 </ion-content>
