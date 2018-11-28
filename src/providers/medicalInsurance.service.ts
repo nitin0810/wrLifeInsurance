@@ -71,6 +71,10 @@ export class MedicalInsuranceService {
         return this.post(PHP_URL, data);
     }
 
+    contactUS(data:any){
+        return this.http.post('/contact-us', data);
+    }
+
     // POST request to php server for calculating premium price
     post(url: string, body: any) {
 
