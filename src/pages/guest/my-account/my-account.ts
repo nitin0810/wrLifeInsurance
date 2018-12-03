@@ -13,7 +13,7 @@ export class MyAccountPage {
 
   policies: Array<any>;
   loadingPolicies = false;
-  userDetails: string;
+  userDetails: any;
 
   constructor(
     public navCtrl: NavController, 
@@ -46,8 +46,7 @@ export class MyAccountPage {
   }
 
   changePassword(){
-    const changePasswordModal =  this.modalCtrl.create('ChangePasswordPage');
-    changePasswordModal.present();
+    this.navCtrl.push('ChangePasswordPage');
   }
 
 }

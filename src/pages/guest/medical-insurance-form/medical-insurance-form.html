@@ -66,20 +66,19 @@
                 <!-- 2nd PERSON's DOB AND AGE -->
                 <ion-card *ngIf="state.members==='2-Persons' || state.members==='Family'">
                     <ion-item-group>
-                        <ion-item-divider color="primary">Member 2: wife, husband, partner or child < {{maxAgeChild}}
-                        </ion-item-divider>
-                        <ion-item text-wrap>
-                            <ion-label >Date of Birth<span class="mandotry">*</span> </ion-label>
-                            <ion-datetime [(ngModel)]="dobs[1]" name="dob1" required displayFormat="DD MMM, YYYY"
-                                placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBMain" [max]="today"
-                                (ionChange)="calculateAge($event,1)"></ion-datetime>
-                        </ion-item>
-                        <ion-item *ngIf="state.members==='2-Persons' || state.members==='Family'">
-                            <ion-label item-start>
-                                Age </ion-label>
-                            <div *ngIf="state.txtApAge1" item-end> {{state.txtApAge1}} Years </div>
+                        <ion-item-divider color="primary">Member 2: wife, husband, partner or child < {{maxAgeChild}} </ion-item-divider>
+                                <ion-item text-wrap>
+                                <ion-label>Date of Birth<span class="mandotry">*</span> </ion-label>
+                                <ion-datetime [(ngModel)]="dobs[1]" name="dob1" required displayFormat="DD MMM, YYYY"
+                                    placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBMain" [max]="today"
+                                    (ionChange)="calculateAge($event,1)"></ion-datetime>
+                                </ion-item>
+                                <ion-item *ngIf="state.members==='2-Persons' || state.members==='Family'">
+                                    <ion-label item-start>
+                                        Age </ion-label>
+                                    <div *ngIf="state.txtApAge1" item-end> {{state.txtApAge1}} Years </div>
 
-                        </ion-item>
+                                </ion-item>
                     </ion-item-group>
                 </ion-card>
 
@@ -87,18 +86,18 @@
                 <ion-card *ngIf="state.members==='Family'">
                     <ion-item-group>
                         <ion-item-divider color="primary">Member 3: Child < {{maxAgeChild}} </ion-item-divider>
-                        <ion-item>
-                            <ion-label>Date of Birth <span class="mandotry">*</span></ion-label>
-                            <ion-datetime [(ngModel)]="dobs[2]" name="dob2" required displayFormat="DD MMM, YYYY"
-                                placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBChild" [max]="today"
-                                (ionChange)="calculateAge($event,2)"></ion-datetime>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label item-start>
-                                Age </ion-label>
-                            <div *ngIf="state.txtApAge2" item-end> {{state.txtApAge2}} Years </div>
+                                <ion-item>
+                                <ion-label>Date of Birth <span class="mandotry">*</span></ion-label>
+                                <ion-datetime [(ngModel)]="dobs[2]" name="dob2" required displayFormat="DD MMM, YYYY"
+                                    placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBChild" [max]="today"
+                                    (ionChange)="calculateAge($event,2)"></ion-datetime>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label item-start>
+                                        Age </ion-label>
+                                    <div *ngIf="state.txtApAge2" item-end> {{state.txtApAge2}} Years </div>
 
-                        </ion-item>
+                                </ion-item>
                     </ion-item-group>
                 </ion-card>
 
@@ -106,28 +105,28 @@
                 <ion-card *ngIf="state.members==='Family'">
                     <ion-item-group>
                         <ion-item-divider color="primary">Member 4: Child < {{maxAgeChild}} </ion-item-divider>
-                        <ion-item>
-                            <ion-label>Yes Or No ?</ion-label>
-                            <ion-toggle (ionChange)="toggleChange($event,5)"></ion-toggle>
-                        </ion-item>
-                        <ion-item *ngIf="state.member4status==1">
-                            <ion-label >Date of Birth <span class="mandotry">*</span></ion-label>
-                            <ion-datetime [(ngModel)]="dobs[3]" name="dob3" required displayFormat="DD MMM, YYYY"
-                                placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBChild" [max]="today"
-                                (ionChange)="calculateAge($event,3)"></ion-datetime>
-                        </ion-item>
-                        <ion-item *ngIf="state.member4status==1">
-                            <ion-label item-start>
-                                Age</ion-label>
-                            <div *ngIf="state.txtApAge3" item-end> {{state.txtApAge3}} Years </div>
+                                <ion-item>
+                                <ion-label>Yes Or No ?</ion-label>
+                                <ion-toggle (ionChange)="toggleChange($event,5)"></ion-toggle>
+                                </ion-item>
+                                <ion-item *ngIf="state.member4status==1">
+                                    <ion-label>Date of Birth <span class="mandotry">*</span></ion-label>
+                                    <ion-datetime [(ngModel)]="dobs[3]" name="dob3" required displayFormat="DD MMM, YYYY"
+                                        placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY" [min]="minDOBChild"
+                                        [max]="today" (ionChange)="calculateAge($event,3)"></ion-datetime>
+                                </ion-item>
+                                <ion-item *ngIf="state.member4status==1">
+                                    <ion-label item-start>
+                                        Age</ion-label>
+                                    <div *ngIf="state.txtApAge3" item-end> {{state.txtApAge3}} Years </div>
 
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>
-                                Member 5 and more: Child
-                                <span right>FREE</span>
-                            </ion-label>
-                        </ion-item>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>
+                                        Member 5 and more: Child
+                                        <span right>FREE</span>
+                                    </ion-label>
+                                </ion-item>
                     </ion-item-group>
                 </ion-card>
                 <div class="options" text-center>
@@ -353,15 +352,15 @@
                                 <ion-label color="primary">Last Name
                                     <span class="mandotry">*</span>
                                 </ion-label>
-                                <ion-input class="border-bottom" type="text" required [(ngModel)]="form2Details.partner_last" name="partner_last"
-                                    placeholder="Last Name"></ion-input>
+                                <ion-input class="border-bottom" type="text" required [(ngModel)]="form2Details.partner_last"
+                                    name="partner_last" placeholder="Last Name"></ion-input>
                             </ion-item>
                             <ion-item>
                                 <ion-label color="primary">First Name
                                     <span class="mandotry">*</span>
                                 </ion-label>
-                                <ion-input class="border-bottom"  type="text" required [(ngModel)]="form2Details.partner_first" name="partner_first"
-                                    placeholder="First Name"></ion-input>
+                                <ion-input class="border-bottom" type="text" required [(ngModel)]="form2Details.partner_first"
+                                    name="partner_first" placeholder="First Name"></ion-input>
                             </ion-item>
 
                             <div radio-group [(ngModel)]="form2Details.partner_sex" name="partner_sex">
@@ -404,8 +403,8 @@
                                 </ion-item>
                                 <ion-item>
                                     <ion-label color="primary">First Name <span class="mandotry">*</span></ion-label>
-                                    <ion-input  class="border-bottom" type="text" required [(ngModel)]="child.first" name="child.first{{i+1}}"
-                                        placeholder="First Name"></ion-input>
+                                    <ion-input class="border-bottom" type="text" required [(ngModel)]="child.first"
+                                        name="child.first{{i+1}}" placeholder="First Name"></ion-input>
                                 </ion-item>
 
                                 <div radio-group [(ngModel)]="child.sex" name="child.sex{{i+1}}">
@@ -484,7 +483,7 @@
                         </ion-item-group>
 
                         <!-- MEDICAL PREEXISTING CONDITION -->
-                        <ion-item-divider ><b>Medical Preexisting Condition (If Any)</b></ion-item-divider>
+                        <ion-item-divider><b>Medical Preexisting Condition (If Any)</b></ion-item-divider>
                         <ion-list>
                             <!-- MAIN PERSON preexisting condition-->
                             <div radio-group [(ngModel)]="form2Details.preexisting_main_insured" name="preexisting_main_insured">
@@ -923,13 +922,14 @@
                 </ion-list>
             </ion-card>
 
-            <button type="button" ion-button full rounded (click)="onEnterPaymentDetais()">Enter Payment Detais</button>
+            <button type="button" ion-button full rounded (click)="onEnterPaymentDetais()">Enter Payment Details</button>
         </ion-slide>
 
         <!-- SLIDE 4 -->
         <ion-slide>
-
-            <page-prevnext-component [isDisabled]="true" (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
+            <ion-toolbar color="primary">
+                <page-prevnext-component [isDisabled]="true" (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
+            </ion-toolbar>
 
             <div>
                 <h4>
@@ -956,6 +956,17 @@
                         <small></small>
                         <ion-input type="text" maxlength="3" placeholder="CVC/CVV" [(ngModel)]="card.cvv"></ion-input>
                     </ion-item>
+                </div>
+
+                <div>
+                    <ion-item>
+                        <ion-label> Save details for future transactions</ion-label>
+                        <ion-checkbox [(ngModel)]="card.saveDetailsForFuture" >
+                        </ion-checkbox>
+                    </ion-item>
+
+                    <ion-input type="checkbox" [(ngModel)]="card.saveDetailsForFuture">
+                    </ion-input>
                 </div>
 
             </div>

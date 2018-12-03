@@ -21,13 +21,13 @@ export class ChangePasswordPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ChangePasswordPage');
+    // console.log('ionViewDidLoad ChangePasswordPage');
   }
 
   changePasword(){
     this.customService.showLoader();
     this.authService.changePassword(this.passwords).subscribe(response => {
-      this.customService.showToast('Signup Successfully');
+      this.customService.showToast('Password changed Successfully');
       this.dismiss();
       this.customService.hideLoader();
     }, error => {

@@ -20,7 +20,7 @@
         <!-- <img src="img/advance-card-bttf.png"> -->
       
         <ion-card-content>
-          <p><b>Contact No : </b>{{userDetails.phone}}</p>
+          <p><b>Contact No : </b>{{userDetails.mobile_phone}}</p>
           <p><b>Email: </b>{{userDetails.email}}</p>
           <p><b>Skype: </b>{{userDetails.skype}}</p>
         </ion-card-content>
@@ -35,7 +35,7 @@
       <ion-list-header>Purchased Policies</ion-list-header>
       <ion-item *ngFor="let p of policies;let i =index" (click)="openPolicyDetail(p)">
         <h5>Plan:{{p.active_plan}}</h5>
-        <p>Policy No. : {{p.policyNumber}}</p>
+        <p>Policy No. : {{p.transection_id}}</p>
         <p>Payment Amount: {{p.amount}}</p>
         <p>Payment Frequency: {{p.payment_frequency}}</p>
         <!-- <p>Membership No.: {{p.membership_number}}</p> -->

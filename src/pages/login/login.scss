@@ -28,7 +28,6 @@ page-login ,page-sign-up,page-forgort-password{
       float: right;
       color: color($colors,primary);
       margin-top: 10px;
-      border-bottom: 1px solid color($colors,primary);
       cursor: pointer;
       font-size: 15px;
     }
@@ -103,7 +102,7 @@ page-login ,page-sign-up,page-forgort-password{
   
     .iconFB{
     margin-right: 10px;
-    font-size: 47px;
+    font-size: 25px;
     padding-right: 4px;
     border-radius: 4px!important;
     

@@ -9,6 +9,7 @@ import { AuthService } from '../../../providers/auth.service';
 import { STRIPE_KEY } from '../../../providers/app.constants';
 import { LinkedIn, LinkedInLoginScopes } from '@ionic-native/linkedin';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { LoginPage } from '../../login/login';
 
 
 @IonicPage()
@@ -16,7 +17,7 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
   selector: 'page-medical-insurance-form',
   templateUrl: 'medical-insurance-form.html',
 })
-export class MedicalInsuranceFormPage implements OnDestroy{
+export class MedicalInsuranceFormPage implements OnDestroy {
 
   @ViewChild(Slides) slides: Slides;
   @ViewChild(Content) content: Content;
@@ -102,7 +103,8 @@ export class MedicalInsuranceFormPage implements OnDestroy{
   card: any = {
     cardNumber: '',
     cardExpiryDate: '',//MMMM-YY
-    cvv: ''
+    cvv: '',
+    saveDetailsForFuture: false
   }
 
   // used for filling name and email in forms using already present info in case user is logged in
@@ -154,7 +156,7 @@ export class MedicalInsuranceFormPage implements OnDestroy{
     this.overrideBackBtnFunctionality();
     this.userStoredInfo = this.authService.getUserDetails();
   }
-      
+
   ionViewWillLeave() {
 
     //hide loader in case its visible (any request is pending)
@@ -199,6 +201,8 @@ export class MedicalInsuranceFormPage implements OnDestroy{
     /**handle the android hardware back btn for the same purpose*/
     if (this.platform.is('android')) {
       this.unregisterBackButtonActionForAndroid = this.platform.registerBackButtonAction(() => {
+        // check any overlay like alert overlay, datetime overlay etc
+        // if it is present, close that overlay
         const overlayView = this.appCtrl._appRoot._overlayPortal._views[0];
         if (overlayView && overlayView.dismiss) {
           overlayView.dismiss();
@@ -209,7 +213,7 @@ export class MedicalInsuranceFormPage implements OnDestroy{
             this.navCtrl.pop();
           }
         }
-      });
+      }, 1);
     }
   }
 
@@ -599,6 +603,12 @@ export class MedicalInsuranceFormPage implements OnDestroy{
     if (!this.validateMailAndPhone()) { return; }
 
     const payLoad: any = this.prepareData();
+    // if already logged in, send membership no.
+    if (this.authService.isLoggedIn()) {
+      const mNo = JSON.parse(localStorage.getItem('userInfo'))[0].membership_number;
+      payLoad['membership_number'] = mNo;
+      debugger;
+    }
     this.customService.showLoader();
     this.subscriptions.form2 = this.medicalInsuranceService.submitForm2(payLoad)
       .subscribe((res: any) => {
@@ -608,7 +618,28 @@ export class MedicalInsuranceFormPage implements OnDestroy{
         this.form2SubmitResponse = res;
       }, (err: any) => {
         this.customService.hideLoader();
-        this.customService.showToast(err.msg);
+        if (err.status == 409) {
+          const alert = this.alertCtrl.create({
+            title: 'Already Registered',
+            message: err.msg,
+            buttons: [{
+              text: 'Cancel',
+              role: 'cancel'
+            }, {
+              text: 'Login',
+              handler: () => {
+                alert.dismiss().then(() => {
+                    this.navCtrl.setRoot(LoginPage);
+                });
+                return false;
+              }
+            }]
+          });
+
+          alert.present();
+        } else {
+          this.customService.showToast(err.msg);
+        }
       });
   }
 
@@ -744,9 +775,9 @@ export class MedicalInsuranceFormPage implements OnDestroy{
       this.customService.showToast('Please enter correct card details');
       return;
     };
-    this.customService.showLoader();
+    this.customService.showLoader('Please wait... It might take some time.');
     this.getCardToken()
-      .then(token => this.makePayment(token))
+      .then((token: string) => this.makePayment(token, this.card.saveDetailsForFuture))
       .then((response: any) => {
         // show success alert
         // alert(JSON.stringify(response));
@@ -798,7 +829,8 @@ export class MedicalInsuranceFormPage implements OnDestroy{
 
   }
 
-  makePayment(token) {
+
+  makePayment(token: string, saveDetails: boolean) {
     // alert('make ayment called//,' + token);
     return new Promise((res, rej) => {
 
@@ -807,8 +839,11 @@ export class MedicalInsuranceFormPage implements OnDestroy{
         membershipNumber: this.form2SubmitResponse.membership_number,
         subscriptionPackage: this.form2SubmitResponse.policy_id,
         description: `transId: ${this.form2SubmitResponse.transaction_id}, membershipNo: ${this.form2SubmitResponse.membership_number}`,
-        stripeToken: token
+        stripeToken: token,
+        autopayment: saveDetails
       };
+      // also send mailId in case of autopayment is true
+      if (info.autopayment) { info['emailId'] = this.form2Details.mail_id; }
 
       // const info = {
       //   transactionId: 'MDI8417898',
@@ -900,7 +935,7 @@ export class MedicalInsuranceFormPage implements OnDestroy{
     localStorage.clear();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.viewCtrl.dismiss();
   }
 
