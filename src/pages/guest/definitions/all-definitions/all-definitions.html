@@ -29,24 +29,12 @@
       <ion-card>
           <ion-item-divider color="primary" text-center>AREA 3</ion-item-divider>
        <p padding> Africa, Asia (not China, Hong-Kong, Japan, Macau, Singapore, Taiwan), Middle East (not Israel), other countries </p>
-      </ion-card>
-      <!-- DOWNLOAD BUTTON  -->
-      <ion-card text-center>
-        <div padding-top>SUMMARY OF COVER AND POLICY </div>
-        <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
-      </ion-card>
-
+      </ion-card>     
     </div>
 
     <!-- MEMBERS -->
     <div *ngSwitchCase="'Members'">
       <ion-card><p padding>No need to be married. You can cover the kids of your companion, even if they are not your own kids.</p></ion-card>
-      <!-- DOWNLOAD BUTTON  -->
-      <ion-card text-center>
-        <div padding-top >SUMMARY OF COVER AND POLICY </div>
-        <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
-      </ion-card>
-
     </div>
 
     <!-- Complement to social security -->
@@ -55,12 +43,6 @@
       <p padding text-center>The cover can be, if you wish so, only a complementary to the French Caisse des FranÃ§ais de lâ€™Etranger or the Belgium
         OSSOM, which new name is ORPSS. </p>
       </ion-card>
-      <!-- DOWNLOAD BUTTON  -->
-      <ion-card text-center>
-          <div padding-top >SUMMARY OF COVER AND POLICY </div>
-          <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
-        </ion-card>
-  
     </div>
 
     <!-- Inpatient -->
@@ -79,11 +61,6 @@
       <p padding text-center>This part is the cover for small risks only. You can save money by not taking it. It covers you for short visits to
         your family doctor without sleeping in the hospital.
       </p>
-    </ion-card>
-      <!-- DOWNLOAD BUTTON  -->
-      <ion-card text-center>
-          <div padding-top >SUMMARY OF COVER AND POLICY </div>
-          <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
       </ion-card>
     </div>
 
@@ -91,11 +68,6 @@
     <div *ngSwitchCase="'Dental Optical'">
       <ion-card>
       <p padding text-center>This covers you for dental care, prostheses, glasses, lenses, laser surgery for the Elite Plan. </p>
-    </ion-card>
-      <!-- DOWNLOAD BUTTON  -->
-      <ion-card text-center>
-          <div padding-top >SUMMARY OF COVER AND POLICY </div>
-          <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
       </ion-card>
     </div>
 
@@ -106,11 +78,6 @@
         place of birth. If you live in a big city with all the modern hospitals, you can save money without taking this cover.
         If the place you live does not have good hospitals and the good ones are far, then we advise to take this cover.
       </p>
-    </ion-card>
-      <!-- DOWNLOAD BUTTON  -->
-      <ion-card text-center>
-          <div padding-top >SUMMARY OF COVER AND POLICY </div>
-          <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
       </ion-card>
     </div>
 
@@ -119,10 +86,6 @@
       <ion-card>
       <p padding text-center>The customers chooses the maximum amount that can be paid per person and per year.</p></ion-card>
       <!-- DOWNLOAD BUTTON  -->
-      <ion-card text-center>
-          <div padding-top >SUMMARY OF COVER AND POLICY </div>
-          <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
-      </ion-card>
     </div>
 
     <!-- Adjust deductible per Hospitalization claim -->
@@ -130,14 +93,26 @@
       <ion-card>
       <p padding text-center>For example, if you choose a 500 USD deductible, the OBLIGATORY COVER (HOSPITALIZATION, BIG RISKS, CANCER) will refund
         100% less 500 USD for each claim.</p></ion-card>
-      <!-- DOWNLOAD BUTTON  -->
-      <ion-card text-center>
-          <div padding-top >SUMMARY OF COVER AND POLICY </div>
-          <button ion-button text-center clear (click)="openDownloadsWebPage()"><ion-icon name="cloud-download" style="font-size:3.2em;"></ion-icon></button>
-      </ion-card>
     </div>
 
-
   </div>
+
+  <!-- DOWNLOAD BUTTON  -->
+  <ion-card>
+    <ion-list>
+      <ion-item>
+        <ion-icon color="primary" name="cloud-download" item-start></ion-icon>
+        <a href="https://www.wrlife.net/pdf_files/SUMMARY OF INSURANCE COVERS ENGLISH.pdf" target="_blank" target="_blank">SUMMARY OF COVER ENGLISH</a>
+      </ion-item>
+      <ion-item>
+        <ion-icon color="primary" name="cloud-download" item-start></ion-icon>
+        <a href="https://www.wrlife.net/pdf_files/PARTICIPATIVE POLICY ENGLISH.pdf" target="_blank">PARTICIPATIVE POLICY ENGLISH</a>
+      </ion-item>
+      <ion-item>
+        <ion-icon color="primary" name="cloud-download" item-start></ion-icon>
+        <a href="https://www.wrlife.net/pdf_files/INSURANCE POLICY ENGLISH.pdf" target="_blank">PARTICIPATIVE POLICY ENGLISH</a>
+      </ion-item>
+    </ion-list>
+  </ion-card>
 
 </ion-content>
