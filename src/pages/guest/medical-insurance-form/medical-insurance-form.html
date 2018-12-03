@@ -66,7 +66,7 @@
                 <!-- 2nd PERSON's DOB AND AGE -->
                 <ion-card *ngIf="state.members==='2-Persons' || state.members==='Family'">
                     <ion-item-group>
-                        <ion-item-divider color="primary">Member 2: wife, husband, partner or child {{maxAgeChild}}
+                        <ion-item-divider color="primary">Member 2: wife, husband, partner or child < {{maxAgeChild}}
                         </ion-item-divider>
                         <ion-item text-wrap>
                             <ion-label >Date of Birth<span class="mandotry">*</span> </ion-label>
@@ -86,7 +86,7 @@
                 <!-- 3rd PERSON's DOB AND AGE -->
                 <ion-card *ngIf="state.members==='Family'">
                     <ion-item-group>
-                        <ion-item-divider color="primary">Member 3: Child {{maxAgeChild}} </ion-item-divider>
+                        <ion-item-divider color="primary">Member 3: Child < {{maxAgeChild}} </ion-item-divider>
                         <ion-item>
                             <ion-label>Date of Birth <span class="mandotry">*</span></ion-label>
                             <ion-datetime [(ngModel)]="dobs[2]" name="dob2" required displayFormat="DD MMM, YYYY"
@@ -105,7 +105,7 @@
                 <!-- 4th PERSON -->
                 <ion-card *ngIf="state.members==='Family'">
                     <ion-item-group>
-                        <ion-item-divider color="primary">Member 4: Child {{maxAgeChild}} </ion-item-divider>
+                        <ion-item-divider color="primary">Member 4: Child < {{maxAgeChild}} </ion-item-divider>
                         <ion-item>
                             <ion-label>Yes Or No ?</ion-label>
                             <ion-toggle (ionChange)="toggleChange($event,5)"></ion-toggle>
@@ -243,14 +243,14 @@
                             <ion-label color="primary">Last Name
                                 <span class="mandotry">*</span>
                             </ion-label>
-                            <ion-input type="text" required [(ngModel)]="form2Details.policy_owner_first" name="last"
+                            <ion-input type="text" required [(ngModel)]="form2Details.policy_owner_last" name="last"
                                 placeholder="Last Name"></ion-input>
                         </ion-item>
                         <ion-item>
                             <ion-label color="primary">First Name
                                 <span class="mandotry">*</span>
                             </ion-label>
-                            <ion-input type="text" required [(ngModel)]="form2Details.policy_owner_last" name="first"
+                            <ion-input type="text" required [(ngModel)]="form2Details.policy_owner_first" name="first"
                                 placeholder="First Name"></ion-input>
                         </ion-item>
                         <ion-item>
