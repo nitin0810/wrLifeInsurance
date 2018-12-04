@@ -607,7 +607,6 @@ export class MedicalInsuranceFormPage implements OnDestroy {
     if (this.authService.isLoggedIn()) {
       const mNo = JSON.parse(localStorage.getItem('userInfo'))[0].membership_number;
       payLoad['membership_number'] = mNo;
-      debugger;
     }
     this.customService.showLoader();
     this.subscriptions.form2 = this.medicalInsuranceService.submitForm2(payLoad)
@@ -800,8 +799,8 @@ export class MedicalInsuranceFormPage implements OnDestroy {
     // console.log(this.card);
     // alert(JSON.stringify(this.card));
     const re = /^[0-9]+$/;
-    if (!re.test(this.card.cardNumber)) { debugger; return false; }
-    if (!re.test(this.card.cvv)) { debugger; return false; }
+    if (!re.test(this.card.cardNumber)) {  return false; }
+    if (!re.test(this.card.cvv)) {  return false; }
     return true;
   }
 

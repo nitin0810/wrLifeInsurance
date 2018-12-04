@@ -102,7 +102,6 @@ export class LoginPage implements OnInit {
     this.customService.showLoader();
     this.facebook.login(['public_profile', 'email'])
       .then((res: FacebookLoginResponse) => {
-        alert(JSON.stringify(res));
         return this.authService.sendFacebokToken(res.authResponse.accessToken).toPromise();
       })
       .then((backendToken: any) => {
@@ -145,7 +144,7 @@ export class LoginPage implements OnInit {
   }
 
   handleError(err: any) {
-    console.log(  JSON.stringify(err,undefined,2));
+    // console.log(  JSON.stringify(err,undefined,2));
     
     let error = '';
     if (typeof err === 'string') { // err object in JSON format
