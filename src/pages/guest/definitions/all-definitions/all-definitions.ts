@@ -22,8 +22,6 @@ export class AllDefinitionsPage {
     this.title = this.navParams.get('title');
   }
 
-  openDownloadsWebPage(){
-    window.open('https://www.wrlife.net/downloads.php','_system','location=yes');
-  }
+
 
 }

@@ -9,7 +9,7 @@
   <ion-card *ngIf="policy">
 
     <h5>Plan:{{policy.active_plan}}</h5>
-    <p>Policy No. : {{policy.policyNumber}}</p>
+    <p>Policy No. : {{policy.transection_id}}</p>
     <p>Payment Frequency: {{policy.payment_frequency}}</p>
     <p>Payment Amount: {{policy.amount}}{{policy?.currency==1?'$':'€'}}</p>
     <p>Membership No.: {{policy.membership_number}}</p>

@@ -59,6 +59,7 @@ export class LoginPage implements OnInit {
   }
 
   login() {
+    this.errorMsg='';
     this.logging = true;
     this.authService.login(this.loginForm.value).toPromise()
       .then((res: any) => {
@@ -101,7 +102,6 @@ export class LoginPage implements OnInit {
     this.customService.showLoader();
     this.facebook.login(['public_profile', 'email'])
       .then((res: FacebookLoginResponse) => {
-        // alert(JSON.stringify(res));
         return this.authService.sendFacebokToken(res.authResponse.accessToken).toPromise();
       })
       .then((backendToken: any) => {
@@ -135,16 +135,17 @@ export class LoginPage implements OnInit {
   }
 
   forgotPassword(){
-    const forgotPasswordModal =  this.modalCtrl.create('ForgortPasswordPage');
-    forgotPasswordModal.present();
+    this.navCtrl.push('ForgortPasswordPage');
+
   }
 
   signup(){
-    const signupModal =  this.modalCtrl.create('SignUpPage');
-    signupModal.present();
+    this.navCtrl.push('SignUpPage');
   }
 
   handleError(err: any) {
+    // console.log(  JSON.stringify(err,undefined,2));
+    
     let error = '';
     if (typeof err === 'string') { // err object in JSON format
       try {

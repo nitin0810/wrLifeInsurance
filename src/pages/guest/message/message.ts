@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { CustomService } from '../../../providers/custom.service';
+import { MedicalInsuranceService } from '../../../providers/medicalInsurance.service';
 
 
 @IonicPage()
@@ -21,7 +22,8 @@ export class MessagePage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private customService: CustomService
+    private customService: CustomService,
+    private medInsServ: MedicalInsuranceService
   ) {
   }
 
@@ -30,8 +32,15 @@ export class MessagePage {
   }
 
   onSubmit() {
-    this.customService.showToast('Message sent, You will be contacted soon .');
-    this.navCtrl.pop();
+    this.customService.showLoader();
+    this.medInsServ.contactUS(this.form).subscribe(response => {
+      this.customService.showToast('Message sent, You will be contacted soon .');      
+      this.customService.hideLoader();
+      this.navCtrl.pop();
+    }, error => {
+      this.customService.hideLoader();
+      this.customService.showToast(error.msg);
+    })
   }
 
 }
