@@ -13,16 +13,18 @@
           <!-- <ion-avatar item-start>
             <img src="img/marty-avatar.png">
           </ion-avatar> -->
-          <h2>{{userDetails.first_name}} {{userDetails.last_name || ''}}</h2>
+          <h2 class="captalize">
+<b>{{userDetails.first_name}} {{userDetails.last_name || ''}}</b></h2>
           <p>Membership Number: <span>{{userDetails.membership_number}}</span></p>
         </ion-item>
       
         <!-- <img src="img/advance-card-bttf.png"> -->
       
         <ion-card-content>
-          <p><b>Contact No : </b>{{userDetails.phone}}</p>
-          <p><b>Email: </b>{{userDetails.email}}</p>
-          <p><b>Skype: </b>{{userDetails.skype}}</p>
+          <p><b><ion-icon name="call" class="accountIcon"></ion-icon></b>{{userDetails.phone}}</p>
+          <p><b><ion-icon name="mail" class="accountIcon"></ion-icon>
+</b>{{userDetails.email}}</p>
+          <p><b><ion-icon name="logo-skype" class="accountIcon" ></ion-icon> </b>{{userDetails.skype}}</p>
         </ion-card-content>
         <div padding>
           <button ion-button block (click)="changePassword()">Change Password</button>
@@ -33,14 +35,16 @@
     <ion-spinner *ngIf="loadingPolicies" style="text-align: center;"></ion-spinner>
     <ion-list *ngIf="!loadingPolicies">
       <ion-list-header>Purchased Policies</ion-list-header>
+      <ion-card>
       <ion-item *ngFor="let p of policies;let i =index" (click)="openPolicyDetail(p)">
-        <h5>Plan:{{p.active_plan}}</h5>
-        <p>Policy No. : {{p.policyNumber}}</p>
-        <p>Payment Amount: {{p.amount}}</p>
-        <p>Payment Frequency: {{p.payment_frequency}}</p>
+        <h5 *ngIf="p.active_plan"><b>{{p.active_plan}}</b></h5>
+        <p *ngIf='p.policyNumber'><b>Policy No. :</b>{{p.policyNumber}}</p>
+        <p><b>Payment Amount:</b> {{p.amount}}</p>
+        <p><b>Payment Frequency:</b> {{p.payment_frequency}}</p>
         <!-- <p>Membership No.: {{p.membership_number}}</p> -->
-        <p>Starting Date: {{p.starting_date}}</p>
+        <p><b>Starting Date:</b> {{p.starting_date}}</p>
       </ion-item>
+      </ion-card>
       <div text-center *ngIf="!policies?.length">
         <p>Your policies will appear here</p>
       </div>

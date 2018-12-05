@@ -2,5 +2,8 @@ page-prevnext-component {
     .btncolor{
         color: white;
     }
+    .backgroundColor{
+      background: color($colors,primary);
+    }
 
 }

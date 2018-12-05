@@ -99,7 +99,7 @@ export class UserSessionManage {
 
         if (this.authService.isLoggedIn()) {
             this.sideMenuOptions.unshift(
-                { title: 'My Account', component: "MyAccountPage", icon: 'ios-cash', color: "green" }
+              { title: 'My Account', component: "MyAccountPage", icon: 'md-settings', color: "green" }
             );
         }
     }

@@ -1,3 +1,11 @@
 page-my-account {
-
+.captalize{
+  text-transform: capitalize;
+  color: color($colors,primary);
+}
+.accountIcon{
+  color: color($colors,primary);
+  font-size: 22px;
+  margin-right: 8px;
+}
 }

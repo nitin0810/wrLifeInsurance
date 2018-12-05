@@ -21,44 +21,45 @@
 
 <ion-content padding class="open-background">
   <h3 class="heading">Sign Up</h3>
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
   <ion-card class="signupCard">
-    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-      <ion-item>
-        <ion-label floating>First Name *</ion-label>
-        <ion-input formControlName="first"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Last Name *</ion-label>
-        <ion-input formControlName="last"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Contact No</ion-label>
-        <ion-input type="tel" formControlName="phone"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Skype Id</ion-label>
-        <ion-input type="email" formControlName="skypeId"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Email</ion-label>
-        <ion-input type="email" formControlName="mailId"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Password *</ion-label>
-        <ion-input type="password" formControlName="password"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Confirm Password *</ion-label>
-        <ion-input type="password" formControlName="confirmPassword"></ion-input>
-      </ion-item>
-      <div class="err-msg" *ngIf="signupForm.controls.confirmPassword.valid&&checkPassword()">
-        <p>* Password mismatch</p>
-      </div>
+    <ion-item>
+      <ion-label floating>First Name *</ion-label>
+      <ion-input formControlName="first"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Last Name *</ion-label>
+      <ion-input formControlName="last"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Contact No</ion-label>
+      <ion-input type="tel" formControlName="phone"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Skype Id</ion-label>
+      <ion-input type="email" formControlName="skypeId"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="email" formControlName="mailId"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Password *</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Confirm Password *</ion-label>
+      <ion-input type="password" formControlName="confirmPassword"></ion-input>
+    </ion-item>
+    <div class="err-msg" *ngIf="signupForm.controls.confirmPassword.valid&&checkPassword()">
+      <p>* Password mismatch</p>
+    </div>
 
-    </form>
+
 
   </ion-card>
   <div padding>
-    <button ion-button block [disabled]="signupForm.invalid">Submit</button>
+    <button ion-button block type="submit" [disabled]="signupForm.invalid">Submit</button>
   </div>
+  </form>
 </ion-content>
