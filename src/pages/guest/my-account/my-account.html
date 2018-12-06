@@ -21,10 +21,10 @@
         <!-- <img src="img/advance-card-bttf.png"> -->
       
         <ion-card-content>
-          <p><b><ion-icon name="call" class="accountIcon"></ion-icon></b>{{userDetails.mobile_phone}}</p>
-          <p><b><ion-icon name="mail" class="accountIcon"></ion-icon>
+          <p><b><ion-icon name="call" class="accountIcon" *ngIf="userDetails.mobile_phone"></ion-icon></b>{{userDetails.mobile_phone}}</p>
+          <p><b><ion-icon name="mail" class="accountIcon" *ngIf="userDetails.email"></ion-icon>
 </b>{{userDetails.email}}</p>
-          <p><b><ion-icon name="logo-skype" class="accountIcon" ></ion-icon> </b>{{userDetails.skype}}</p>
+          <p><b><ion-icon name="logo-skype" class="accountIcon" *ngIf="userDetails.skype" ></ion-icon> </b>{{userDetails.skype}}</p>
         </ion-card-content>
         <div padding>
           <button ion-button block (click)="changePassword()">Change Password</button>

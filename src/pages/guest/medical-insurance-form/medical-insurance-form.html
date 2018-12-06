@@ -233,7 +233,7 @@
                             <ion-label color="primary">Last Name
                                 <span class="mandotry">*</span>
                             </ion-label>
-                            <ion-input type="text" text-right required [(ngModel)]="form2Details.policy_owner_first" name="last"
+                            <ion-input type="text" text-right required [(ngModel)]="form2Details.policy_owner_last" name="last"
                                 placeholder="Last Name"></ion-input>
                         </ion-item>
                         <ion-item>
@@ -934,7 +934,8 @@
                 
                 <ion-card padding-bottom>
                   <ion-list-header class="header">Enter Payment Details</ion-list-header>
-                    <h2 text-left padding> <ion-icon item-start name="card" class="primaryColor"></ion-icon> Credit or Debit card</h2>
+                    <h2 text-left padding>
+                       <ion-icon item-start name="card" class="primaryColor"></ion-icon> <span class="ml">Credit or Debit card</span></h2>
                     <ion-item >
                         <ion-input type="number" class="card-details" placeholder="Card number" [(ngModel)]="card.cardNumber"></ion-input>
                         
@@ -949,18 +950,18 @@
                         
                         <ion-input type="text" maxlength="3" placeholder="CVC/CVV" [(ngModel)]="card.cvv"></ion-input>
                     </ion-item>
+                    <div>
+                      <ion-item>
+                        <ion-label> Save details for future transactions</ion-label>
+                        <ion-checkbox [(ngModel)]="card.saveDetailsForFuture">
+                        </ion-checkbox>
+                      </ion-item>
+                      <ion-input type="checkbox" [(ngModel)]="card.saveDetailsForFuture" style="display:none;">
+                      </ion-input>
+                    </div>
                   </ion-card>
 
-                <div>
-                    <ion-item>
-                        <ion-label> Save details for future transactions</ion-label>
-                        <ion-checkbox [(ngModel)]="card.saveDetailsForFuture" >
-                        </ion-checkbox>
-                    </ion-item>
-
-                    <ion-input type="checkbox" [(ngModel)]="card.saveDetailsForFuture">
-                    </ion-input>
-                </div>
+               
 
             </div>
             <div padding>

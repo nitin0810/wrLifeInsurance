@@ -20,18 +20,20 @@ page-login ,page-sign-up,page-forgort-password{
     .forgotPwd{
       float: left;
       color:color($colors, primary);
-      margin-top: 10px;
       cursor: pointer;
       font-size: 15px;
+      text-transform: capitalize;
     }
     .signUp{
       float: right;
       color: color($colors,primary);
-      margin-top: 10px;
       cursor: pointer;
       font-size: 15px;
+      text-transform: capitalize;
     }
-    
+    .flex{
+      display: flex;
+    }
     .orIcon{
       font-size: 18px;
     bottom: -16px;

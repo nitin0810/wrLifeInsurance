@@ -3,9 +3,7 @@
   <div style="position: relative">
     <ion-card class="container">
       <form name="Login_Form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <button ion-button full rounded type="button" (click)="onGuest()" [disabled]="logging" style="border-radius: 4px;">Continue
-          as Guest</button>
-        <div text-center>OR</div>
+      
         <ion-item>
           <ion-input type="text" formControlName="email" placeholder="Email"></ion-input>
         </ion-item>
@@ -16,13 +14,19 @@
         <div class="err-msg" *ngIf="errorMsg">
           <p>{{errorMsg}}</p>
         </div>
-
+        <button ion-button full rounded type="button" (click)="onGuest()" [disabled]="logging" style="border-radius: 4px;">Continue
+          as Guest</button>
         <button ion-button full rounded type="submit" [disabled]="logging" style="border-radius: 4px;">{{logging?'Logging
           In ...' :'Login' }}</button>
+        <div class="flex">
         <button  ion-button clear [disabled]="logging" (click)="forgotPassword()" class="forgotPwd" color="primary">Forgot Password?</button>
         <button ion-button clear [disabled]="logging" color="primary" (click)="signup()" class="signUp">Sign Up</button>
+        </div>
 
       </form>
+      <div class="orIcon">
+        <ion-icon name="ios-arrow-dropdown-circle" class="expandMore"></ion-icon>
+      </div>
  
     </ion-card>
   </div>
