@@ -343,14 +343,14 @@
                                 <ion-label color="primary">Last Name
                                     <span class="mandotry">*</span>
                                 </ion-label>
-                                <ion-input class="border-bottom" type="text" required [(ngModel)]="form2Details.partner_last"
+                                <ion-input class="border-bottom" type="text" text-right required [(ngModel)]="form2Details.partner_last"
                                     name="partner_last" placeholder="Last Name"></ion-input>
                             </ion-item>
                             <ion-item>
                                 <ion-label color="primary">First Name
                                     <span class="mandotry">*</span>
                                 </ion-label>
-                                <ion-input class="border-bottom" type="text" required [(ngModel)]="form2Details.partner_first"
+                                <ion-input class="border-bottom" type="text" text-right required [(ngModel)]="form2Details.partner_first"
                                     name="partner_first" placeholder="First Name"></ion-input>
                             </ion-item>
 
@@ -389,12 +389,12 @@
 
                                 <ion-item>
                                     <ion-label color="primary">Last Name <span class="mandotry">*</span></ion-label>
-                                    <ion-input class="border-bottom" type="text" required [(ngModel)]="child.last" name="child.last{{i+1}}"
+                                    <ion-input class="border-bottom" type="text" text-right required [(ngModel)]="child.last" name="child.last{{i+1}}"
                                         placeholder="Last Name"></ion-input>
                                 </ion-item>
                                 <ion-item>
                                     <ion-label color="primary">First Name <span class="mandotry">*</span></ion-label>
-                                    <ion-input class="border-bottom" type="text" required [(ngModel)]="child.first"
+                                    <ion-input class="border-bottom" type="text" text-right required [(ngModel)]="child.first"
                                         name="child.first{{i+1}}" placeholder="First Name"></ion-input>
                                 </ion-item>
 
@@ -439,12 +439,12 @@
                             <ion-item-divider color="primary">Main Insured </ion-item-divider>
                             <ion-item>
                                 <ion-label color="primary">Height<span class="mandotry">*</span></ion-label>
-                                <ion-input type="number" class="border-bottom" required [(ngModel)]="form2Details.main_insured_height"
+                                <ion-input type="number" text-right class="border-bottom" required [(ngModel)]="form2Details.main_insured_height"
                                     name="main_height" placeholder="Height (m)"></ion-input>
                             </ion-item>
                             <ion-item>
                                 <ion-label color="primary">Weight<span class="mandotry">*</span></ion-label>
-                                <ion-input type="number" required [(ngModel)]="form2Details.main_insured_weight" name="main_weight"
+                                <ion-input type="number" text-right required [(ngModel)]="form2Details.main_insured_weight" name="main_weight"
                                     placeholder="Weight (Kg)"></ion-input>
                             </ion-item>
 
@@ -644,7 +644,7 @@
                                 <div color="dark" item-start>
                                     <b>Starting date of cover <span class="mandotry">*</span></b>
                                 </div>
-                                <ion-datetime item-end [(ngModel)]="date_of_cover" name="date_of_cover" required
+                                <ion-datetime item-end [(ngModel)]="date_of_cover" text-right name="date_of_cover" required
                                     displayFormat="DD/MM/YYYY" placeholder="DD MMM, YYYY" pickerFormat="DD MMM, YYYY"
                                     [min]="today" [max]="nextYearSameDate" (ionChange)="setDateOfCover($event)"></ion-datetime>
                             </ion-item>
@@ -751,16 +751,16 @@
             <ion-card>
                 <ion-list>
                     <ion-item class="border-bottom">
-                        <span item-start color="primary">Area </span>
+                        <span item-start class="primary-text">Area </span>
                         <!-- <ion-label item-end>{{form2SubmitResponse?.policy_AREA}} </ion-label> -->
                         <span item-end> {{form2SubmitResponse?.policy_AREA}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Date of Birth </ion-label>
+                        <ion-label item-start class=" primary-text">Date of Birth </ion-label>
                         <span item-end> {{form2SubmitResponse?.dateofbirth_main}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Members </ion-label>
+                        <ion-label item-start class=" primary-text">Members </ion-label>
                         <span item-end> {{form2SubmitResponse?.family_description}}</span>
                     </ion-item>
                 </ion-list>
@@ -769,31 +769,31 @@
             <ion-card>
                 <ion-list>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Complement to Social Security </ion-label>
+                        <ion-label item-start class=" primary-text">Complement to Social Security </ion-label>
                         <ion-toggle disabled [checked]="form2SubmitResponse?.complementary_social"></ion-toggle>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Inpatient </ion-label>
+                        <ion-label item-start class=" primary-text">Inpatient </ion-label>
                         <ion-toggle disabled [checked]="form2SubmitResponse?.inpatient"></ion-toggle>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Outpatient </ion-label>
+                        <ion-label item-start class=" primary-text">Outpatient </ion-label>
                         <ion-toggle disabled [checked]="form2SubmitResponse?.outpatient"></ion-toggle>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Dental Optical </ion-label>
+                        <ion-label item-start class=" primary-text">Dental Optical </ion-label>
                         <ion-toggle disabled [checked]="form2SubmitResponse?.dental_optical"></ion-toggle>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Assistance Evacuation </ion-label>
+                        <ion-label item-start class=" primary-text">Assistance Evacuation </ion-label>
                         <span item-end> {{assistantEvacuations[form2SubmitResponse?.assistance_evacuation]}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Global Limit </ion-label>
+                        <ion-label item-start class=" primary-text">Global Limit </ion-label>
                         <span item-end> {{form2SubmitResponse?.adjust_globallimit}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Hospital Adjustment</ion-label>
+                        <ion-label item-start class=" primary-text">Hospital Adjustment</ion-label>
                         <span item-end> {{form2SubmitResponse?.hospital_adjusment}}</span>
                     </ion-item>
                 </ion-list>
@@ -802,35 +802,35 @@
             <ion-card>
                 <ion-list>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>First Name </ion-label>
+                        <ion-label item-start class=" primary-text">First Name </ion-label>
                         <span item-end> {{form2SubmitResponse?.policy_owner_first}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>last Name </ion-label>
+                        <ion-label item-start class=" primary-text">last Name </ion-label>
                         <span item-end> {{form2SubmitResponse?.policy_owner_last}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Sex </ion-label>
+                        <ion-label item-start class=" primary-text">Sex </ion-label>
                         <span item-end> {{form2SubmitResponse?.sex==0?'Male':'Female'}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Nationality </ion-label>
+                        <ion-label item-start class=" primary-text">Nationality </ion-label>
                         <span item-end> {{form2SubmitResponse?.nationality}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Mobile </ion-label>
+                        <ion-label item-start class=" primary-text">Mobile </ion-label>
                         <span item-end> {{form2SubmitResponse?.mobile_phone}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Email </ion-label>
+                        <ion-label item-start class=" primary-text">Email </ion-label>
                         <span item-end> {{form2SubmitResponse?.mail_id}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Phone </ion-label>
+                        <ion-label item-start class=" primary-text">Phone </ion-label>
                         <span item-end> {{form2SubmitResponse?.phone}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Skype Id </ion-label>
+                        <ion-label item-start class=" primary-text">Skype Id </ion-label>
                         <span item-end> {{form2SubmitResponse?.skype_id}}</span>
                     </ion-item>
                 </ion-list>
@@ -839,27 +839,27 @@
             <ion-card>
                 <ion-list>
                     <ion-item class="border-bottom" text-wrap>
-                        <ion-label item-start>Expatriation Address </ion-label>
+                        <ion-label item-start class=" primary-text">Expatriation Address </ion-label>
                         <span item-end> {{form2SubmitResponse?.expatriation_address}}</span>
                     </ion-item>
                     <ion-item class="border-bottom" text-wrap>
-                        <ion-label item-start>Billing Address </ion-label>
+                        <ion-label item-start class=" primary-text">Billing Address </ion-label>
                         <span item-end> {{form2SubmitResponse?.billing_address}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Height </ion-label>
+                        <ion-label item-start class=" primary-text">Height </ion-label>
                         <span item-end> {{form2SubmitResponse?.main_insured_height}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Weight </ion-label>
+                        <ion-label item-start class=" primary-text">Weight </ion-label>
                         <span item-end> {{form2SubmitResponse?.main_insured_weight}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start>Main Insured </ion-label>
+                        <ion-label item-start class=" primary-text">Main Insured </ion-label>
                         <ion-toggle disabled [checked]="form2SubmitResponse?.preexisting_main_insured"></ion-toggle>
                     </ion-item>
                     <ion-item class="border-bottom" *ngIf="form2SubmitResponse?.preexisting_main_insured">
-                        <ion-label item-start>Pre-exisiting Condition </ion-label>
+                        <ion-label item-start class=" primary-text">Pre-exisiting Condition </ion-label>
                         <span item-end> {{form2SubmitResponse?.preexisting_main_insured_1}}</span>
                     </ion-item>
 
@@ -867,35 +867,35 @@
 
                         <ion-item-divider>{{child.memberType==1?'Partner Details':'Child Details :'}}</ion-item-divider>
                         <ion-item class="border-bottom">
-                            <ion-label item-start>First_Name </ion-label>
+                            <ion-label item-start class=" primary-text">First_Name </ion-label>
                             <span item-end> {{child.first}}</span>
                         </ion-item>
                         <ion-item class="border-bottom">
-                            <ion-label item-start>Last_Name </ion-label>
+                            <ion-label item-start class=" primary-text">Last_Name </ion-label>
                             <span item-end> {{child.last}}</span>
                         </ion-item>
                         <ion-item class="border-bottom">
-                            <ion-label item-start>DOB </ion-label>
+                            <ion-label item-start class=" primary-text">DOB </ion-label>
                             <span item-end> {{child.dob}}</span>
                         </ion-item>
                         <ion-item class="border-bottom">
-                            <ion-label item-start>Sex </ion-label>
+                            <ion-label item-start class=" primary-text">Sex </ion-label>
                             <span item-end> {{child.sex==0?'Male':'Female'}}</span>
                         </ion-item>
                         <ion-item class="border-bottom">
-                            <ion-label item-start>Height </ion-label>
+                            <ion-label item-start class=" primary-text">Height </ion-label>
                             <span item-end> {{child.height}}</span>
                         </ion-item>
                         <ion-item class="border-bottom">
-                            <ion-label item-start>Weight </ion-label>
+                            <ion-label item-start class=" primary-text">Weight </ion-label>
                             <span item-end> {{child.weight}}</span>
                         </ion-item>
                         <ion-item class="border-bottom">
-                            <ion-label item-start>Insured </ion-label>
+                            <ion-label item-start class=" primary-text">Insured </ion-label>
                             <ion-toggle disabled [checked]="child?.preexisting"></ion-toggle>
                         </ion-item>
                         <ion-item class="border-bottom" *ngIf="child?.preexisting_1">
-                            <ion-label item-start>Pre-exisiting Condition </ion-label>
+                            <ion-label item-start class=" primary-text">Pre-exisiting Condition </ion-label>
                             <span item-end> {{child.preexisting_1}}</span>
                         </ion-item>
                     </ng-container>
@@ -906,7 +906,7 @@
             <ion-card>
                 <ion-list>
                     <ion-item>
-                        <ion-label>Payment Frequency</ion-label>
+                        <ion-label class=" primary-text">Payment Frequency</ion-label>
                         <span item-end> {{form2SubmitResponse?.frequency_payment}}</span>
 
                     </ion-item>
@@ -932,7 +932,7 @@
 
             <div>
                 
-                <ion-card padding-bottom>
+                <ion-card padding-bottom class="border-radius">
                   <ion-list-header class="header">Enter Payment Details</ion-list-header>
                     <h2 text-left padding>
                        <ion-icon item-start name="card" class="primaryColor"></ion-icon> <span class="ml">Credit or Debit card</span></h2>
