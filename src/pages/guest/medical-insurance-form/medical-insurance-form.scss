@@ -42,11 +42,12 @@ page-medical-insurance-form {
   }
   ion-footer{
     div{
-      padding-top: 10px;
+      padding-top: 4px;
       padding-left: 10px;
     }
     ion-grid{
-      padding-top: 0;
+      padding:4px 0!important;
+      
     }
   }
   .textarea{
