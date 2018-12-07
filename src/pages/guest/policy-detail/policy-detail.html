@@ -6,14 +6,14 @@
 
 
 <ion-content class="backgorund-color">
-  <ion-card *ngIf="policy">
+  <ion-card *ngIf="policy" padding>
 
-    <h5>Plan:{{policy.active_plan}}</h5>
-    <p>Policy No. : {{policy.transection_id}}</p>
-    <p>Payment Frequency: {{policy.payment_frequency}}</p>
-    <p>Payment Amount: {{policy.amount}}{{policy?.currency==1?'$':'€'}}</p>
-    <p>Membership No.: {{policy.membership_number}}</p>
-    <p>Date : {{policy.date}}</p>
+    <h5><b item-start>Plan:</b> {{policy.active_plan}} </h5>
+    <p><b>Policy No.</b>:  {{policy.transection_id}}</p>
+    <p><b>Payment Frequency:</b> {{policy.payment_frequency}}</p>
+    <p><b>Payment Amount:</b> {{policy.amount}}{{policy?.currency==1?'$':'€'}}</p>
+    <p><b>Membership No.</b>: {{policy.membership_number}}</p>
+    <p><b>Date :</b> {{policy.date}}</p>
 
     <p>For Complete Details, view the Insurance Certificate </p>
     <!-- TODO -->

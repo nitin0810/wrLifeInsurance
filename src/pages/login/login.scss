@@ -34,6 +34,9 @@ page-login ,page-sign-up,page-forgort-password{
     .flex{
       display: flex;
     }
+    .or{
+      color: white;
+    }
     .orIcon{
       font-size: 18px;
     bottom: -16px;
@@ -77,7 +80,7 @@ page-login ,page-sign-up,page-forgort-password{
     padding: 30px;
   }    
   .fbloginBtn{
-      width: 80%;
+      width: 64%;
     padding-top: 19px;
     padding-left: 2px;
     padding-bottom: 19px;
@@ -92,7 +95,11 @@ page-login ,page-sign-up,page-forgort-password{
     // border-right: 1px solid #22396af5;
     }
   }
-
+  .guestLogin{
+    width: 64%;
+    margin: auto;
+    margin-top: 20px;
+  }
   .err-msg{
     padding: 5px;
     border: 1px solid red;

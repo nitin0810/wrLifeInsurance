@@ -1,6 +1,8 @@
 <ion-content class="open-background">
   <img class="center-block logo" src="assets/imgs/logo.png" />
   <div style="position: relative">
+    <button ion-button full rounded type="button" class="guestLogin" (click)="onGuest()" [disabled]="logging" style="border-radius: 4px;">Continue
+      as Guest</button>
     <ion-card class="container">
       <form name="Login_Form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       
@@ -14,8 +16,7 @@
         <div class="err-msg" *ngIf="errorMsg">
           <p>{{errorMsg}}</p>
         </div>
-        <button ion-button full rounded type="button" (click)="onGuest()" [disabled]="logging" style="border-radius: 4px;">Continue
-          as Guest</button>
+        
         <button ion-button full rounded type="submit" [disabled]="logging" style="border-radius: 4px;">{{logging?'Logging
           In ...' :'Login' }}</button>
         <div class="flex">
@@ -24,24 +25,28 @@
         </div>
 
       </form>
-      <div class="orIcon">
+      <!-- <div class="orIcon">
         <ion-icon name="ios-arrow-dropdown-circle" class="expandMore"></ion-icon>
-      </div>
- 
+      </div> -->
+      
     </ion-card>
+    
   </div>
 
   <!-- <span><i class="material-icons">
     expand_more
   </i></span> -->
-  <!-- <div text-center class="flex">
+  <!-- <div text-center>
         
-        <hr class="or mr">
+      <hr class="or mr">
         <span class="alignCenter ">Or</span>
         <hr class="or ml">
     </div> -->
+    <div text-center>
+      <span class="alignCenter or ">Or</span>
+    </div>
 
-  <div text-center padding-top>
+  <div text-center >
     <button ion-button color="facebook" class="fbloginBtn" (click)="onFbLogin()" [disabled]="logging">
       <ion-icon name="logo-facebook" class="iconFB" style="margin:0 5px"></ion-icon>
       Login with Facebook
