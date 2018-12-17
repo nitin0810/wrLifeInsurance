@@ -20,8 +20,8 @@
         <button ion-button full rounded type="submit" [disabled]="logging" style="border-radius: 4px;">{{logging?'Logging
           In ...' :'Login' }}</button>
         <div class="flex">
-        <button  ion-button clear [disabled]="logging" (click)="forgotPassword()" class="forgotPwd" color="primary">Forgot Password?</button>
-        <button ion-button clear [disabled]="logging" color="primary" (click)="signup()" class="signUp">Sign Up</button>
+        <button   type="button" ion-button clear [disabled]="logging" (click)="forgotPassword()" class="forgotPwd" color="primary">Forgot Password?</button>
+        <button type="button"  ion-button clear [disabled]="logging" color="primary" (click)="signup()" class="signUp">Sign Up</button>
         </div>
 
       </form>
@@ -33,15 +33,6 @@
     
   </div>
 
-  <!-- <span><i class="material-icons">
-    expand_more
-  </i></span> -->
-  <!-- <div text-center>
-        
-      <hr class="or mr">
-        <span class="alignCenter ">Or</span>
-        <hr class="or ml">
-    </div> -->
     <div text-center>
       <span class="alignCenter or ">Or</span>
     </div>

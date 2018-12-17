@@ -160,13 +160,14 @@ export class MedicalInsuranceFormPage implements OnDestroy {
   ionViewWillLeave() {
 
     //hide loader in case its visible (any request is pending)
-    // try {
-    //   // console.log('trying...1');
-    //   // put this line inside try block as it generates error if loader is not visible
-    //   this.customService.hideLoader();
-    // } catch (e) {
-    //   // console.log('error', e);
-    // }
+    try {
+      // console.log('trying...1');
+      // put this line inside try block as it generates error if loader is not visible
+      this.customService.hideLoader();
+    } catch (e) {
+      // console.log('error', e);
+
+    }
 
     // unsubscribe from requests subscriptions, it is done in order to remova a bug in which
     // after closing the page while a request is in progress, code related to request subscription
@@ -249,11 +250,11 @@ export class MedicalInsuranceFormPage implements OnDestroy {
         // get the premium info for the first time
         this.state = this.medicalInsuranceService.getInitialState(this.initialCountry.area_name);
         try {
-          // console.log('---------------------------------------');
           // console.log('trying...2');
           this.customService.hideLoader();
         } catch (e) {
-          // console.log('error2',e);
+          // console.log('error2', e);
+          this.showAlert(e);
         }
 
         this.calculatePremiumPrice();
@@ -263,7 +264,8 @@ export class MedicalInsuranceFormPage implements OnDestroy {
           // console.log('trying...3');
           this.customService.hideLoader();
         } catch (e) {
-          //  console.log('error3',e);
+          // console.log('error3', e);
+          this.showAlert(e);
         }
         this.customService.showToast(err.msg);
       });
@@ -320,6 +322,7 @@ export class MedicalInsuranceFormPage implements OnDestroy {
           this.customService.hideLoader();
         } catch (e) {
           // console.log('error', e);
+          this.showAlert(e);
         }
       }, (err) => {
         try {
@@ -327,6 +330,7 @@ export class MedicalInsuranceFormPage implements OnDestroy {
           this.customService.hideLoader();
         } catch (e) {
           // console.log('error', e);
+          this.showAlert(e);
         }
         // info about the error response from php server is not available, 
         // So check if error is obtained or not
@@ -568,7 +572,7 @@ export class MedicalInsuranceFormPage implements OnDestroy {
   calculateAgeForForm2(date: any, child: any, index: number) {
     child.age = this.giveAge(date);
 
-    //set dob in dd/yy/mmm format
+    //set dob in dd/mm/yyy format
     const yyyy = date.year,
       mm = date.month < 10 ? '0' + date.month : date.month,
       dd = date.day < 10 ? '0' + date.day : date.day;
@@ -628,7 +632,7 @@ export class MedicalInsuranceFormPage implements OnDestroy {
               text: 'Login',
               handler: () => {
                 alert.dismiss().then(() => {
-                    this.navCtrl.setRoot(LoginPage);
+                  this.navCtrl.setRoot(LoginPage);
                 });
                 return false;
               }
@@ -799,8 +803,8 @@ export class MedicalInsuranceFormPage implements OnDestroy {
     // console.log(this.card);
     // alert(JSON.stringify(this.card));
     const re = /^[0-9]+$/;
-    if (!re.test(this.card.cardNumber)) {  return false; }
-    if (!re.test(this.card.cvv)) {  return false; }
+    if (!re.test(this.card.cardNumber)) { return false; }
+    if (!re.test(this.card.cvv)) { return false; }
     return true;
   }
 
