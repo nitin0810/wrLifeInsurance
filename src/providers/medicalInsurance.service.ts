@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CustomHttpService } from './custom-http.service';
 import { HttpClient, HttpResponse, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { PHP_URL } from './app.constants';
+import { CALCULATION_URL, BASE_PHP_URL } from './app.constants';
 
 export interface FormPayload {
     area: string;
@@ -68,7 +68,14 @@ export class MedicalInsuranceService {
 
     calculatePremiumPrice(data: FormPayload) {
 
-        return this.post(PHP_URL, data);
+        return this.post(CALCULATION_URL, data);
+    }
+
+    getPolicyPDFFiles(policyId:number) {
+
+        return this.httpClient.get(BASE_PHP_URL+'/api_get_all_PDF_files.php?path='+policyId)
+        // .map(this.extractData)
+        .catch(this.handleError);
     }
 
     contactUS(data:any){
@@ -87,7 +94,6 @@ export class MedicalInsuranceService {
 
 
     private extractData(res: HttpResponse<any>) {
-
         // console.log('inside extract data', res);
         return res.body || res.status;
     }

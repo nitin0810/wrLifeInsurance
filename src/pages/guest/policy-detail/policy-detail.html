@@ -15,24 +15,17 @@
     <p><b>Membership No.</b>: {{policy.membership_number}}</p>
     <p><b>Date :</b> {{policy.date}}</p>
 
-    <p>For Complete Details, view the Insurance Certificate </p><br>
-    <h6>TODO : Below will be Links to pdf which are still to be done</h6>
-    <!-- TODO -->
-    <!-- <a>Insurance Certificate</a> -->
+    <ion-list-header>Pdf Files</ion-list-header>
+    <ion-spinner *ngIf="loading" style="text-align: center;"></ion-spinner>
 
-    <!-- <ion-item-divider></ion-item-divider>
-    <p>sssssssssssssss asdfa asdfa sfdasd fasdfas dfas df asdf asdf as dfa sdf asd fas df asdf asd f</p>
-    <p>Area : {{policy.area_cover}}</p>
-    <p>Assistance Evacuation : {{policy.assistance_evacuation}}</p>
-    <p>Billing Address : {{policy.bill_address}}</p>
-    <p>Main Address : {{policy.main_address}}</p>
-
-    <p>Complement to Social Security : {{policy.complementary_social=='0'?'No':'Yes'}}</p>
-    <p>Hospital Adjustment : {{policy.deductible_hospitalization}}</p>
-    <p>Dental Optical : {{policy.dental_optical=='0'?'No':'Yes'}}</p>
-    <p>Members : {{policy.family_description}}</p>
-    <p>Global Limit : {{policy.global_limit}}</p>
-    <p>Inpatient : {{policy.inpatient=='0'?'No':'Yes'}}</p> -->
-
+    <ion-list *ngIf="!loading">
+      <ion-item *ngFor="let file of pdfFiles" class="file">
+        <ion-icon color="primary" name="cloud-download" item-start></ion-icon>
+        <a [href]="file.link" target="_blank" >{{file.name}}</a>
+      </ion-item>
+    </ion-list>
   </ion-card>
-</ion-content>
+</ion-content>     
+
+
+                             

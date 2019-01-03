@@ -45,7 +45,7 @@
       <ion-label floating>Confirm Password *</ion-label>
       <ion-input type="password" formControlName="confirmPassword"></ion-input>
     </ion-item>
-    <div class="err-msg" *ngIf="signupForm.controls.confirmPassword.valid&&checkPassword()">
+    <div class="err-msg" *ngIf="signupForm.controls.confirmPassword.valid && checkPassword()">
       <p>* Password mismatch</p>
     </div>
 
