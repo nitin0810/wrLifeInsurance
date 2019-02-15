@@ -95,6 +95,7 @@
         <variable name="APP_ID" value="5366615" />
     </plugin>
     <allow-navigation href="http://192.168.1.4:8100" />
-    <engine name="android" spec="7.0.0" />
     <allow-navigation href="http://192.168.1.22:8100" />
+    <allow-navigation href="http://192.168.1.12:8100" />
+    <engine name="android" spec="7.0.0" />
 </widget>

@@ -44,8 +44,8 @@ export class LoginPage implements OnInit {
 
   createForm() {
     this.loginForm = this.fb.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required]
+      email: ['nitegi94@gmail.com', Validators.required],
+      password: ['6337569', Validators.required]
     });
   }
 
@@ -120,9 +120,10 @@ export class LoginPage implements OnInit {
 
     this.customService.showLoader();
     const scopes: LinkedInLoginScopes[] = ['r_basicprofile', 'r_emailaddress'/**, 'rw_company_admin', 'w_share'*/];
+
     this.linkedIn.login(scopes, true)
       .then((res: any) => this.linkedIn.getActiveSession())
-      .then((linkedInToken: any) => this.authService.sendLinkedinToken(linkedInToken.accessToken).toPromise())
+      .then((linkedInToken: any) => {alert(JSON.stringify(linkedInToken)); this.authService.sendLinkedinToken(linkedInToken.accessToken).toPromise()})
       .then((backendToken: any) => {
         this.authService.saveToken(backendToken.token)
         return this.authService.fetchUserDetails().toPromise();
@@ -141,11 +142,11 @@ export class LoginPage implements OnInit {
 
   signup(){
     this.navCtrl.push('SignUpPage');
-  }
+  }      
 
   handleError(err: any) {
     // console.log(  JSON.stringify(err,undefined,2));
-    
+    // alert('aaaaa'+JSON.stringify(err,undefined,2));
     let error = '';
     if (typeof err === 'string') { // err object in JSON format
       try {

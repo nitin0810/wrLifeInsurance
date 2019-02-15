@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 import { AuthService } from '../../../providers/auth.service';
 import { CustomService } from '../../../providers/custom.service';
+import { Network } from '@ionic-native/network';
 
 /**GuestHomepage is actually home page for all users wheather logged in or not */
 @Component({
@@ -16,7 +17,8 @@ export class GuestHomePage implements OnInit {
     public navCtrl: NavController,
     private authService: AuthService,
     private customService: CustomService,
-    private menu: MenuController
+    private menu: MenuController,
+    private network:Network
   ) {
   }
 

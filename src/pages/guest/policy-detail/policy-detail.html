@@ -8,24 +8,36 @@
 <ion-content class="backgorund-color">
   <ion-card *ngIf="policy" padding>
 
-    <h5><b item-start>Plan:</b> {{policy.active_plan}} </h5>
-    <p><b>Policy No.</b>:  {{policy.transection_id}}</p>
+    <p><b>Plan:</b> {{policy.active_plan}} </p>
+    <p><b>Policy No.</b>: {{policy.transection_id}}</p>
     <p><b>Payment Frequency:</b> {{policy.payment_frequency}}</p>
     <p><b>Payment Amount:</b> {{policy.amount}}{{policy?.currency==1?'$':'€'}}</p>
     <p><b>Membership No.</b>: {{policy.membership_number}}</p>
-    <p><b>Date :</b> {{policy.date}}</p>
+    <!-- purcahse date is taken from policyTransaction bcoz that is the actual time of transaction. hence it is better to use that -->
+    <p><b>Purchase Date :</b> {{policy.policyTransaction.create_date | date}}</p>
+    <p><b>Start Date :</b> {{changeDateFormat(policy.starting_date) | date}}</p>
+
+    <div *ngIf="policy.renewalTransactions?.length">
+      <!-- <h4>Renewal Information</h4> -->
+      <ul>
+        <li *ngFor="let r of policy.renewalTransactions">
+          Renewed on {{changeDateFormat(r.cdate) | date}}
+        </li>
+      </ul>
+    </div>
 
     <ion-list-header>Pdf Files</ion-list-header>
-    <ion-spinner *ngIf="loading" style="text-align: center;"></ion-spinner>
 
+    <div style="text-align: center" *ngIf="loading">
+      <ion-spinner></ion-spinner>
+    </div>
     <ion-list *ngIf="!loading">
       <ion-item *ngFor="let file of pdfFiles" class="file">
         <ion-icon color="primary" name="cloud-download" item-start></ion-icon>
-        <a [href]="file.link" target="_blank" >{{file.name}}</a>
+        <a [href]="file.link" target="_blank">{{file.name}}</a>
       </ion-item>
     </ion-list>
+
+    <button *ngIf="policy.policyTransaction.autopayment" ion-button full rounded (click)="onRenew()">Renew Policy</button>
   </ion-card>
-</ion-content>     
-
-
-                             
+</ion-content>

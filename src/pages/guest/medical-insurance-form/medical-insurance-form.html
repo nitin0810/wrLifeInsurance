@@ -746,7 +746,7 @@
                 <page-prevnext-component [isDisabled]="true" (prev)="onPrev()" (next)="onNext()"></page-prevnext-component>
             </ion-toolbar>
 
-            <h4><b>Payable Amountd:</b> {{form2SubmitResponse?.currency==1?'$':'€'}}
+            <h4><b>Payable Amount:</b> {{form2SubmitResponse?.currency==1?'$':'€'}}
                 {{form2SubmitResponse?.last_amount}}</h4>
             <ion-card>
                 <ion-list>
@@ -847,11 +847,11 @@
                         <span item-end> {{form2SubmitResponse?.billing_address}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start class=" primary-text">Height </ion-label>
+                        <ion-label item-start class=" primary-text">Height (m) </ion-label>
                         <span item-end> {{form2SubmitResponse?.main_insured_height}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
-                        <ion-label item-start class=" primary-text">Weight </ion-label>
+                        <ion-label item-start class=" primary-text">Weight (Kg) </ion-label>
                         <span item-end> {{form2SubmitResponse?.main_insured_weight}}</span>
                     </ion-item>
                     <ion-item class="border-bottom">
@@ -912,7 +912,7 @@
                     </ion-item>
                 </ion-list>
             </ion-card>
-            <div padding><button type="button" ion-button full rounded (click)="onEnterPaymentDetais()">Enter Payment Detais</button></div>
+            <div padding><button type="button" ion-button full rounded (click)="onEnterPaymentDetais()">Enter Payment Details</button></div>
             
         </ion-slide>
 

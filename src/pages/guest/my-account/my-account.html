@@ -31,8 +31,9 @@
         </div>
     </ion-card>
 
-
-    <ion-spinner *ngIf="loadingPolicies" style="text-align: center;"></ion-spinner>
+<div style="text-align: center" *ngIf="loadingPolicies">
+  <ion-spinner></ion-spinner>
+</div>
     <ion-list *ngIf="!loadingPolicies">
       <ion-list-header>Purchased Policies</ion-list-header>
       <ion-card>

@@ -82,6 +82,10 @@ export class MedicalInsuranceService {
         return this.http.post('/contact-us', data);
     }
 
+    renewPolicy(payLoad:{transactionId:number}){
+        return this.http.post('/mdi/stripe/pay/renew', payLoad);
+    }
+
     // POST request to php server for calculating premium price
     post(url: string, body: any) {
 
