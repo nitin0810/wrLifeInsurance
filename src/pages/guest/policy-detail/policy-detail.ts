@@ -44,7 +44,7 @@ export class PolicyDetailPage {
         res && res.forEach((fileName: string) => {
           this.pdfFiles.push({
             name: fileName.split(' ').slice(0, -1).join(' '),
-            link: BASE_PHP_URL + '/test_pdf_files/' + this.policy.transection_id + '/' + fileName
+            link: BASE_PHP_URL + '/pdf_files/' + this.policy.transection_id + '/' + fileName
           });
         });
       }, err => {

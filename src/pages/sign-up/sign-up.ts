@@ -9,7 +9,7 @@ import {
   FormBuilder,
   FormGroup,
   Validators
-} from '../../../node_modules/@angular/forms';
+} from '@angular/forms';
 import { AuthService } from '../../providers/auth.service';
 import { CustomService } from '../../providers/custom.service';
 
@@ -49,7 +49,7 @@ export class SignUpPage {
       last: ['', [Validators.required]],
       phone: [''],
       skypeId: [''],
-      mailId: [''],
+      mailId: ['',[Validators.required]],
       password: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]]
     });

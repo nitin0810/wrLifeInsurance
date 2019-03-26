@@ -609,7 +609,7 @@ export class MedicalInsuranceFormPage implements OnDestroy {
     const payLoad: any = this.prepareData();
     // if already logged in, send membership no.
     if (this.authService.isLoggedIn()) {
-      const mNo = JSON.parse(localStorage.getItem('userInfo'))[0].membership_number;
+      const mNo = JSON.parse(localStorage.getItem('userInfo')).membership_number;
       payLoad['membership_number'] = mNo;
     }
     this.customService.showLoader();

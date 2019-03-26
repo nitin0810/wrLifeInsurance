@@ -1,4 +1,3 @@
-
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>My Account</ion-title>
@@ -6,37 +5,49 @@
 </ion-header>
 
 
-<ion-content  class="backgorund-color">
-    <ion-card>
+<ion-content class="backgorund-color">
+  <ion-card>
 
-        <ion-item>
-          <!-- <ion-avatar item-start>
+    <ion-item>
+      <!-- <ion-avatar item-start>
             <img src="img/marty-avatar.png">
           </ion-avatar> -->
-          <h2 class="captalize">
-<b>{{userDetails.first_name}} {{userDetails.last_name || ''}}</b></h2>
-          <p>Membership Number: <span>{{userDetails.membership_number}}</span></p>
-        </ion-item>
-      
-        <!-- <img src="img/advance-card-bttf.png"> -->
-      
-        <ion-card-content>
-          <p><b><ion-icon name="call" class="accountIcon" *ngIf="userDetails.mobile_phone"></ion-icon></b>{{userDetails.mobile_phone}}</p>
-          <p><b><ion-icon name="mail" class="accountIcon" *ngIf="userDetails.email"></ion-icon>
-</b>{{userDetails.email}}</p>
-          <p><b><ion-icon name="logo-skype" class="accountIcon" *ngIf="userDetails.skype" ></ion-icon> </b>{{userDetails.skype}}</p>
-        </ion-card-content>
-        <div padding>
-          <button ion-button block (click)="changePassword()">Change Password</button>
-        </div>
-    </ion-card>
+      <h2 class="captalize">
+        <b>{{userDetails.first_name}} {{userDetails.last_name || ''}}</b></h2>
+      <p>Membership Number: <span>{{userDetails.membership_number}}</span></p>
+    </ion-item>
 
-<div style="text-align: center" *ngIf="loadingPolicies">
-  <ion-spinner></ion-spinner>
-</div>
-    <ion-list *ngIf="!loadingPolicies">
-      <ion-list-header>Purchased Policies</ion-list-header>
-      <ion-card>
+    <!-- <img src="img/advance-card-bttf.png"> -->
+
+    <ion-card-content>
+      <p><b>
+          <ion-icon name="call" class="accountIcon" *ngIf="userDetails.mobile_phone"></ion-icon>
+        </b>{{userDetails.mobile_phone}}</p>
+      <p><b>
+          <ion-icon name="mail" class="accountIcon" *ngIf="userDetails.email"></ion-icon>
+        </b>{{userDetails.email}}</p>
+      <p><b>
+          <ion-icon name="logo-skype" class="accountIcon" *ngIf="userDetails.skype"></ion-icon>
+        </b>{{userDetails.skype}}</p>
+    </ion-card-content>
+    <ion-grid>
+    <ion-row>
+      <ion-col col-6>
+        <button class="col" ion-button small (click)="changePassword()">Change Password</button>
+      </ion-col>
+      <ion-col col-6>
+        <button class="col" ion-button small (click)="openAccountEditPage()">Edit Details</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  </ion-card>
+
+  <div style="text-align: center" *ngIf="loadingPolicies">
+    <ion-spinner></ion-spinner>
+  </div>
+  <ion-list *ngIf="!loadingPolicies">
+    <ion-list-header>Purchased Policies</ion-list-header>
+    <ion-card>
       <ion-item *ngFor="let p of policies;let i =index" (click)="openPolicyDetail(p)">
         <h5 *ngIf="p.active_plan"><b>{{p.active_plan}}</b></h5>
         <p><b>Policy No :</b>{{p.transection_id}}</p>
@@ -45,9 +56,9 @@
         <!-- <p>Membership No.: {{p.membership_number}}</p> -->
         <p><b>Starting Date:</b> {{p.starting_date}}</p>
       </ion-item>
-      </ion-card>
-      <div text-center *ngIf="!policies?.length">
-        <p>Your policies will appear here</p>
-      </div>
-    </ion-list>
+    </ion-card>
+    <div text-center *ngIf="!policies?.length">
+      <p>Your policies will appear here</p>
+    </div>
+  </ion-list>
 </ion-content>

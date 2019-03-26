@@ -22,7 +22,11 @@ export class MyAccountPage {
     private customService: CustomService,
     public modalCtrl:ModalController
     ) {  
-      this.userDetails = JSON.parse(localStorage.getItem('userInfo'))[0];
+      this.setUserDetails();
+    }
+    
+    setUserDetails(){
+      this.userDetails = JSON.parse(localStorage.getItem('userInfo'));
     }
 
   ionViewDidLoad() {
@@ -42,7 +46,12 @@ export class MyAccountPage {
   }
 
   openPolicyDetail(policy: any) {
-    this.navCtrl.push('PolicyDetailPage',{policy:policy});
+      this.navCtrl.push('PolicyDetailPage',{policy:policy});
+  }
+     
+  openAccountEditPage(){
+    this.navCtrl.push('AccountEditPage',{'callBack':()=>{this.setUserDetails();}});
+
   }
 
   changePassword(){

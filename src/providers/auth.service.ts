@@ -27,13 +27,14 @@ export class AuthService {
     }
 
     saveUserDetails(userInfo: any) {
-        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        // all objects in array are same
+        // Hence, save only the first object
+        localStorage.setItem('userInfo', JSON.stringify(userInfo[0]));
     }
 
     /**get userInfo from localstorage */
     getUserDetails() {
         const user = JSON.parse(localStorage.getItem('userInfo'));
-        if (Array.isArray(user)) { return user[0]; }
         return user;
     }
 
@@ -62,5 +63,8 @@ export class AuthService {
         return this.http.put('/user/change-password',data);
     }
 
+    editAccountDetails(data:any){
+        return this.http.put('/user',data);
+    }
 
 }

@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Edit Account</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="backgorund-color">
+
+  <form novalidate #editForm="ngForm" (ngSubmit)="onSave()">
+  <ion-list >
+    <ion-item>
+      <ion-label stacked>First Name</ion-label>
+      <ion-input type="text" required [(ngModel)]="form.first" name="first"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Last Name</ion-label>
+      <ion-input type="text" required [(ngModel)]="form.last" name="last"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Skype Id</ion-label>
+      <ion-input type="email"  [(ngModel)]="form.skypeId" name="skypeId"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Contact No.</ion-label>
+      <ion-input type="number" required [(ngModel)]="form.phone" name="phone"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div padding>
+    <button [disabled]="editForm.invalid" ion-button block rounded type="submit">
+      Save Changes</button>
+  </div>
+</form>
+</ion-content>

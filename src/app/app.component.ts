@@ -44,21 +44,6 @@ export class MyApp extends UserSessionManage {
       this.overrideBackBtnFunctionality();
     });
 
-    // platform.registerBackButtonAction(() => {
-    //   const overlayView = this.appCtrl._appRoot._overlayPortal._views[0];
-    //   if(overlayView && overlayView.dismiss) {
-    //     overlayView.dismiss();
-    //   } else {
-    //     let nav = this.appCtrl.getActiveNav();
-    //     if(nav.canGoBack()){
-    //       nav.pop();
-    //     } else if(this.lastBack + 500 < Date.now()) {
-    //       // this.platform.exitApp();
-    //       this.showAppLeaveAlert();
-    //     }
-    //   }
-    //   this.lastBack = Date.now();
-    // });
   }
 
   openPage(page: any) {
