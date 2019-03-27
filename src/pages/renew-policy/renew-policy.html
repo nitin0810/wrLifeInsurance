@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Renew Policy</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="backgorund-color">
+
+    <ion-card padding-bottom class="border-radius">
+      <ion-card-header class="header">Enter Payment Details</ion-card-header>
+      <h2 text-left padding>
+        <ion-icon item-start name="card" class="primaryColor"></ion-icon> <span class="ml">Credit or Debit card</span>
+      </h2>
+      <ion-item>
+        <ion-input type="number" class="card-details" placeholder="Card number" [(ngModel)]="card.cardNumber">
+        </ion-input>
+
+      </ion-item>
+
+      <ion-item class="date-cvv" text-left no-padding margin-right>
+        <small>Expiration Date</small>
+        <ion-datetime [(ngModel)]="card.cardExpiryDate" displayFormat="MMM YYYY" [min]="minDate" [max]="maxDate"
+          placeholder="Expiry Date"></ion-datetime>
+      </ion-item>
+      <ion-item class="date-cvv" margin-left style="float: left">
+
+        <ion-input type="text" maxlength="3" placeholder="CVC/CVV" [(ngModel)]="card.cvv"></ion-input>
+      </ion-item>
+      <div>
+        <ion-item>
+          <ion-label> Save details for future transactions</ion-label>
+          <ion-checkbox [(ngModel)]="card.saveDetailsForFuture">
+          </ion-checkbox>
+        </ion-item>
+        <!-- <ion-input type="checkbox" [(ngModel)]="card.saveDetailsForFuture" style="display:none;">
+        </ion-input> -->
+      </div>
+    </ion-card>
+
+
+    <div padding>
+      <button ion-button full (click)="onMakePaymentBtn()">Make Payment</button>
+      </div>
+</ion-content>

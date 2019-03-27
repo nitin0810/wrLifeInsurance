@@ -53,18 +53,33 @@ export class PolicyDetailPage {
       });
   }
   onRenew() {
-    const alert = this.alert.create({
-      title: 'Confirm',
-      message: 'Are you sure to renew this policy ?',
-      buttons: [{
-        text: 'Cancel',
-        role: 'cancel'
-      }, {
-        text: 'Renew',
-        handler: () => { this.sendRenewRequest(); }
-      }]
-    });
-    alert.present();
+    if (this.policy.policyTransaction.autopayment) {
+
+      const alert = this.alert.create({
+        title: 'Confirm',
+        message: 'Are you sure to renew this policy ?',
+        buttons: [{
+          text: 'Cancel',
+          role: 'cancel'
+        }, {
+          text: 'Renew',
+          handler: () => { this.sendRenewRequest(); }
+        }]
+      });
+      alert.present();
+    } else {
+      // make payment using stripe
+      this.navCtrl.push('RenewPolicyPage', {
+        'policy': this.policy,
+        'callBack': (renewDetail: any) => {
+          this.policy.renewalTransactions.push(renewDetail);
+          setTimeout(() => {
+            
+            this.showRenewalSuccessAlert();
+          }, 100);
+        }
+      });
+    }
   }
 
   sendRenewRequest() {

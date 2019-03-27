@@ -1,0 +1,58 @@
+  
+        .primaryColor {
+          color: color($colors, primary);
+        }
+        .border-bottom {
+          border-bottom: 1px solid #e4d7d7;
+        }
+        .border-radius{
+          border-radius: 10px;
+        }
+        .ml{
+          margin-left: 4px;
+        }
+        .options {
+          // margin-bottom:32px;
+        }
+        .headerColor {
+          
+          // background: rgba(128, 128, 128, 0.4117647058823529);
+          color: color($colors, secondary);
+        }
+        .mandotry {
+          color: color($colors, danger);
+        }
+        .header{
+          color: white;
+          background: color($colors, primary);
+        }
+        .card-details{
+          border-radius: 10px;
+          border: 1px solid #f7eeee;
+        }
+        .date-cvv{
+          border-radius: 10px;
+          margin-right: 10px;
+          width: 38%;
+          float: right;
+          border: 1px solid #cecece !important;
+          margin-top: 10px;
+          margin-bottom: 10px;
+        }
+        ion-footer{
+          div{
+            padding-top: 4px;
+            padding-left: 10px;
+          }
+          ion-grid{
+            padding:4px 0!important;
+            
+          }
+        }
+        .textarea{
+          .text-input{
+          border:  1px solid #d2c4c4;
+          padding:10px;
+          }
+        }
+      
