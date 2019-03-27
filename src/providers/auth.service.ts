@@ -38,9 +38,9 @@ export class AuthService {
         return user;
     }
 
-    sendLinkedinToken(token: string) {
-        return this.http.get(`/linkedin/login?access_token=${token}`);
-    }
+    // sendLinkedinToken(token: string) {
+    //     return this.http.get(`/linkedin/login?access_token=${token}`);
+    // }
 
 
     sendFacebokToken(token: string) {

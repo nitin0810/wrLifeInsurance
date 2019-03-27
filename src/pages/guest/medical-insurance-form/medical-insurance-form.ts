@@ -7,7 +7,7 @@ import { Child } from '../../../Classes/child';
 import { Stripe } from '@ionic-native/stripe';
 import { AuthService } from '../../../providers/auth.service';
 import { STRIPE_KEY } from '../../../providers/app.constants';
-import { LinkedIn, LinkedInLoginScopes } from '@ionic-native/linkedin';
+// import { LinkedIn, LinkedInLoginScopes } from '@ionic-native/linkedin';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { LoginPage } from '../../login/login';
 
@@ -141,7 +141,7 @@ export class MedicalInsuranceFormPage implements OnDestroy {
     private alertCtrl: AlertController,
     private platform: Platform,
     private stripe: Stripe,
-    private linkedIn: LinkedIn,
+    // private linkedIn: LinkedIn,
     private facebook: Facebook,
   ) { }
 
@@ -741,11 +741,12 @@ export class MedicalInsuranceFormPage implements OnDestroy {
             type: 'radio',
             label: 'Facebook',
             value: 'fb'
-          }, {
+          },/**  {
             type: 'radio',
             label: 'LinkedIn',
             value: 'li',
-          }, {
+          },*/
+           {
             type: 'radio',
             label: 'Continue as Guest',
             value: 'none',
@@ -767,7 +768,7 @@ export class MedicalInsuranceFormPage implements OnDestroy {
 
   loginWithHandler(data: string) {
     if (data === 'fb') { this.onFbLogin(); }
-    else if (data === 'li') { this.onLinkedinLogin(); }
+    // else if (data === 'li') { this.onLinkedinLogin(); }
     else if (data === 'none') { this.onNext(); }
   }
 
@@ -905,23 +906,23 @@ export class MedicalInsuranceFormPage implements OnDestroy {
       });
   }
 
-  onLinkedinLogin() {
+  // onLinkedinLogin() {
 
-    this.customService.showLoader();
-    const scopes: LinkedInLoginScopes[] = ['r_basicprofile', 'r_emailaddress'/**, 'rw_company_admin', 'w_share'*/];
-    this.linkedIn.login(scopes, true)
-      .then((res: any) => this.linkedIn.getActiveSession())
-      .then((linkedInToken: any) => this.authService.sendLinkedinToken(linkedInToken.accessToken).toPromise())
-      .then((backendToken: any) => {
-        this.authService.saveToken(backendToken.token)
-        return this.authService.fetchUserDetails().toPromise();
-      })
-      .then(() => this.onNext())
-      .catch(this.handleError.bind(this))
-      .then(() => {
-        this.customService.hideLoader();
-      });
-  }
+  //   this.customService.showLoader();
+  //   const scopes: LinkedInLoginScopes[] = ['r_basicprofile', 'r_emailaddress'/**, 'rw_company_admin', 'w_share'*/];
+  //   this.linkedIn.login(scopes, true)
+  //     .then((res: any) => this.linkedIn.getActiveSession())
+  //     .then((linkedInToken: any) => this.authService.sendLinkedinToken(linkedInToken.accessToken).toPromise())
+  //     .then((backendToken: any) => {
+  //       this.authService.saveToken(backendToken.token)
+  //       return this.authService.fetchUserDetails().toPromise();
+  //     })
+  //     .then(() => this.onNext())
+  //     .catch(this.handleError.bind(this))
+  //     .then(() => {
+  //       this.customService.hideLoader();
+  //     });
+  // }
 
   handleError(err: any) {
     let error = '';

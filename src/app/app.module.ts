@@ -10,12 +10,12 @@ import { NetworkService } from '../providers/network.service';
 import { AuthService } from '../providers/auth.service';
 import { CustomHttpService } from '../providers/custom-http.service';
 import { CustomService } from '../providers/custom.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { Network } from '@ionic-native/network';
 import { LoginPage } from '../pages/login/login';
 import { MedicalInsuranceService } from '../providers/medicalInsurance.service';
 import { Stripe } from '@ionic-native/stripe';
-import { LinkedIn } from '@ionic-native/linkedin';
+// import { LinkedIn } from '@ionic-native/linkedin';
 import { Facebook } from '@ionic-native/facebook';
 
 @NgModule({
@@ -50,7 +50,7 @@ import { Facebook } from '@ionic-native/facebook';
     CustomService,
     MedicalInsuranceService,
     Stripe,
-    LinkedIn,
+    // LinkedIn,
     Facebook
   ]
 })

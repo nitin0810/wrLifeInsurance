@@ -38,10 +38,14 @@ export class MyApp extends UserSessionManage {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
-      this.menu.enable(false);
-      this.overrideBackBtnFunctionality();
+    
+      this.hasLoggedIn()
+      .then(()=>{
+        statusBar.styleDefault();
+        splashScreen.hide();
+        this.menu.enable(false);
+        this.overrideBackBtnFunctionality();
+      });
     });
 
   }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, Events, MenuController, AlertController, ModalController } from 'ionic-angular';
-import { GuestHomePage } from '../guest/home/home';
+// import { GuestHomePage } from '../guest/home/home';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from '../../providers/auth.service';
-import { LinkedInLoginScopes, LinkedIn } from '@ionic-native/linkedin';
+// import { LinkedInLoginScopes, LinkedIn } from '@ionic-native/linkedin';
 import { CustomService } from '../../providers/custom.service';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
@@ -26,7 +26,7 @@ export class LoginPage implements OnInit {
     private fb: FormBuilder,
     private menu: MenuController,
     private authService: AuthService,
-    private linkedIn: LinkedIn,
+    // private linkedIn: LinkedIn,
     private facebook: Facebook,
     private alertCtrl: AlertController,
     private customService: CustomService,
@@ -44,8 +44,8 @@ export class LoginPage implements OnInit {
 
   createForm() {
     this.loginForm = this.fb.group({
-      email: ['nitegi94@gmail.com', Validators.required],
-      password: ['6337569', Validators.required]
+      email: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
@@ -116,24 +116,24 @@ export class LoginPage implements OnInit {
       });
   }
 
-  onLinkedinLogin() {
+  // onLinkedinLogin() {
 
-    this.customService.showLoader();
-    const scopes: LinkedInLoginScopes[] = ['r_basicprofile', 'r_emailaddress'/**, 'rw_company_admin', 'w_share'*/];
+  //   this.customService.showLoader();
+  //   const scopes: LinkedInLoginScopes[] = ['r_basicprofile', 'r_emailaddress'/**, 'rw_company_admin', 'w_share'*/];
 
-    this.linkedIn.login(scopes, true)
-      .then((res: any) => this.linkedIn.getActiveSession())
-      .then((linkedInToken: any) => {alert(JSON.stringify(linkedInToken)); this.authService.sendLinkedinToken(linkedInToken.accessToken).toPromise()})
-      .then((backendToken: any) => {
-        this.authService.saveToken(backendToken.token)
-        return this.authService.fetchUserDetails().toPromise();
-      })
-      .then(() => this.navigate())
-      .catch(this.handleError.bind(this))
-      .then(() => {
-        this.customService.hideLoader();
-      });
-  }
+  //   this.linkedIn.login(scopes, true)
+  //     .then((res: any) => this.linkedIn.getActiveSession())
+  //     .then((linkedInToken: any) => {alert(JSON.stringify(linkedInToken)); this.authService.sendLinkedinToken(linkedInToken.accessToken).toPromise()})
+  //     .then((backendToken: any) => {
+  //       this.authService.saveToken(backendToken.token)
+  //       return this.authService.fetchUserDetails().toPromise();
+  //     })
+  //     .then(() => this.navigate())
+  //     .catch(this.handleError.bind(this))
+  //     .then(() => {
+  //       this.customService.hideLoader();
+  //     });
+  // }
 
   forgotPassword(){
     this.navCtrl.push('ForgortPasswordPage');

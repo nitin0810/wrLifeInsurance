@@ -26,7 +26,7 @@ export class UserSessionManage {
 
         this.handleEvents();
         this.networkService.checkNetworkStatus();
-        this.hasLoggedIn();
+        // this.hasLoggedIn();
     }
 
     public handleEvents() {
@@ -50,22 +50,26 @@ export class UserSessionManage {
 
 
     public hasLoggedIn() {
-        // this.rootPage = LoginPage;
+        return new Promise((resolve) => {
 
-        if (this.authService.isLoggedIn()) {
-            this.authService.fetchUserDetails()
-                .subscribe((res) => {
-                    // no need to do any thing as userdetails would have been saved in service
-                    this.setRootPage();
-                }, (err: any) => {
-                    this.customService.showToast('Some error occured, Please login again');
-                    localStorage.clear();
-                    this.appCtrl.getRootNavs()[0].setRoot(LoginPage, {}, { animate: true, direction: 'forward' });
-                });
+            if (this.authService.isLoggedIn()) {
+                this.authService.fetchUserDetails()
+                    .subscribe((res) => {
+                        // no need to do any thing as userdetails would have been saved in service
+                        resolve();
+                        this.setRootPage();
+                    }, (err: any) => {
+                        resolve();
+                        this.customService.showToast('Some error occured, Please login again');
+                        localStorage.clear();
+                        this.appCtrl.getRootNavs()[0].setRoot(LoginPage, {}, { animate: true, direction: 'forward' });
+                    });
 
-        } else {
-            this.rootPage = LoginPage;
-        }
+            } else {
+                resolve();
+                this.rootPage = LoginPage;
+            }
+        });
     }
 
     public login() {
@@ -99,7 +103,7 @@ export class UserSessionManage {
 
         if (this.authService.isLoggedIn()) {
             this.sideMenuOptions.unshift(
-              { title: 'My Account', component: "MyAccountPage", icon: 'md-person', color: "green" }
+                { title: 'My Account', component: "MyAccountPage", icon: 'md-person', color: "green" }
             );
         }
     }

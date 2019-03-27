@@ -50,7 +50,7 @@ export class RenewPolicyPage {
         // alert(JSON.stringify(response));
         if (response.status === 'succeeded') {
           // this.showSuccessPage();
-          alert(JSON.stringify(response, undefined, 2));
+          // alert(JSON.stringify(response, undefined, 2));
           const renewalTrans = {
             cdate: response.created *1000,
             amount: response.amount,
