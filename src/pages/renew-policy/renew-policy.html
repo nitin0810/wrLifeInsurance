@@ -7,6 +7,14 @@
 
 <ion-content class="backgorund-color">
 
+    <ion-card>
+        <ion-item>
+            <b>Payable Amount:</b> {{policyToRenew?.currency==1?'$':'€'}}
+            {{policyToRenew?.amount}}</ion-item>
+        <ion-item>
+            <b>Policy: </b>{{policyToRenew?.transection_id}}</ion-item>
+        </ion-card>
+
     <ion-card padding-bottom class="border-radius">
       <ion-card-header class="header">Enter Payment Details</ion-card-header>
       <h2 text-left padding>

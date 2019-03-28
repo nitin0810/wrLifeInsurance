@@ -8,13 +8,13 @@ export class Child {
     dob:string;
     height:number;
     weight:number;
-    preexisting:number;
-    preexisting_1:string;
+    preexisting:string='0';
+    preexisting_1:string='';
     memberType:number; // 2: for Child 1 (Member 3rd), 3: for all other children 
 
     constructor(memberType:number,dob?: string) {
         this.dob = dob;
-        this.preexisting =0;
+        this.preexisting ='0';
         this.preexisting_1='';
         this.memberType = memberType;
     }

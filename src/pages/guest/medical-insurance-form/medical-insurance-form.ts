@@ -514,7 +514,7 @@ export class MedicalInsuranceFormPage implements OnDestroy {
       main_insured_height: form2DetailsCopy.main_insured_height || '',
       main_insured_weight: form2DetailsCopy.main_insured_weight || '',
 
-      preexisting_main_insured: form2DetailsCopy.preexisting_main_insured || 0,
+      preexisting_main_insured: form2DetailsCopy.preexisting_main_insured || '0',
       preexisting_main_insured_1: form2DetailsCopy.preexisting_main_insured_1 || '',
 
       adjust_globallimit: this.state.globallimit,
@@ -532,7 +532,7 @@ export class MedicalInsuranceFormPage implements OnDestroy {
       this.form2Details['partner_dob'] = this.changeDateFormat(this.dobs[1]) || '';
       this.form2Details['partner_height'] = this.form2Details['partner_height'] || '';
       this.form2Details['partner_weight'] = this.form2Details['partner_weight'] || '';
-      this.form2Details['preexisting_partner'] = this.form2Details['preexisting_partner'] || 0;
+      this.form2Details['preexisting_partner'] = this.form2Details['preexisting_partner'] || '0';
       this.form2Details['preexisting_partner_1'] = this.form2Details['preexisting_partner_1'] || '';
     }
 
