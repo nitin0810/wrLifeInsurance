@@ -5,6 +5,10 @@ import { STRIPE_KEY } from '../../providers/app.constants';
 import { Stripe } from '@ionic-native/stripe';
 import { MedicalInsuranceService } from '../../providers/medicalInsurance.service';
 
+/**This page is used for both renewing the policy and paying the amount of new policy
+ * which user tried to purchase but did not complete its payment.
+ * This differentiation is based on ordeid
+ */
 @IonicPage()
 @Component({
   selector: 'page-renew-policy',

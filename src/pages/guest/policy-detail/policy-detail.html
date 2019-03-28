@@ -38,6 +38,7 @@
       </ion-item>
     </ion-list>
 
-    <button  ion-button full rounded (click)="onRenew()">Renew Policy</button>
+    <button *ngIf="policy.policyTransaction.orderid" ion-button full rounded (click)="onRenew()">Renew Policy</button>
+    <button *ngIf="!policy.policyTransaction.orderid" ion-button full rounded (click)="onMakePayment()">Make Payment</button>
   </ion-card>
 </ion-content>

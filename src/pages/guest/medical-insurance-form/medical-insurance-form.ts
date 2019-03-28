@@ -136,7 +136,7 @@ export class MedicalInsuranceFormPage implements OnDestroy {
     public viewCtrl: ViewController,
     public navParams: NavParams,
     private customService: CustomService,
-    private authService: AuthService,
+    public authService: AuthService,
     private medicalInsuranceService: MedicalInsuranceService,
     private alertCtrl: AlertController,
     private platform: Platform,
@@ -605,45 +605,24 @@ export class MedicalInsuranceFormPage implements OnDestroy {
   onGoToPaymentBtn() {
     // validate phone and email format before submitting form
     if (!this.validateMailAndPhone()) { return; }
+    this.onNext();
 
-    const payLoad: any = this.prepareData();
-    // if already logged in, send membership no.
-    if (this.authService.isLoggedIn()) {
-      const mNo = JSON.parse(localStorage.getItem('userInfo')).membership_number;
-      payLoad['membership_number'] = mNo;
+
+  }
+
+  /**Calculates payable amount to show in summary */
+  getPayableAmount() {
+    const freq = this.form2Details.frequency_payment;
+    const currency = this.form2Details.currency;
+
+    switch (freq) {
+      case 'Annual': return this.form2Details['yearly_' + currency];
+      case 'biannually': return this.form2Details['biannually_' + currency];
+      case 'Quarterly': return this.form2Details['quarterly_' + currency];
+      case 'Monthly': return this.form2Details['monthly_' + currency];
     }
-    this.customService.showLoader();
-    this.subscriptions.form2 = this.medicalInsuranceService.submitForm2(payLoad)
-      .subscribe((res: any) => {
 
-        this.customService.hideLoader();
-        this.onNext();
-        this.form2SubmitResponse = res;
-      }, (err: any) => {
-        this.customService.hideLoader();
-        if (err.status == 409) {
-          const alert = this.alertCtrl.create({
-            title: 'Already Registered',
-            message: err.msg,
-            buttons: [{
-              text: 'Cancel',
-              role: 'cancel'
-            }, {
-              text: 'Login',
-              handler: () => {
-                alert.dismiss().then(() => {
-                  this.navCtrl.setRoot(LoginPage);
-                });
-                return false;
-              }
-            }]
-          });
 
-          alert.present();
-        } else {
-          this.customService.showToast(err.msg);
-        }
-      });
   }
 
   validateMailAndPhone() {
@@ -728,10 +707,54 @@ export class MedicalInsuranceFormPage implements OnDestroy {
   }
 
   onEnterPaymentDetais() {
+    const payLoad: any = this.prepareData();
+    // if already logged in, send membership no.
+    if (this.authService.isLoggedIn()) {
+      const mNo = JSON.parse(localStorage.getItem('userInfo')).membership_number;
+      payLoad['membership_number'] = mNo;
+    }
+    this.customService.showLoader();
+    this.subscriptions.form2 = this.medicalInsuranceService.submitForm2(payLoad)
+      .subscribe((res: any) => {
 
+        this.customService.hideLoader();
+        // this.onNext();
+        this.form2SubmitResponse = res;
+        this.onNext();
+        this.showLoginOptions();
+      }, (err: any) => {
+        this.customService.hideLoader();
+        if (err.status == 409) {
+          const alert = this.alertCtrl.create({
+            title: 'Already Registered',
+            message: err.msg,
+            buttons: [{
+              text: 'Cancel',
+              role: 'cancel'
+            }, {
+              text: 'Login',
+              handler: () => {
+                alert.dismiss().then(() => {
+                  this.navCtrl.setRoot(LoginPage);
+                });
+                return false;
+              }
+            }]
+          });
+
+          alert.present();
+        } else {
+          this.customService.showToast(err.msg);
+        }
+      });
+
+
+  }
+
+  showLoginOptions() {
     // if already logged in, go to next page, otherwise ask for login 
     if (this.authService.isLoggedIn()) {
-      this.onNext();
+      // this.onNext();
     } else {
 
       const alert: Alert = this.alertCtrl.create({
@@ -742,11 +765,11 @@ export class MedicalInsuranceFormPage implements OnDestroy {
             label: 'Facebook',
             value: 'fb'
           },/**  {
-            type: 'radio',
-            label: 'LinkedIn',
-            value: 'li',
-          },*/
-           {
+        type: 'radio',
+        label: 'LinkedIn',
+        value: 'li',
+      },*/
+          {
             type: 'radio',
             label: 'Continue as Guest',
             value: 'none',
@@ -755,7 +778,6 @@ export class MedicalInsuranceFormPage implements OnDestroy {
         buttons: [{
           text: 'Cancel',
           role: 'cancel',
-          // handler:
         }, {
           text: 'Continue',
           handler: this.loginWithHandler.bind(this)
@@ -769,7 +791,7 @@ export class MedicalInsuranceFormPage implements OnDestroy {
   loginWithHandler(data: string) {
     if (data === 'fb') { this.onFbLogin(); }
     // else if (data === 'li') { this.onLinkedinLogin(); }
-    else if (data === 'none') { this.onNext(); }
+    else if (data === 'none') { /** this.onNext();*/ }
   }
 
 
@@ -899,7 +921,7 @@ export class MedicalInsuranceFormPage implements OnDestroy {
         this.authService.saveToken(backendToken.token)
         return this.authService.fetchUserDetails().toPromise();
       })
-      .then(() => this.onNext())
+      .then(() =>{})
       .catch(this.handleError.bind(this))
       .then(() => {
         this.customService.hideLoader();

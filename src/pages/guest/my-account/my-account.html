@@ -53,6 +53,7 @@
         <p><b>Policy No :</b>{{p.transection_id}}</p>
         <p><b>Payment Amount:</b> {{p.amount}}</p>
         <p><b>Payment Frequency:</b> {{p.payment_frequency}}</p>
+        <p><b>Payment Status:</b> {{p.policyTransaction.orderid?'Success':'Pending'}}</p>
         <!-- <p>Membership No.: {{p.membership_number}}</p> -->
         <p><b>Starting Date:</b> {{p.starting_date}}</p>
       </ion-item>

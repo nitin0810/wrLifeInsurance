@@ -82,6 +82,19 @@ export class PolicyDetailPage {
     }
   }
 
+  onMakePayment(){
+    // make payment using stripe
+    this.navCtrl.push('RenewPolicyPage', {
+      'policy': this.policy,
+      'callBack': (renewDetail: any) => {
+        setTimeout(() => {
+          this.showRenewalSuccessAlert();
+          this.policy.policyTransaction.orderid = renewDetail.order_id;
+        }, 100);
+      }
+    });
+  }
+
   sendRenewRequest() {
     this.customService.showLoader();
     this.medicalInsuranceService.renewPolicy({ transactionId: this.policy.transection_id })
@@ -97,9 +110,10 @@ export class PolicyDetailPage {
   }
 
   showRenewalSuccessAlert() {
+    const msg = this.policy.policyTransaction.orderid ? 'Policy renewed':'Payment Done';
     const alert = this.alert.create({
       title: 'Success',
-      message: 'Policy renewed successfully. You will receive a confirmation email shortly.',
+      message: msg+' successfully. You will receive a confirmation email shortly.',
       buttons: ['ok']
     });
     alert.present();
