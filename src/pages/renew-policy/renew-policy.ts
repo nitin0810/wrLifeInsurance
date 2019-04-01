@@ -52,24 +52,11 @@ export class RenewPolicyPage {
       .then((response: any) => {
         // show success alert
         // alert(JSON.stringify(response));
-        if (response.status === 'succeeded') {
-          // this.showSuccessPage();
-          // alert(JSON.stringify(response, undefined, 2));
-          const renewalTrans = {
-            cdate: response.created *1000,
-            amount: response.amount,
-            order_id: response.id,
-            pay_id: response.source.id,
-            currency: response.currency,
-            status: response.status,
-            transection_id: this.policyToRenew.transection_id
-          };
+   
           this.navCtrl.pop().then(()=>{
-            this.callBack(renewalTrans);
+            this.callBack(response);
           });
-        } else {
-          this.showAlert(response.failure_message);
-        }
+        
       })
       .catch((err) => {
         // show error alert
@@ -128,7 +115,7 @@ export class RenewPolicyPage {
       if (info.autopayment) { info['emailId'] = this.policyToRenew.e_mail; }
 
       // alert(JSON.stringify(info));
-      this.medicalInsuranceService.makePayment(info)
+      this.medicalInsuranceService.renewPolicy(info)
         .subscribe((resp: any) => {
           res(resp);
         }, (err: any) => {

@@ -71,8 +71,8 @@ export class PolicyDetailPage {
       // make payment using stripe
       this.navCtrl.push('RenewPolicyPage', {
         'policy': this.policy,
-        'callBack': (renewDetail: any) => {
-          this.policy.renewalTransactions.push(renewDetail);
+        'callBack': (renewedTransactions: any[]) => {
+          this.policy.renewalTransactions= renewedTransactions;
           setTimeout(() => {
             
             this.showRenewalSuccessAlert();

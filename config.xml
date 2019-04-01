@@ -95,9 +95,9 @@
     <allow-navigation href="http://192.168.1.4:8100" />
     <allow-navigation href="http://192.168.1.22:8100" />
     <allow-navigation href="http://192.168.1.12:8100" />
-    <engine name="android" spec="~7.0.0" />
     <config-file parent="/resources" target="./res/values/strings.xml">
         <string name="fb_app_id">205761846989700</string>
         <string name="fb_app_name">WrLife</string>
     </config-file>
+    <engine name="android" spec="~7.0.0" />
 </widget>
