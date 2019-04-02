@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CustomHttpService } from './custom-http.service';
-
+import { FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { FileTransfer } from '@ionic-native/file-transfer';
+import { BASE_PHP_URL } from './app.constants';
 
 @Injectable()
 export class AuthService {
 
-    constructor(private http: CustomHttpService) { }
+    constructor(private http: CustomHttpService,private fileTransfer:FileTransfer) { }
 
     isLoggedIn() {
         return localStorage.getItem('access_token') ? true : false;
@@ -67,4 +69,30 @@ export class AuthService {
         return this.http.put('/user',data);
     }
 
+
+       // PROFILE PIC ADDITION
+       uploadPic(image: any,data:any) {
+        let myFileName: string = this.generateImageName();
+
+        let options: FileUploadOptions = {
+            fileKey: 'picture',
+            fileName: myFileName,
+            mimeType: "multipart/form-data",
+            chunkedMode: false,
+            httpMethod: "POST",
+            params:data
+            // headers: {
+            //     'Authorization': 'Bearer' + localStorage.getItem('access_token')
+            // }
+        }
+        // alert('before upload');
+        const transfer: any = this.fileTransfer.create();
+        return transfer.upload(image, BASE_PHP_URL + `/api_photo_upload.php`, options, false);
+    }
+
+    generateImageName() {
+        //generate unique imagename based on current date-time(upto seconds)
+        let date = new Date().toISOString();
+        return 'IMG_' + date.substring(0, date.indexOf('.')) + '.jpg';
+    }
 }

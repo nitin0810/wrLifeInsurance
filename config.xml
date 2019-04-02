@@ -99,5 +99,7 @@
         <string name="fb_app_id">205761846989700</string>
         <string name="fb_app_name">WrLife</string>
     </config-file>
+    <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
+    <plugin name="cordova-plugin-camera" spec="^4.0.3" />
     <engine name="android" spec="~7.0.0" />
 </widget>
