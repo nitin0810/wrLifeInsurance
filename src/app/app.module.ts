@@ -19,6 +19,7 @@ import { Stripe } from '@ionic-native/stripe';
 import { Facebook } from '@ionic-native/facebook';
 import { Camera } from '@ionic-native/camera';
 import { FileTransfer } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file/ngx';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { FileTransfer } from '@ionic-native/file-transfer';
     // LinkedIn,
     Facebook,
     Camera,
-    FileTransfer
+    FileTransfer,
+    File 
   ]
 })
 export class AppModule {}

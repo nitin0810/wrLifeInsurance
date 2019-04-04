@@ -4,6 +4,7 @@ import { AuthService } from '../../../providers/auth.service';
 import { CustomService } from '../../../providers/custom.service';
 import { Camera } from '@ionic-native/camera';
 import { BASE_PHP_URL } from '../../../providers/app.constants';
+import { File } from '@ionic-native/file/ngx';
 
 
 @IonicPage()
@@ -25,7 +26,8 @@ export class MyAccountPage {
     private customService: CustomService,
     public modalCtrl: ModalController,
     private camera: Camera,
-    private actionSheetCtrl: ActionSheetController
+    private actionSheetCtrl: ActionSheetController,
+    private file: File
   ) {
     this.setUserDetails();
   }
@@ -34,7 +36,7 @@ export class MyAccountPage {
     this.userDetails = JSON.parse(localStorage.getItem('userInfo'));
     // append img url with a timestamp to make the url unique, otherwise
     // updated img is not rendered as browser uses the cached img
-    const ts  = new Date().toISOString().slice(0,-5);
+    const ts = new Date().toISOString().slice(0, -5);
     this.userImg = this.userDetails.profile ? `${BASE_PHP_URL}/images/${this.userDetails.profile}?ts=${ts}`
       : 'assets/imgs/default_pic.png';
   }
@@ -102,7 +104,14 @@ export class MyAccountPage {
     this.camera.getPicture(this.cameraOptions(source))
       .then((imageData) => {
         // alert(this.imgPic);
-        this.uploadEditedImg(imageData);
+        this.isImageSizeWithinRange(imageData).then(() => {
+
+          this.uploadEditedImg(imageData);
+        })
+        .catch(err=>{
+          if (!err) { this.customService.showToast('Image should be less than 1 Mb.'); }
+          else { this.customService.showToast(typeof err === 'string' ? err : JSON.stringify(err)); }
+        });
       }, (err: any) => {
         /**handle the case when camera opened, but pitcure not taken */
         // console.log('inisde camera 2nd clbk');
@@ -122,6 +131,26 @@ export class MyAccountPage {
       allowEdit: true,
       correctOrientation: true
     }
+  }
+
+  isImageSizeWithinRange(fileURI: string) {
+    return new Promise((res, rej) => {
+
+      window['resolveLocalFileSystemURL'](fileURI, function (fileEntry) {
+
+        fileEntry.getMetadata(function (metadata) {
+          // alert(JSON.stringify(metadata));
+          if (metadata.size > 1048576) {
+            rej();
+          } else {
+            res();
+          }
+        }, rej);
+
+      },
+        rej);
+
+    });
   }
 
   uploadEditedImg(img: string) {
@@ -160,8 +189,8 @@ export class MyAccountPage {
     // this.userImg = `${BASE_PHP_URL}/images/${img}`;
     setTimeout(() => {
       this.setUserDetails();
-      
-    }, );
+
+    });
 
   }
 }
