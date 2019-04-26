@@ -95,7 +95,7 @@ export class MedicalInsuranceFormPage implements OnDestroy {
 
 
   //variables to show/hide different optional fields group
-  showModulesToggles = false; // form1
+  showModulesToggles = true; // form1
   otherPersonalInfoToggle = false; //  form2 
   planInfoToggle = false; //  form2
 

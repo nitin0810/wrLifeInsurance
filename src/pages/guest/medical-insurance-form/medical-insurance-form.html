@@ -695,94 +695,116 @@
                     </ion-card>
                     <ion-card>
                         <ion-item-divider color="primary">Currency and Payment</ion-item-divider>
-                        <p style="text-align: left;margin-left: 15px">This price includes your shares </p>
-                        <!-- SHOW THE AVAILABLE AND SELECTED PAYMENT CURRENCY AND FREQUENCY -->
-                        <ion-grid class="payment">
-                            <ion-row>
-                                <ion-col col-3>
-                                    <p>Yearly</p>
-                                    <p
-                                        [class.selectedFrequency]="form2Details.frequency_payment=='Annual' && form2Details.currency=='1'">
-                                        $
-                                        {{premiumInfo?.yearly_1}}</p>
-                                    <p
-                                        [class.selectedFrequency]="form2Details.frequency_payment=='Annual' && form2Details.currency=='2'">
-                                        €
-                                        {{premiumInfo?.yearly_2}}</p>
-                                </ion-col>
-                                <ion-col col-3>
-                                    <p>Bi-Annually</p>
-                                    <p
-                                        [class.selectedFrequency]="form2Details.frequency_payment=='biannually' && form2Details.currency=='1'">
-                                        $
-                                        {{premiumInfo?.biannually_1}}</p>
-                                    <p
-                                        [class.selectedFrequency]="form2Details.frequency_payment=='biannually' && form2Details.currency=='2'">
-                                        €
-                                        {{premiumInfo?.biannually_2}}</p>
-                                </ion-col>
-                                <ion-col col-3>
-                                    <p>Qusrterly</p>
-                                    <p
-                                        [class.selectedFrequency]="form2Details.frequency_payment=='Quarterly' && form2Details.currency=='1'">
-                                        $
-                                        {{premiumInfo?.quarterly_1}}</p>
-                                    <p
-                                        [class.selectedFrequency]="form2Details.frequency_payment=='Quarterly' && form2Details.currency=='2'">
-                                        €
-                                        {{premiumInfo?.quarterly_2}}</p>
-                                </ion-col>
-                                <ion-col col-3>
-                                    <p>Monthly</p>
-                                    <p
-                                        [class.selectedFrequency]="form2Details.frequency_payment=='Monthly' && form2Details.currency=='1'">
-                                        $
-                                        {{premiumInfo?.monthly_1}}</p>
-                                    <p
-                                        [class.selectedFrequency]="form2Details.frequency_payment=='Monthly' && form2Details.currency=='2'">
-                                        €
-                                        {{premiumInfo?.monthly_2}}</p>
-                                </ion-col>
 
-                            </ion-row>
-                        </ion-grid>
                         <div radio-group [(ngModel)]="form2Details.currency" name="currency">
                             <ion-row style="align-items: center">
-                                <ion-col col-4>Choose Currency </ion-col>
-                                <ion-col col-8>
+                                <ion-col col-12 text-left>Choose Currency </ion-col>
+                                <ion-col col-12 text-left>
                                     <ion-row>
-                                        <ion-col col-6>$
+                                        <ion-col col-auto padding-horizontal>$
                                             <ion-radio value="1"></ion-radio>
                                         </ion-col>
-                                        <ion-col col-6>€
+                                        <ion-col col-auto padding-horizontal>€
                                             <ion-radio value="2"></ion-radio>
                                         </ion-col>
                                     </ion-row>
                                 </ion-col>
                             </ion-row>
                         </div>
+
+                        <div margin-top>
+
+                            <ion-row>
+                                <ion-col col-12 text-left>Choose Frequency of Payment</ion-col>
+
+                                <ion-col col-12>
+                                    <div radio-group [(ngModel)]="form2Details.frequency_payment"
+                                        name="frequency_payment">
+                                        <ion-row style="align-items: center">
+
+                                            <ion-col col-3>
+                                                <ion-radio value="Annual"></ion-radio><br>
+                                                Yearly
+                                            </ion-col>
+                                            <ion-col col-3>
+                                                <ion-radio value="biannually"></ion-radio><br>
+                                                Bi-Anually
+                                            </ion-col>
+                                            <ion-col col-3>
+                                                <ion-radio value="Quarterly"></ion-radio><br>
+                                                Quarterly
+                                            </ion-col>
+                                            <ion-col col-3>
+                                                <ion-radio value="Monthly"></ion-radio><br>
+                                                Monthly
+                                            </ion-col>
+
+                                        </ion-row>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </div>
+
+                        <div margin-top>
+                            
+                            <ion-row>
+                                <ion-col text-left>This price includes your shares </ion-col>
+                            </ion-row>
+                            <!-- SHOW THE AVAILABLE AND SELECTED PAYMENT CURRENCY AND FREQUENCY -->
+                            <ion-grid class="payment1">
+                                <ion-row>
+                                    <ion-col col-3>
+                                        <p>Yearly</p>
+                                        <p
+                                            [class.selectedFrequency]="form2Details.frequency_payment=='Annual' && form2Details.currency=='1'">
+                                            $
+                                            {{premiumInfo?.yearly_1}}</p>
+                                        <p
+                                            [class.selectedFrequency]="form2Details.frequency_payment=='Annual' && form2Details.currency=='2'">
+                                            €
+                                            {{premiumInfo?.yearly_2}}</p>
+                                    </ion-col>
+                                    <ion-col col-3>
+                                        <p>Bi-Annually</p>
+                                        <p
+                                            [class.selectedFrequency]="form2Details.frequency_payment=='biannually' && form2Details.currency=='1'">
+                                            $
+                                            {{premiumInfo?.biannually_1}}</p>
+                                        <p
+                                            [class.selectedFrequency]="form2Details.frequency_payment=='biannually' && form2Details.currency=='2'">
+                                            €
+                                            {{premiumInfo?.biannually_2}}</p>
+                                    </ion-col>
+                                    <ion-col col-3>
+                                        <p>Qusrterly</p>
+                                        <p
+                                            [class.selectedFrequency]="form2Details.frequency_payment=='Quarterly' && form2Details.currency=='1'">
+                                            $
+                                            {{premiumInfo?.quarterly_1}}</p>
+                                        <p
+                                            [class.selectedFrequency]="form2Details.frequency_payment=='Quarterly' && form2Details.currency=='2'">
+                                            €
+                                            {{premiumInfo?.quarterly_2}}</p>
+                                    </ion-col>
+                                    <ion-col col-3>
+                                        <p>Monthly</p>
+                                        <p
+                                            [class.selectedFrequency]="form2Details.frequency_payment=='Monthly' && form2Details.currency=='1'">
+                                            $
+                                            {{premiumInfo?.monthly_1}}</p>
+                                        <p
+                                            [class.selectedFrequency]="form2Details.frequency_payment=='Monthly' && form2Details.currency=='2'">
+                                            €
+                                            {{premiumInfo?.monthly_2}}</p>
+                                    </ion-col>
+
+                                </ion-row>
+                            </ion-grid>
+                        </div>
                     </ion-card>
 
 
-                    <ion-list radio-group [(ngModel)]="form2Details.frequency_payment" name="frequency_payment">
-                        <ion-list-header>Choose Frequency of Payment</ion-list-header>
-                        <ion-item>
-                            <ion-label>Yearly</ion-label>
-                            <ion-radio value="Annual"></ion-radio>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Bi-Anually</ion-label>
-                            <ion-radio value="biannually"></ion-radio>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Quarterly</ion-label>
-                            <ion-radio value="Quarterly"></ion-radio>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Monthly</ion-label>
-                            <ion-radio value="Monthly"></ion-radio>
-                        </ion-item>
-                    </ion-list>
+
 
                 </div>
                 <button ion-button full type="submit" [disabled]="form2.invalid">Go Ahead to Payment</button>
@@ -1013,8 +1035,8 @@
                 </page-prevnext-component>
             </ion-toolbar>
 
-    
-    <div class="card-slide-alert" style="background-color: #2f74b52b;" *ngIf="authService.isLoggedIn()" padding>
+
+            <div class="card-slide-alert" style="background-color: #2f74b52b;" *ngIf="authService.isLoggedIn()" padding>
                 Details of this policy has been saved. Go ahead to pay the amount or you can pay later by selecting the
                 policy
                 from the purchase policies list in My Account Page.
