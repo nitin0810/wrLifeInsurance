@@ -47,9 +47,9 @@ export class SignUpPage {
     return this.fb.group({
       first: ['', [Validators.required]],
       last: ['', [Validators.required]],
-      phone: [''],
+      phone: ['',Validators.pattern(new RegExp('^[0-9]+$'))],
       skypeId: [''],
-      mailId: ['',[Validators.required]],
+      mailId: ['',[Validators.required,Validators.email]],
       password: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]]
     });

@@ -29,14 +29,20 @@
       <ion-label floating>Contact No</ion-label>
       <ion-input type="tel" formControlName="phone"></ion-input>
     </ion-item>
+    <div class="err-msg" *ngIf="signupForm.controls.phone.touched && signupForm.controls.phone.invalid ">
+      <p>Invalid Contact No</p>
+    </div>
     <ion-item>
       <ion-label floating>Skype Id</ion-label>
       <ion-input type="email" formControlName="skypeId"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item>    
       <ion-label floating>Email *</ion-label>
       <ion-input type="email" formControlName="mailId"></ion-input>
     </ion-item>
+    <div class="err-msg" *ngIf="signupForm.controls.mailId.touched && signupForm.controls.mailId.invalid ">
+      <p>Invalid email</p>
+    </div>
     <ion-item>
       <ion-label floating>Password *</ion-label>
       <ion-input type="password" formControlName="password"></ion-input>
@@ -53,7 +59,7 @@
 
   </ion-card>
   <div padding>
-    <button ion-button block type="submit" [disabled]="signupForm.invalid">Submit</button>
+    <button ion-button block type="submit" [disabled]="signupForm.invalid || checkPassword()">Submit</button>
   </div>
   </form>
 </ion-content>

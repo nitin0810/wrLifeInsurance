@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, ActionSheetController } from 'ionic-angular';
 import { AuthService } from '../../../providers/auth.service';
 import { CustomService } from '../../../providers/custom.service';
-import { Camera } from '@ionic-native/camera';
+import { Camera } from '@ionic-native/camera/ngx';
 import { BASE_PHP_URL } from '../../../providers/app.constants';
-import { File } from '@ionic-native/file/ngx';
+// import { File } from '@ionic-native/file/ngx';
 
 
 @IonicPage()
@@ -27,7 +27,7 @@ export class MyAccountPage {
     public modalCtrl: ModalController,
     private camera: Camera,
     private actionSheetCtrl: ActionSheetController,
-    private file: File
+    // private file: File
   ) {
     this.setUserDetails();
   }

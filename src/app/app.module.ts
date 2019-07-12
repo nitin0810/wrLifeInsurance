@@ -17,9 +17,9 @@ import { MedicalInsuranceService } from '../providers/medicalInsurance.service';
 import { Stripe } from '@ionic-native/stripe';
 // import { LinkedIn } from '@ionic-native/linkedin';
 import { Facebook } from '@ionic-native/facebook';
-import { Camera } from '@ionic-native/camera';
-import { FileTransfer } from '@ionic-native/file-transfer';
-import { File } from '@ionic-native/file/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
+// import { File } from '@ionic-native/file/ngx';
 
 @NgModule({
   declarations: [
@@ -57,7 +57,7 @@ import { File } from '@ionic-native/file/ngx';
     Facebook,
     Camera,
     FileTransfer,
-    File 
+    // File 
   ]
 })
 export class AppModule {}

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CustomHttpService } from './custom-http.service';
-import { FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
-import { FileTransfer } from '@ionic-native/file-transfer';
+import { FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { BASE_PHP_URL } from './app.constants';
 
 @Injectable()
