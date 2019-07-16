@@ -97,6 +97,7 @@ export class UserSessionManage {
             { title: 'Ethics', component: "EthicsPage", icon: 'paper', color: "green" },
             { title: 'Good Price', component: "GoodPricePage", icon: 'paper', color: "green" },
             { title: 'Contact Us', component: "ContactUsPage", icon: 'call', color: "green" },
+            { title: 'Privacy Policy', component: "pp", icon: 'document', color: "green" },
             { title: 'Sign Out', component: null, icon: 'log-out', color: "green" },
 
         ];

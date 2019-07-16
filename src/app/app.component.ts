@@ -8,6 +8,7 @@ import { UserSessionManage } from '../Classes/user-session-manage';
 import { AuthService } from '../providers/auth.service';
 import { NetworkService } from '../providers/network.service';
 import { CustomService } from '../providers/custom.service';
+import { PRIVACY_POLICY_URL } from '../providers/app.constants';
 
 @Component({
   templateUrl: 'app.html'
@@ -38,31 +39,33 @@ export class MyApp extends UserSessionManage {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-    
+
       this.hasLoggedIn()
-      .then(()=>{
-        statusBar.styleDefault();
-        splashScreen.hide();
-        this.menu.enable(false);
-        this.overrideBackBtnFunctionality();
-      });
+        .then(() => {
+          statusBar.styleDefault();
+          splashScreen.hide();
+          this.menu.enable(false);
+          this.overrideBackBtnFunctionality();
+        });
     });
 
   }
 
   openPage(page: any) {
 
-    /**Handle the case when user pic is clicked */
-    if (!page) {
-      this.menu.close();
-      // this.nav.setRoot("AccountPage");
-      return;
-    }
 
     /**logout click case */
     if (!page.component) {
       this.menu.close()
         .then(() => this.askForConfirmation());
+      return;
+    }
+
+    if (page.component === 'pp') {
+      this.menu.close()
+      .then(()=>{
+        window.open(PRIVACY_POLICY_URL, "_blank");
+      });
       return;
     }
 
